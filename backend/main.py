@@ -231,7 +231,8 @@ def get_company_snapshot(symbol: str, user: dict = Depends(get_current_user)):
     concerns = market_data.flag_concerns(snapshot)
     raw = market_data.fetch_raw_parameters(company["symbol"])
     recommendation = market_data.build_recommendation(snapshot, concerns)
-    return {"company": company, "snapshot": snapshot, "concerns": concerns, "raw": raw, "recommendation": recommendation}
+    summary = market_data.build_summary(snapshot, concerns, recommendation)
+    return {"company": company, "snapshot": snapshot, "concerns": concerns, "raw": raw, "recommendation": recommendation, "summary": summary}
 
 
 @app.get("/api/company/{symbol}/history")
@@ -364,6 +365,7 @@ def _enrich_holding(h: dict) -> dict:
         "financial_recommendation": financial_rec,
         "qualitative": qualitative,
         "holistic_recommendation": holistic,
+        "summary": market_data.build_summary(snapshot, concerns, financial_rec),
     }
 
 

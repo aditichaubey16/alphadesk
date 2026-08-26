@@ -69,8 +69,9 @@ function renderLineChart(container, points) {
   const xAt = (i) => (i / (n - 1)) * W;
   const yAt = (v) => padTop + (1 - (v - min) / range) * plotH;
 
-  const linePoints = points.map((p, i) => `${xAt(i).toFixed(2)},${yAt(p.close).toFixed(2)}`).join(" L");
-  const areaPath = `M0,${(padTop + plotH).toFixed(2)} L${linePoints} L${W},${(padTop + plotH).toFixed(2)} Z`;
+  const coords = points.map((p, i) => `${xAt(i).toFixed(2)},${yAt(p.close).toFixed(2)}`);
+  const linePoints = coords.join(" ");
+  const areaPath = `M0,${(padTop + plotH).toFixed(2)} L${coords.join(" L")} L${W},${(padTop + plotH).toFixed(2)} Z`;
   const gradId = `lc-grad-${++_lineChartSeq}`;
 
   const first = points[0], last = points[points.length - 1];
@@ -565,6 +566,7 @@ function renderHoldingDetails(detailsEl, h) {
   detailsEl.innerHTML = "";
   detailsEl.appendChild(el(`
     <div class="holding-detail-block">
+      ${h.summary ? `<p class="research-summary">${h.summary}</p>` : ""}
       <div class="section-title">Financial Signal (${h.financial_recommendation?.label || "—"})</div>
       <ul class="rec-reasoning">${financialReasoning}</ul>
 
@@ -731,6 +733,7 @@ async function openCompany(symbol, name) {
         ${avatarHtml(s.symbol, s.name, "lg", s.logo_url)}
         <h2 style="margin:0;font-size:16px;color:var(--text);text-transform:none;letter-spacing:0;">${s.name} (${s.symbol})</h2>
       </div>
+      ${data.summary ? `<p class="research-summary">${data.summary}</p>` : ""}
       <div class="kpi-grid">
         <div class="kpi"><div${tipAttrs("Price", "label")}>Price</div><div class="value">₹${fmt(s.price)}</div></div>
         <div class="kpi"><div${tipAttrs("Market Cap", "label")}>Market Cap</div><div class="value">₹${fmt(s.market_cap)}</div></div>

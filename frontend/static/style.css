@@ -321,6 +321,18 @@ button.danger:hover { background: var(--red-soft); box-shadow: none; }
   line-height: 1.35;
 }
 
+.research-summary {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  background: var(--panel-2);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin: 0 0 18px;
+}
+
 /* ---- concerns / notes ---- */
 
 .concern-item {

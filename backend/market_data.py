@@ -538,3 +538,83 @@ def build_holistic_recommendation(financial_rec: dict, qualitative: dict | None)
             "investment advice. This reflects your judgment calls, not an independent assessment."
         ),
     }
+
+
+def _big_number(x) -> str:
+    if x is None:
+        return "n/a"
+    if abs(x) >= 1e9:
+        return f"₹{x / 1e9:,.1f}B"
+    if abs(x) >= 1e7:
+        return f"₹{x / 1e7:,.1f}Cr"
+    return f"₹{x:,.0f}"
+
+
+def build_summary(snapshot: dict, concerns: list[dict], recommendation: dict) -> str:
+    """A short, templated research-note paragraph — every clause is filled
+    straight from the same snapshot/concerns/recommendation data shown
+    elsewhere on the page. No model, no inference beyond simple sentence
+    assembly, so it's exactly as trustworthy (and exactly as limited) as the
+    numbers behind it."""
+    name = snapshot.get("name") or snapshot.get("symbol")
+    sector = snapshot.get("sector")
+    price = snapshot.get("price")
+    pe = snapshot.get("pe_trailing")
+    pe_fwd = snapshot.get("pe_forward")
+    mcap = snapshot.get("market_cap")
+    rev_growth = snapshot.get("revenue_growth_pct")
+    earnings_growth = snapshot.get("earnings_growth_pct")
+    roe = snapshot.get("roe_pct")
+    de = snapshot.get("debt_to_equity")
+
+    sentences = []
+
+    # Valuation
+    s1 = f"{name}"
+    if sector:
+        s1 += f" ({sector})"
+    if price is not None:
+        s1 += f" trades at ₹{price:,.2f}"
+        if mcap is not None:
+            s1 += f", a market cap of {_big_number(mcap)}"
+        if pe is not None:
+            s1 += f", valued at {pe:.1f}x trailing earnings"
+            if pe_fwd is not None:
+                s1 += f" ({pe_fwd:.1f}x forward)"
+    s1 += "."
+    sentences.append(s1)
+
+    # Growth / profitability / leverage — only the facts that are actually available
+    growth_bits = []
+    if rev_growth is not None:
+        growth_bits.append(f"revenue grew {rev_growth:+.1f}% year-on-year")
+    if earnings_growth is not None:
+        growth_bits.append(f"earnings {'grew' if earnings_growth >= 0 else 'declined'} {abs(earnings_growth):.1f}%")
+    if roe is not None:
+        growth_bits.append(f"ROE stands at {roe:.1f}%")
+    if de is not None:
+        growth_bits.append(f"debt/equity is {de:.1f}")
+    if growth_bits:
+        sentences.append(", ".join(growth_bits).capitalize() + ".")
+
+    # Rule-based call
+    label = recommendation.get("label")
+    upside = recommendation.get("upside_pct")
+    s3 = f"The rule-based screen calls this a {label}"
+    if upside is not None:
+        direction = "upside" if upside >= 0 else "downside"
+        s3 += f", with the analyst target implying {abs(upside):.1f}% {direction}"
+    s3 += "."
+    sentences.append(s3)
+
+    # Concerns
+    if not concerns:
+        sentences.append("No concerns were raised by the rule scan.")
+    else:
+        top = concerns[0]
+        n = len(concerns)
+        sentences.append(
+            f"{n} concern{'s' if n != 1 else ''} flagged, most notably ({top['severity']}): {top['message']}"
+        )
+
+    return " ".join(sentences)
