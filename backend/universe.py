@@ -82,11 +82,21 @@ def _load() -> list[dict]:
 
 
 def universe_count() -> int:
-    return len(_load())
+    return len(_tracked_only(_load()))
+
+
+def _tracked_only(rows: list[dict]) -> list[dict]:
+    from . import market_data  # local import: avoids a module-load-order dependency
+
+    tracked = market_data.get_tracked_symbols()
+    return [r for r in rows if r["symbol"] in tracked]
 
 
 def search_universe(query: str, limit: int = 60) -> list[dict]:
-    rows = _load()
+    """Only returns companies with real tracked data (the Nifty 50) — the
+    full NSE directory has 2,500+ names, and searching/adding one outside
+    the tracked set would just show "not currently tracked" everywhere."""
+    rows = _tracked_only(_load())
     if not query or not query.strip():
         return rows[:limit]
     q = query.strip().lower()

@@ -1161,6 +1161,57 @@ function buildScreenRow(r, rank, maxAbsUpside) {
   return row;
 }
 
+function buildSectorRow(c) {
+  const upside = c.upside_pct !== null && c.upside_pct !== undefined ? `${c.upside_pct > 0 ? "+" : ""}${c.upside_pct}%` : "—";
+  const upsideColor = c.upside_pct > 0 ? "var(--green)" : c.upside_pct < 0 ? "var(--red)" : "var(--text-faint)";
+  const flagClass = c.flags >= 2 ? "high" : c.flags === 1 ? "medium" : "low";
+  const row = el(`
+    <div class="result-row screen-row">
+      <div class="meta row-with-avatar">
+        ${avatarHtml(c.symbol, c.name, "sm", c.logo_url)}
+        <div>
+          <span class="symbol">${c.symbol}</span> — <span class="name">${c.name}</span>
+          <div class="name">${c.industry || ""}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:center;">
+        <span class="badge">₹${fmt(c.price)}</span>
+        <span style="font-family:var(--font-mono);font-size:11.5px;color:${upsideColor};min-width:44px;text-align:right;">${upside}</span>
+        <span class="rec-badge rec-pill rec-${(c.label || "").toLowerCase()}">${c.label || "—"}</span>
+        <span class="badge ${flagClass}">${c.flags} flag${c.flags === 1 ? "" : "s"}</span>
+      </div>
+    </div>
+  `);
+  row.addEventListener("click", () => openCompany(c.symbol, c.name));
+  return row;
+}
+
+async function loadSectors() {
+  const metaEl = document.getElementById("sectors-meta");
+  const contentEl = document.getElementById("sectors-content");
+  metaEl.textContent = "Loading…";
+  contentEl.innerHTML = "";
+
+  const data = await api("/api/sectors");
+  const sectorNames = Object.keys(data.sectors);
+  const totalCompanies = sectorNames.reduce((sum, s) => sum + data.sectors[s].length, 0);
+  metaEl.textContent = `${totalCompanies} companies across ${sectorNames.length} sectors — data as of ${data.as_of || "unknown"}`;
+
+  contentEl.innerHTML = "";
+  sectorNames.forEach((sector) => {
+    const companies = data.sectors[sector];
+    const panel = el(`
+      <div class="panel" style="margin-top:14px;">
+        <h2>${sector} <span class="name" style="font-weight:400;">(${companies.length})</span></h2>
+        <div class="sector-rows"></div>
+      </div>
+    `);
+    const rowsBox = panel.querySelector(".sector-rows");
+    companies.forEach((c) => rowsBox.appendChild(buildSectorRow(c)));
+    contentEl.appendChild(panel);
+  });
+}
+
 async function loadDailyScreen() {
   const metaEl = document.getElementById("screen-meta");
   const cautionEl = document.getElementById("screen-caution");
@@ -1208,6 +1259,7 @@ document.querySelectorAll(".nav-btn").forEach((btn) => {
     if (view === "portfolio") loadHoldings();
     if (view === "admin") loadAdmin();
     if (view === "compare") runCompare();
+    if (view === "sectors") loadSectors();
   });
 });
 
@@ -1217,6 +1269,7 @@ document.getElementById("back-btn").addEventListener("click", () => {
   if (view === "portfolio") loadHoldings();
   else if (view === "screen") loadDailyScreen();
   else if (view === "calendar") loadCalendar();
+  else if (view === "compare" || view === "sectors") { /* content already rendered, nothing to reload */ }
   else loadWatchlist();
 });
 

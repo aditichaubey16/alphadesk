@@ -44,10 +44,9 @@ and email to get started, no password.
 
 ## What's here
 
-- **Watchlist** — type-ahead search over the full local NSE company directory
-  (2,500+ names, no live lookup until you add one), each row showing price,
-  concern-flag count, and the rule-based Buy/Hold/Sell call for tracked
-  companies.
+- **Watchlist** — type-ahead search over the tracked set (see "Data model"
+  below), each row showing price, concern-flag count, and the rule-based
+  Buy/Hold/Sell call.
 - **Company research page** — full snapshot (price, valuation, profitability,
   growth), a 52-week range chart, a margins bar chart, an ownership donut
   (insiders/institutions/public), the full raw-data table (60+ fields, every
@@ -64,26 +63,35 @@ and email to get started, no password.
   *within* each stock's own rule-based label (so a "Buy" never shows up
   under Sells), plus a Buy/Hold/Sell distribution bar across all 50. Click
   any row to jump straight into its research page.
-- **Compare** — pick up to 4 NSE companies and see valuation, profitability,
-  and rule-based call side by side.
+- **Compare** — pick up to 4 companies and see valuation, profitability, and
+  rule-based call side by side.
+- **Sectors** — every tracked company grouped by sector (Financial Services,
+  Healthcare, Technology, etc. — Yahoo's own sector taxonomy, the closest
+  thing to a BFSI/Pharma/IT-style breakdown), each with price and call, for
+  browsing by sector instead of searching one name at a time.
 - **Calendar** — cross-company event list (earnings, investor days, etc.),
   add manually.
 - All monetary figures convert to ₹ automatically for non-Indian listings,
   using an FX rate captured at the same time as the rest of the data.
 
-**Data model**: only the Nifty 50 is covered with real numbers (price,
-valuation, raw data, news, price history) — see "Data refresh" below for why
-and how that data gets updated. Adding a non-Nifty-50 company to your
-watchlist or portfolio still works for organizing/notes/thesis, but its
-price and snapshot fields show "not currently tracked" instead of numbers.
+**Data model**: only the tracked set — the Nifty 50 plus a curated list of
+other prominent Indian-listed names often in the news (PSU banks, defense,
+big recent IPOs like Swiggy/Ola Electric/Hyundai India, etc.; ~89 companies
+total as of the last refresh) — is covered with real numbers (price,
+valuation, raw data, news, price history). See "Data refresh" below for why
+and how that data gets updated, and `backend/data/extra_tracked_list.csv` to
+add or remove names from the non-Nifty-50 part of the list. Search
+(Watchlist, Portfolio, Compare) only surfaces tracked companies, so there's
+nothing to add that would show up without real data.
 
 Data lives in `alphadesk.sqlite3` in this folder — nothing leaves your
 machine except the NSE company-directory refresh (static list, not prices).
 
 ## Known limitations
 
-- Only the Nifty 50 has real data — anything else shows "not currently
-  tracked." Deliberate tradeoff, see "Data refresh" below.
+- Coverage is limited to the Nifty 50 — deliberate tradeoff, see "Data
+  refresh" below. Search only surfaces those 50, so this isn't usually
+  visible day to day.
 - Data quality depends on what Yahoo Finance returned at the time of the
   last refresh; some fields are `None` for certain exchanges (e.g. Indian
   NSE tickers often lack `currentRatio`/`quickRatio`/`returnOnEquity`).
@@ -108,14 +116,13 @@ machine except the NSE company-directory refresh (static list, not prices).
 
 - Task/pipeline board (models to update, notes due, calls to schedule)
 - Filings/news aggregator filtered to your coverage list
-- Expanding tracked coverage beyond the Nifty 50
 
 ## Data refresh
 
 **Company data (prices, valuation, news, history) is never fetched live by
 the running app.** Render's shared IP gets rate-limited by Yahoo Finance too
 unreliably for live per-request fetches to be usable — so instead, every
-Nifty 50 company's full snapshot/raw-data/news/price-history lives in
+tracked company's full snapshot/raw-data/news/price-history lives in
 `backend/data/manual_quotes.json`, committed to the repo, and is only ever
 updated by running one script and redeploying:
 

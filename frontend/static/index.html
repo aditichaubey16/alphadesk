@@ -76,6 +76,10 @@
       <svg viewBox="0 0 20 20" fill="none"><path d="M6 3v14M14 3v14M3 8h6M11 8h6M3 12h6M11 12h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       <span>Compare</span>
     </button>
+    <button class="nav-btn" data-view="sectors">
+      <svg viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1.4" stroke="currentColor" stroke-width="1.6"/><rect x="11" y="3" width="6" height="6" rx="1.4" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="11" width="6" height="6" rx="1.4" stroke="currentColor" stroke-width="1.6"/><rect x="11" y="11" width="6" height="6" rx="1.4" stroke="currentColor" stroke-width="1.6"/></svg>
+      <span>Sectors</span>
+    </button>
     <button class="nav-btn hidden" data-view="admin" id="admin-nav-btn">
       <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="6.5" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 17c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       <span>Admin</span>
@@ -122,7 +126,7 @@
           <div id="search-dropdown" class="ac-dropdown hidden"></div>
         </div>
       </div>
-      <div class="name" style="margin-top:6px;">Indian (NSE) companies only.</div>
+      <div class="name" style="margin-top:6px;">Nifty 50 companies only — the ones with real tracked data.</div>
     </div>
 
     <div class="panel">
@@ -216,7 +220,14 @@
     <div class="panel">
       <h2>Side by Side</h2>
       <div id="compare-table"></div>
+      <div class="rec-disclaimer" style="margin-top:12px;">Numbers only: this is purely valuation/profitability metrics and each company's own rule-based Buy/Hold/Sell call — it has no idea how these companies compare qualitatively (management quality, moat, sector positioning) or how correlated they are. Built from data refreshed manually by the admin, not live. A personal, rule-based view — not personalized investment advice. Verify independently before acting.</div>
     </div>
+  </section>
+
+  <section id="view-sectors" class="view hidden">
+    <p class="view-intro"><strong>Sectors</strong> — every tracked company grouped by sector (BFSI, IT, Healthcare, and so on), each with its price and rule-based call. Browse by sector instead of searching one company at a time.</p>
+    <div id="sectors-meta" class="name"></div>
+    <div id="sectors-content"></div>
   </section>
 
   <section id="view-admin" class="view hidden">

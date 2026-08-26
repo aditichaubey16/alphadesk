@@ -211,6 +211,13 @@ def get_daily_screen(refresh: bool = False, user: dict = Depends(get_current_use
     return screener.get_daily_screen(force_refresh=refresh)
 
 
+# ---- sectors (every tracked company grouped by sector — shared, not per-user) ----
+
+@app.get("/api/sectors")
+def get_sectors(user: dict = Depends(get_current_user)):
+    return market_data.list_tracked_by_sector()
+
+
 # ---- peer comparison (doesn't touch the watchlist - just looks symbols up) ----
 
 class CompareIn(BaseModel):

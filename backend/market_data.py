@@ -251,7 +251,7 @@ def get_daily_quote(symbol: str) -> dict:
     quote = data["quotes"].get(symbol)
     if not quote:
         raise QuoteNotAvailable(
-            f"{symbol} isn't part of the currently tracked set (Nifty 50). Ask the admin to add it in the next data refresh."
+            f"{symbol} isn't part of the currently tracked set. Ask the admin to add it in the next data refresh."
         )
     as_of = data.get("as_of")
     return {
@@ -263,6 +263,46 @@ def get_daily_quote(symbol: str) -> dict:
     }
 
 
+def get_tracked_symbols() -> set[str]:
+    """Symbols with real data in the manually-refreshed dataset — Nifty 50
+    plus a curated extras list (see tools/refresh_manual_quotes.py), as of
+    the last refresh. Used to keep search results limited to companies
+    that'll actually show real numbers, instead of surfacing 2,500+ NSE
+    names that would just show "not currently tracked"."""
+    return set(_load_manual_quotes()["quotes"].keys())
+
+
+def list_tracked_by_sector() -> dict:
+    """Every tracked company (Nifty 50 + extras), grouped by Yahoo's own
+    `sector` field (e.g. "Financial Services", "Healthcare", "Technology") —
+    the closest thing to a BFSI/Pharma/IT-style breakdown without hand-
+    maintaining a separate sector map. Sectors sorted by company count,
+    companies within each sector sorted alphabetically by name."""
+    data = _load_manual_quotes()
+    by_sector: dict[str, list[dict]] = {}
+    for symbol, quote in data["quotes"].items():
+        snapshot = quote["snapshot"]
+        sector = snapshot.get("sector") or "Other"
+        concerns = flag_concerns(snapshot)
+        rec = build_recommendation(snapshot, concerns)
+        by_sector.setdefault(sector, []).append(
+            {
+                "symbol": symbol,
+                "name": snapshot.get("name") or symbol,
+                "industry": snapshot.get("industry"),
+                "price": snapshot.get("price"),
+                "logo_url": snapshot.get("logo_url"),
+                "label": rec.get("label"),
+                "upside_pct": rec.get("upside_pct"),
+                "flags": len(concerns),
+            }
+        )
+    for companies in by_sector.values():
+        companies.sort(key=lambda c: c["name"])
+    ordered = dict(sorted(by_sector.items(), key=lambda kv: -len(kv[1])))
+    return {"as_of": data.get("as_of"), "sectors": ordered}
+
+
 def get_price_history(symbol: str, period: str = "6mo") -> list[dict]:
     """Price history for `symbol` sliced from the manually-refreshed
     dataset (stored at ~2y depth) instead of a live fetch."""
@@ -272,7 +312,7 @@ def get_price_history(symbol: str, period: str = "6mo") -> list[dict]:
     quote = data["quotes"].get(symbol)
     if not quote:
         raise QuoteNotAvailable(
-            f"{symbol} isn't part of the currently tracked set (Nifty 50). Ask the admin to add it in the next data refresh."
+            f"{symbol} isn't part of the currently tracked set. Ask the admin to add it in the next data refresh."
         )
     history = quote.get("history") or []
     days_by_period = {"1mo": 22, "3mo": 66, "6mo": 132, "1y": 264, "2y": 528, "5y": 528}
