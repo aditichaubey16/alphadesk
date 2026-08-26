@@ -421,13 +421,111 @@ def flag_concerns(snapshot: dict) -> list[dict]:
     return concerns
 
 
-def build_recommendation(snapshot: dict, concerns: list[dict]) -> dict:
+# ---- recent news (real headlines, keyword-scanned — no LLM/sentiment model) ----
+
+def fetch_recent_news(symbol: str, limit: int = 6) -> list[dict]:
+    """Recent headlines for this ticker via yfinance. Same source
+    `clientresearch` uses for its news panel."""
+    t = yf.Ticker(symbol)
+    try:
+        raw = t.news or []
+    except Exception:
+        raw = []
+    items = []
+    for n in raw[:limit]:
+        c = n.get("content", n)
+        title = c.get("title")
+        if not title:
+            continue
+        items.append(
+            {
+                "title": title,
+                "publisher": (c.get("provider") or {}).get("displayName"),
+                "published": c.get("pubDate"),
+                "url": (c.get("canonicalUrl") or {}).get("url") or (c.get("clickThroughUrl") or {}).get("url"),
+            }
+        )
+    return items
+
+
+# Deliberately simple, transparent keyword matching — not sentiment analysis.
+# Every flag names the exact headline and keyword that triggered it, so it's
+# just as auditable as the numeric rules, even though headline keyword-matching
+# is a blunt instrument that can misfire (e.g. "avoids lawsuit" would still
+# match "lawsuit"). Treat these as prompts to go read the actual article, not
+# as a verdict.
+_NEWS_HIGH_SEVERITY_KEYWORDS = [
+    "fraud", "scam", "investigation", "probe", "raid", "default", "bankruptcy",
+    "insolvency", "delisting", "delisted", "banned", "arrested", "arrest",
+    "resigns", "resignation", "resigned",
+]
+_NEWS_MEDIUM_SEVERITY_KEYWORDS = [
+    "downgrade", "downgraded", "lawsuit", "penalty", "fined", "fine", "loss",
+    "layoffs", "layoff", "recall", "recalls", "suspended", "suspends", "halt",
+    "halted", "scrutiny", "strike", "resignation",
+]
+_NEWS_POSITIVE_KEYWORDS = [
+    "upgrade", "upgraded", "record profit", "record revenue", "wins order",
+    "order win", "bags order", "expansion", "acquisition", "acquires",
+    "partnership", "buyback", "dividend hike", "outperform", "beats estimate",
+    "strong growth", "raises guidance", "new contract", "approval", "clears",
+]
+
+
+def flag_news_concerns(news_items: list[dict]) -> list[dict]:
+    """Scans headline titles for high/medium-severity negative keywords and
+    returns them shaped exactly like `flag_concerns` output, so they merge
+    into the same severity-ordered list and drive the same recommendation
+    ladder — news-derived concerns aren't a separate, weaker signal."""
+    concerns = []
+    for item in news_items:
+        title = item.get("title") or ""
+        low = title.lower()
+        matched, severity = None, None
+        for kw in _NEWS_HIGH_SEVERITY_KEYWORDS:
+            if kw in low:
+                matched, severity = kw, "high"
+                break
+        if not matched:
+            for kw in _NEWS_MEDIUM_SEVERITY_KEYWORDS:
+                if kw in low:
+                    matched, severity = kw, "medium"
+                    break
+        if matched:
+            concerns.append(
+                {
+                    "id": f"news_{matched.replace(' ', '_')}",
+                    "severity": severity,
+                    "message": f'Recent headline flagged for "{matched}": {title}',
+                    "source": "news",
+                    "url": item.get("url"),
+                    "published": item.get("published"),
+                }
+            )
+    return concerns
+
+
+def flag_news_positives(news_items: list[dict]) -> list[dict]:
+    positives = []
+    for item in news_items:
+        title = item.get("title") or ""
+        low = title.lower()
+        for kw in _NEWS_POSITIVE_KEYWORDS:
+            if kw in low:
+                positives.append({"keyword": kw, "headline": title, "url": item.get("url"), "published": item.get("published")})
+                break
+    return positives
+
+
+def build_recommendation(snapshot: dict, concerns: list[dict], news_positives: list[dict] | None = None) -> dict:
     """Transparent, rule-based Buy/Hold/Sell screen — combines concern-flag
     severity with analyst-target upside. Every input is named so the call is
     auditable; nothing is inferred by a model. Explicitly not personalized
     investment advice."""
+    news_positives = news_positives or []
     high = sum(1 for c in concerns if c["severity"] == "high")
     medium = sum(1 for c in concerns if c["severity"] == "medium")
+    news_flag_count = sum(1 for c in concerns if c.get("source") == "news")
 
     price = snapshot.get("price")
     target = snapshot.get("target_mean_price")
@@ -435,6 +533,8 @@ def build_recommendation(snapshot: dict, concerns: list[dict]) -> dict:
 
     reasoning = []
     reasoning.append(f"{high} high-severity and {medium} medium-severity concern flag(s) from the rule scan.")
+    if news_flag_count:
+        reasoning.append(f"{news_flag_count} of those came from recent headlines flagged by keyword scan (see Concern Flags for which ones).")
     if upside_pct is not None:
         reasoning.append(f"Analyst target implies {upside_pct:+.1f}% vs. current price.")
     if snapshot.get("analyst_recommendation"):
@@ -463,16 +563,26 @@ def build_recommendation(snapshot: dict, concerns: list[dict]) -> dict:
         label = "Hold"
         reasoning.append("No strong signal either way from flags or valuation upside.")
 
+    # Positive news can tip a clean-but-unremarkable Hold into a Buy — it
+    # never overrides a Sell or a high-severity flag, it just breaks ties.
+    if label == "Hold" and high == 0 and len(news_positives) >= 2:
+        label = "Buy"
+        example = news_positives[0]["keyword"]
+        reasoning.append(f'{len(news_positives)} recent headline(s) matched positive-catalyst keywords (e.g. "{example}") — tipped this from Hold to Buy.')
+    elif news_positives:
+        reasoning.append(f"{len(news_positives)} recent headline(s) matched positive-catalyst keywords, noted but not enough alone to change the call.")
+
     return {
         "label": label,
         "upside_pct": upside_pct,
         "reasoning": reasoning,
         "disclaimer": (
-            "Numbers only: this call comes purely from concern-flag severity and analyst-target "
-            "upside in Yahoo Finance's data — it does not know about recent news, management "
-            "commentary, regulatory developments, or anything qualitative. A personal, rule-based "
-            "view, not personalized investment advice. Check current news and primary filings, and "
-            "verify against your own thesis, before relying on it."
+            "Includes a keyword scan of recent headlines (both concerns and positive catalysts), "
+            "on top of concern-flag severity and analyst-target upside — but keyword matching is a "
+            "blunt instrument (e.g. \"avoids lawsuit\" would still match \"lawsuit\"), not real "
+            "comprehension of the article. Always open the actual headline before relying on a "
+            "news-driven flag. A personal, rule-based view, not personalized investment advice — "
+            "verify against your own thesis and primary filings before acting."
         ),
     }
 
@@ -612,20 +722,22 @@ def build_summary(snapshot: dict, concerns: list[dict], recommendation: dict) ->
     s3 += "."
     sentences.append(s3)
 
-    # Concerns
+    # Concerns (numeric rules + any keyword-flagged headlines, already merged)
+    news_flag_count = sum(1 for c in concerns if c.get("source") == "news")
     if not concerns:
-        sentences.append("No concerns were raised by the rule scan.")
+        sentences.append("No concerns were raised by the rule scan, and no negative-keyword headlines were flagged.")
     else:
         top = concerns[0]
         n = len(concerns)
+        news_note = f" ({news_flag_count} from recent headlines)" if news_flag_count else ""
         sentences.append(
-            f"{n} concern{'s' if n != 1 else ''} flagged, most notably ({top['severity']}): {top['message']}"
+            f"{n} concern{'s' if n != 1 else ''} flagged{news_note}, most notably ({top['severity']}): {top['message']}"
         )
 
     sentences.append(
-        "This summary is generated purely from the numbers above — it does not reflect recent "
-        "news, management commentary, or other qualitative factors, and is a personal, rule-based "
-        "view rather than independent research."
+        "Generated purely from the numbers and headline keywords above — not a substitute for "
+        "actually reading recent news, management commentary, or other qualitative context. A "
+        "personal, rule-based view, not independent research."
     )
 
     return " ".join(sentences)

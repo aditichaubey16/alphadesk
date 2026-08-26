@@ -233,11 +233,27 @@ def get_company_snapshot(symbol: str, user: dict = Depends(get_current_user)):
         snapshot = market_data.fetch_snapshot(company["symbol"])
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"Could not fetch live data: {e}")
-    concerns = market_data.flag_concerns(snapshot)
+    try:
+        news = market_data.fetch_recent_news(company["symbol"])
+    except Exception:
+        news = []
+    news_concerns = market_data.flag_news_concerns(news)
+    news_positives = market_data.flag_news_positives(news)
+
+    concerns = market_data.flag_concerns(snapshot) + news_concerns
     raw = market_data.fetch_raw_parameters(company["symbol"])
-    recommendation = market_data.build_recommendation(snapshot, concerns)
+    recommendation = market_data.build_recommendation(snapshot, concerns, news_positives)
     summary = market_data.build_summary(snapshot, concerns, recommendation)
-    return {"company": company, "snapshot": snapshot, "concerns": concerns, "raw": raw, "recommendation": recommendation, "summary": summary}
+    return {
+        "company": company,
+        "snapshot": snapshot,
+        "concerns": concerns,
+        "raw": raw,
+        "recommendation": recommendation,
+        "summary": summary,
+        "news": news,
+        "news_positives": news_positives,
+    }
 
 
 @app.get("/api/company/{symbol}/history")
@@ -344,8 +360,14 @@ def _enrich_holding(h: dict) -> dict:
     symbol = h["company_symbol"]
     try:
         snapshot = market_data.fetch_snapshot(symbol)
-        concerns = market_data.flag_concerns(snapshot)
-        financial_rec = market_data.build_recommendation(snapshot, concerns)
+        try:
+            news = market_data.fetch_recent_news(symbol)
+        except Exception:
+            news = []
+        news_concerns = market_data.flag_news_concerns(news)
+        news_positives = market_data.flag_news_positives(news)
+        concerns = market_data.flag_concerns(snapshot) + news_concerns
+        financial_rec = market_data.build_recommendation(snapshot, concerns, news_positives)
     except Exception as e:
         return {**h, "error": f"Could not fetch live data: {e}"}
 
@@ -371,6 +393,8 @@ def _enrich_holding(h: dict) -> dict:
         "qualitative": qualitative,
         "holistic_recommendation": holistic,
         "summary": market_data.build_summary(snapshot, concerns, financial_rec),
+        "news": news,
+        "news_positives": news_positives,
     }
 
 
@@ -439,8 +463,16 @@ app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
 
 
 @app.get("/")
-def index():
+def index(request: Request):
+    # Render (and most PaaS hosts) terminate TLS at a proxy in front of
+    # uvicorn, so the raw request scope often still says "http" — trust
+    # X-Forwarded-Proto when present so the Open Graph image/url are https.
+    proto = request.headers.get("x-forwarded-proto", request.url.scheme)
+    host = request.headers.get("host", request.url.netloc)
+    base_url = f"{proto}://{host}/"
+
     html = (FRONTEND_DIR / "index.html").read_text(encoding="utf-8")
+    html = html.replace("{{BASE_URL}}", base_url)
     html = html.replace("style.css", f"style.css?v={_ASSET_VERSION}")
     html = html.replace("app.js", f"app.js?v={_ASSET_VERSION}")
     return HTMLResponse(html, headers={"Cache-Control": "no-store"})

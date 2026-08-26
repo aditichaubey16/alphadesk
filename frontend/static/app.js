@@ -807,10 +807,43 @@ async function openCompany(symbol, name) {
   content.appendChild(concernsPanel);
   const cbox = concernsPanel.querySelector("#concerns-box");
   if (!data.concerns.length) {
-    cbox.appendChild(el('<div class="empty">No rule-based concerns flagged.</div>'));
+    cbox.appendChild(el('<div class="empty">No rule-based concerns flagged (numeric or news-keyword).</div>'));
   } else {
     data.concerns.forEach((c) => {
-      cbox.appendChild(el(`<div class="concern-item"><span class="badge ${c.severity}">${c.severity}</span> ${c.message}</div>`));
+      const newsTag = c.source === "news" ? '<span class="badge" style="margin-left:6px;">from news</span>' : "";
+      const link = c.source === "news" && c.url ? ` <a href="${c.url}" target="_blank" rel="noopener" style="color:var(--accent-strong);">read article →</a>` : "";
+      cbox.appendChild(el(`<div class="concern-item"><span class="badge ${c.severity}">${c.severity}</span> ${c.message}${newsTag}${link}</div>`));
+    });
+  }
+
+  // Recent news — real headlines via yfinance, keyword-scanned above (not sentiment analysis)
+  const newsPanel = el(`
+    <div class="panel">
+      <h2>Recent News</h2>
+      <div class="name" style="margin-bottom:12px;">Keyword-scanned only — always read the actual article before treating a flag as meaningful.</div>
+      <div id="news-box"></div>
+    </div>
+  `);
+  content.appendChild(newsPanel);
+  const newsBox = newsPanel.querySelector("#news-box");
+  const newsItems = data.news || [];
+  if (!newsItems.length) {
+    newsBox.appendChild(el('<div class="empty">No recent news found for this ticker.</div>'));
+  } else {
+    const flaggedTitles = new Map();
+    data.concerns.filter((c) => c.source === "news").forEach((c) => flaggedTitles.set(c.message, c.severity));
+    const positiveTitles = new Set((data.news_positives || []).map((p) => p.headline));
+    newsItems.forEach((n) => {
+      let tag = "";
+      const isNegative = [...flaggedTitles.keys()].some((msg) => msg.includes(n.title));
+      if (isNegative) tag = '<span class="badge high" style="margin-left:8px;">flagged</span>';
+      else if (positiveTitles.has(n.title)) tag = '<span class="badge low" style="margin-left:8px;">positive keyword</span>';
+      newsBox.appendChild(el(`
+        <div class="note-item">
+          <div class="note-time">${n.published ? new Date(n.published).toLocaleString() : ""} ${n.publisher ? "· " + n.publisher : ""}</div>
+          <div>${n.url ? `<a href="${n.url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">${n.title}</a>` : n.title}${tag}</div>
+        </div>
+      `));
     });
   }
 
