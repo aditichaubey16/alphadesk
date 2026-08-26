@@ -9,6 +9,7 @@ user-filtered lookup. `events` gets its own `user_id` since a calendar entry
 can stand alone with no company attached."""
 from __future__ import annotations
 
+import json
 import os
 import sqlite3
 from datetime import datetime, timezone
@@ -230,6 +231,36 @@ def save_daily_quote(symbol: str, quote_date: str, snapshot_json: str, raw_json:
             """,
             (symbol, quote_date, snapshot_json, raw_json, news_json, now()),
         )
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def seed_fallback_quotes(seeds: dict) -> None:
+    """Emergency last-resort rows for a handful of symbols, dated in the
+    past, so the very first page view after a fresh deploy wipe never
+    errors out before any real Yahoo fetch has succeeded — it shows old
+    numbers (clearly marked stale) instead of a blank error. `INSERT OR
+    IGNORE` keyed on (symbol, quote_date) makes this a no-op after the
+    first run, and the fixed past date means any genuine fetched data
+    (dated today) always outranks it in `get_latest_daily_quote`."""
+    conn = get_conn()
+    try:
+        for symbol, data in seeds.items():
+            conn.execute(
+                """
+                INSERT OR IGNORE INTO daily_quotes (symbol, quote_date, snapshot_json, raw_json, news_json, fetched_at)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    symbol,
+                    data["quote_date"],
+                    json.dumps(data["snapshot"]),
+                    json.dumps(data.get("raw", [])),
+                    json.dumps(data.get("news", [])),
+                    now(),
+                ),
+            )
         conn.commit()
     finally:
         conn.close()

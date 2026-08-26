@@ -249,6 +249,63 @@ def get_daily_quote(symbol: str) -> dict:
         raise
 
 
+# Emergency fallback for the default seeded watchlist (RELIANCE/TCS/INFY) —
+# real snapshots captured 2026-08-26, used only when a fresh deploy wipe
+# leaves the daily_quotes cache empty AND today's live fetch also fails, so
+# a new user's very first page view shows old-but-real numbers (marked
+# stale) instead of an error. See db.seed_fallback_quotes.
+SEED_QUOTES = {
+    "RELIANCE.NS": {
+        "quote_date": "2026-08-01",
+        "snapshot": {
+            "symbol": "RELIANCE.NS", "name": "Reliance Industries Limited",
+            "sector": "Energy", "industry": "Oil & Gas Refining & Marketing",
+            "currency": "INR", "price": 1298.0, "prev_close": 1317.0,
+            "market_cap": 17565149560832, "52w_high": 1611.8, "52w_low": 1249.8,
+            "pe_trailing": 23.353724, "pe_forward": 18.122704, "price_to_book": 1.9429829,
+            "debt_to_equity": 36.653, "current_ratio": None, "quick_ratio": None,
+            "profit_margin_pct": 6.61, "roe_pct": None, "revenue_growth_pct": 29.7,
+            "earnings_growth_pct": -22.4, "dividend_yield_pct": 0.46,
+            "target_mean_price": 1673.0, "analyst_recommendation": "strong_buy",
+            "next_earnings_date": "2026-10-16", "logo_url": "https://logo.clearbit.com/ril.com",
+            "orig_currency": "INR", "fx_rate": 1.0,
+        },
+    },
+    "TCS.NS": {
+        "quote_date": "2026-08-01",
+        "snapshot": {
+            "symbol": "TCS.NS", "name": "Tata Consultancy Services Limited",
+            "sector": "Technology", "industry": "Information Technology Services",
+            "currency": "INR", "price": 2270.0, "prev_close": 2296.2,
+            "market_cap": 8213058551808, "52w_high": 3350.0, "52w_low": 1976.8,
+            "pe_trailing": 16.394627, "pe_forward": 13.9692545, "price_to_book": 7.4914026,
+            "debt_to_equity": 10.211, "current_ratio": 2.276, "quick_ratio": 2.045,
+            "profit_margin_pct": 18.05, "roe_pct": 47.74, "revenue_growth_pct": 13.9,
+            "earnings_growth_pct": 4.6, "dividend_yield_pct": 2.85,
+            "target_mean_price": 2464.439, "analyst_recommendation": "buy",
+            "next_earnings_date": "2026-10-08", "logo_url": "https://logo.clearbit.com/tcs.com",
+            "orig_currency": "INR", "fx_rate": 1.0,
+        },
+    },
+    "INFY.NS": {
+        "quote_date": "2026-08-01",
+        "snapshot": {
+            "symbol": "INFY.NS", "name": "Infosys Limited",
+            "sector": "Technology", "industry": "Information Technology Services",
+            "currency": "INR", "price": 1120.0, "prev_close": 1144.0,
+            "market_cap": 4536335335424, "52w_high": 1728.0, "52w_low": 982.4,
+            "pe_trailing": 14.4404335, "pe_forward": 14.014725, "price_to_book": 4.946863,
+            "debt_to_equity": 9.541, "current_ratio": 1.862, "quick_ratio": 1.594,
+            "profit_margin_pct": 16.37, "roe_pct": 32.0, "revenue_growth_pct": 2.9,
+            "earnings_growth_pct": 5.3, "dividend_yield_pct": 4.37,
+            "target_mean_price": 1202.1904, "analyst_recommendation": "buy",
+            "next_earnings_date": "2026-10-23", "logo_url": "https://logo.clearbit.com/infosys.com",
+            "orig_currency": "INR", "fx_rate": 1.0,
+        },
+    },
+}
+
+
 def _next_earnings_date(t: "yf.Ticker") -> str | None:
     try:
         cal = t.calendar

@@ -28,6 +28,7 @@ app = FastAPI(title="AlphaDesk")
 @app.on_event("startup")
 def _startup():
     db.init_db()
+    db.seed_fallback_quotes(market_data.SEED_QUOTES)
     universe.refresh_if_stale()
 
 
