@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AlphaDesk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">α</span>
+    <h1>AlphaDesk<span class="brand-tag">Equity Research</span></h1>
+  </div>
+  <nav>
+    <button class="nav-btn active" data-view="watchlist">
+      <svg viewBox="0 0 20 20" fill="none"><path d="M3 5.5h14M3 10h14M3 14.5h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span>Watchlist</span>
+    </button>
+    <button class="nav-btn" data-view="portfolio">
+      <svg viewBox="0 0 20 20" fill="none"><rect x="3" y="7" width="14" height="9" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M7 7V5.5A1.5 1.5 0 0 1 8.5 4h3A1.5 1.5 0 0 1 13 5.5V7" stroke="currentColor" stroke-width="1.6"/></svg>
+      <span>Portfolio</span>
+    </button>
+    <button class="nav-btn" data-view="screen">
+      <svg viewBox="0 0 20 20" fill="none"><path d="M4 15.5V10M9.5 15.5V6M15 15.5V11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span>Daily Screen</span>
+    </button>
+    <button class="nav-btn" data-view="calendar">
+      <svg viewBox="0 0 20 20" fill="none"><rect x="3.5" y="4.5" width="13" height="12" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 8h13M7 3v3M13 3v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span>Calendar</span>
+    </button>
+  </nav>
+</header>
+
+<main id="app">
+
+  <section id="view-watchlist" class="view">
+    <div class="panel">
+      <h2>Add a company</h2>
+      <div class="search-row">
+        <div class="ac-wrap">
+          <input id="search-input" type="text" autocomplete="off" placeholder="Start typing an NSE-listed company name or symbol (e.g. Reliance, TCS, Infosys)">
+          <div id="search-dropdown" class="ac-dropdown hidden"></div>
+        </div>
+      </div>
+      <div class="name" style="margin-top:6px;">Indian (NSE) companies only.</div>
+    </div>
+
+    <div class="panel">
+      <h2>Watchlist</h2>
+      <div id="watchlist-table"></div>
+    </div>
+  </section>
+
+  <section id="view-company" class="view hidden">
+    <button id="back-btn" class="link-btn">&larr; Back</button>
+    <div id="company-content"></div>
+  </section>
+
+  <section id="view-portfolio" class="view hidden">
+    <div class="panel">
+      <h2>Add a holding</h2>
+      <div class="form-row">
+        <div class="ac-wrap">
+          <input id="holding-search-input" type="text" autocomplete="off" placeholder="Search NSE company to add as a holding">
+          <div id="holding-search-dropdown" class="ac-dropdown hidden"></div>
+        </div>
+        <input id="holding-qty" type="number" step="any" placeholder="Quantity">
+        <input id="holding-price" type="number" step="any" placeholder="Buy price (₹)">
+        <input id="holding-date" type="date">
+        <button id="holding-add-btn" disabled>Add Holding</button>
+      </div>
+      <div class="name" id="holding-selected" style="margin-top:6px;">No company selected yet — search above.</div>
+    </div>
+
+    <div class="panel">
+      <h2>Holdings</h2>
+      <div id="holdings-summary" class="name" style="margin-bottom:12px;"></div>
+      <div id="holdings-list"></div>
+    </div>
+  </section>
+
+  <section id="view-screen" class="view hidden">
+    <div class="panel">
+      <h2>Nifty 50 Daily Screen</h2>
+      <div id="screen-meta" class="name"></div>
+      <button id="screen-refresh-btn" class="secondary" style="margin-top:10px;">Refresh Now</button>
+      <div id="screen-caution" class="rec-disclaimer" style="margin-top:12px;"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Call Distribution — Full Nifty 50 Scan</h2>
+      <div id="screen-distribution"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Top 10 Buys</h2>
+      <div id="screen-buys"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Top 10 Sells</h2>
+      <div id="screen-sells"></div>
+    </div>
+  </section>
+
+  <section id="view-calendar" class="view hidden">
+    <div class="panel">
+      <h2>Add event</h2>
+      <div class="form-row">
+        <input id="event-symbol" type="text" placeholder="Ticker (optional)">
+        <input id="event-type" type="text" placeholder="Event type (e.g. Earnings)">
+        <input id="event-date" type="date">
+        <input id="event-desc" type="text" placeholder="Description (optional)">
+        <button id="event-add-btn">Add</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Upcoming</h2>
+      <div id="calendar-list"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col footer-brand">
+      <div class="row-with-avatar" style="margin-bottom:10px;">
+        <span class="brand-mark">α</span>
+        <span style="font-family:var(--font-display);font-weight:800;font-size:16px;">AlphaDesk</span>
+      </div>
+      <p>A personal equity research workspace for Indian markets — live company data, portfolio tracking, and a rule-based Buy/Hold/Sell screen, all running locally.</p>
+    </div>
+
+    <div class="footer-col">
+      <h3>About</h3>
+      <p>Built by a Chartered Accountant with 5+ years of experience across Forex Trading, Accounting, Finance, Equity Research, and Automation — this app reflects that background, built to make personal research workflows faster and more transparent.</p>
+    </div>
+
+    <div class="footer-col">
+      <h3>Contact</h3>
+      <p class="footer-name">Aditi Chaubey</p>
+      <a href="mailto:aditichaubey1805@gmail.com" class="footer-email">aditichaubey1805@gmail.com</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 AlphaDesk. Built for personal research use — not investment advice.</span>
+  </div>
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
