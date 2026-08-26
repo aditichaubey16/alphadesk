@@ -2456,7 +2456,8 @@
           "date": "2026-08-26",
           "close": 3112.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "ADANIPORTS.NS": {
       "snapshot": {
@@ -2655,7 +2656,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 59.59
+              "value": 58.57
             },
             {
               "key": "forwardEps",
@@ -4913,7 +4914,8 @@
           "date": "2026-08-26",
           "close": 1691.5
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "APOLLOHOSP.NS": {
       "snapshot": {
@@ -4927,7 +4929,7 @@
         "market_cap": 1260488228864,
         "52w_high": 9050.0,
         "52w_low": 6696.5,
-        "pe_trailing": 59.053555,
+        "pe_trailing": 60.50452,
         "pe_forward": 40.23414,
         "price_to_book": 13.296154,
         "debt_to_equity": 85.146,
@@ -5072,7 +5074,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 59.053555
+              "value": 60.50452
             },
             {
               "key": "forwardPE",
@@ -5372,7 +5374,7 @@
         },
         {
           "date": "2024-08-27",
-          "close": 6746.4
+          "close": 6746.39
         },
         {
           "date": "2024-08-28",
@@ -5448,7 +5450,7 @@
         },
         {
           "date": "2024-09-23",
-          "close": 7115.82
+          "close": 7115.83
         },
         {
           "date": "2024-09-24",
@@ -5456,7 +5458,7 @@
         },
         {
           "date": "2024-09-25",
-          "close": 7096.57
+          "close": 7096.58
         },
         {
           "date": "2024-09-26",
@@ -5480,7 +5482,7 @@
         },
         {
           "date": "2024-10-04",
-          "close": 6738.58
+          "close": 6738.59
         },
         {
           "date": "2024-10-07",
@@ -7370,7 +7372,8 @@
           "date": "2026-08-26",
           "close": 8766.5
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "ASIANPAINT.NS": {
       "snapshot": {
@@ -8437,7 +8440,7 @@
         },
         {
           "date": "2025-04-04",
-          "close": 2310.82
+          "close": 2310.83
         },
         {
           "date": "2025-04-07",
@@ -9827,7 +9830,8 @@
           "date": "2026-08-26",
           "close": 2626.5
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "AXISBANK.NS": {
       "snapshot": {
@@ -10306,7 +10310,7 @@
         },
         {
           "date": "2024-09-03",
-          "close": 1189.66
+          "close": 1189.67
         },
         {
           "date": "2024-09-04",
@@ -10822,7 +10826,7 @@
         },
         {
           "date": "2025-03-07",
-          "close": 1035.96
+          "close": 1035.97
         },
         {
           "date": "2025-03-10",
@@ -11018,7 +11022,7 @@
         },
         {
           "date": "2025-05-23",
-          "close": 1208.14
+          "close": 1208.13
         },
         {
           "date": "2025-05-26",
@@ -12284,7 +12288,8 @@
           "date": "2026-08-26",
           "close": 1255.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "BAJAJ-AUTO.NS": {
       "snapshot": {
@@ -12483,7 +12488,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 424.6
+              "value": 421.02
             },
             {
               "key": "forwardEps",
@@ -12795,7 +12800,7 @@
         },
         {
           "date": "2024-09-13",
-          "close": 11288.17
+          "close": 11288.18
         },
         {
           "date": "2024-09-16",
@@ -12819,7 +12824,7 @@
         },
         {
           "date": "2024-09-23",
-          "close": 11866.96
+          "close": 11866.95
         },
         {
           "date": "2024-09-24",
@@ -12827,7 +12832,7 @@
         },
         {
           "date": "2024-09-25",
-          "close": 11923.03
+          "close": 11923.02
         },
         {
           "date": "2024-09-26",
@@ -12915,7 +12920,7 @@
         },
         {
           "date": "2024-10-28",
-          "close": 9628.29
+          "close": 9628.3
         },
         {
           "date": "2024-10-29",
@@ -13027,7 +13032,7 @@
         },
         {
           "date": "2024-12-09",
-          "close": 8730.21
+          "close": 8730.22
         },
         {
           "date": "2024-12-10",
@@ -13051,7 +13056,7 @@
         },
         {
           "date": "2024-12-17",
-          "close": 8554.74
+          "close": 8554.75
         },
         {
           "date": "2024-12-18",
@@ -13119,7 +13124,7 @@
         },
         {
           "date": "2025-01-10",
-          "close": 8428.76
+          "close": 8428.75
         },
         {
           "date": "2025-01-13",
@@ -13199,7 +13204,7 @@
         },
         {
           "date": "2025-02-06",
-          "close": 8507.95
+          "close": 8507.96
         },
         {
           "date": "2025-02-07",
@@ -13223,7 +13228,7 @@
         },
         {
           "date": "2025-02-14",
-          "close": 8181.1
+          "close": 8181.11
         },
         {
           "date": "2025-02-17",
@@ -13475,7 +13480,7 @@
         },
         {
           "date": "2025-05-23",
-          "close": 8406.64
+          "close": 8406.63
         },
         {
           "date": "2025-05-26",
@@ -14741,7 +14746,8 @@
           "date": "2026-08-26",
           "close": 11724.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "BAJFINANCE.NS": {
       "snapshot": {
@@ -14755,7 +14761,7 @@
         "market_cap": 6749690527744,
         "52w_high": 1176.4,
         "52w_low": 787.9,
-        "pe_trailing": 33.03898,
+        "pe_trailing": 33.374348,
         "pe_forward": 21.477715,
         "price_to_book": 5.9179344,
         "debt_to_equity": 314.833,
@@ -14900,7 +14906,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 33.03898
+              "value": 33.374348
             },
             {
               "key": "forwardPE",
@@ -14940,7 +14946,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 32.84
+              "value": 32.51
             },
             {
               "key": "forwardEps",
@@ -17198,7 +17204,8 @@
           "date": "2026-08-26",
           "close": 1085.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "BAJAJFINSV.NS": {
       "snapshot": {
@@ -17905,7 +17912,7 @@
         },
         {
           "date": "2024-11-26",
-          "close": 1592.26
+          "close": 1592.27
         },
         {
           "date": "2024-11-27",
@@ -19655,7 +19662,8 @@
           "date": "2026-08-26",
           "close": 2010.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "BEL.NS": {
       "snapshot": {
@@ -20302,7 +20310,7 @@
         },
         {
           "date": "2024-11-01",
-          "close": 284.8
+          "close": 284.79
         },
         {
           "date": "2024-11-04",
@@ -22112,7 +22120,8 @@
           "date": "2026-08-26",
           "close": 406.9
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "BHARTIARTL.NS": {
       "snapshot": {
@@ -22126,7 +22135,7 @@
         "market_cap": 11866551091200,
         "52w_high": 2174.5,
         "52w_low": 1740.5,
-        "pe_trailing": 39.55292,
+        "pe_trailing": 39.709812,
         "pe_forward": 23.134651,
         "price_to_book": 7.330458,
         "debt_to_equity": 100.415,
@@ -22271,7 +22280,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 39.55292
+              "value": 39.709812
             },
             {
               "key": "forwardPE",
@@ -23279,7 +23288,7 @@
         },
         {
           "date": "2025-05-15",
-          "close": 1828.71
+          "close": 1828.7
         },
         {
           "date": "2025-05-16",
@@ -24569,7 +24578,8 @@
           "date": "2026-08-26",
           "close": 1902.1
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "CIPLA.NS": {
       "snapshot": {
@@ -24583,7 +24593,7 @@
         "market_cap": 1133175635968,
         "52w_high": 1673.0,
         "52w_low": 1165.7,
-        "pe_trailing": 34.013092,
+        "pe_trailing": 33.670185,
         "pe_forward": 22.099476,
         "price_to_book": 3.2907686,
         "debt_to_equity": 1.778,
@@ -24593,7 +24603,7 @@
         "roe_pct": null,
         "revenue_growth_pct": 3.5,
         "earnings_growth_pct": -39.2,
-        "dividend_yield_pct": 0.9,
+        "dividend_yield_pct": 0.91,
         "target_mean_price": 1509.0834,
         "analyst_recommendation": "buy",
         "next_earnings_date": "2026-10-29",
@@ -24728,7 +24738,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 34.013092
+              "value": 33.670185
             },
             {
               "key": "forwardPE",
@@ -24768,7 +24778,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 41.24
+              "value": 41.66
             },
             {
               "key": "forwardEps",
@@ -24903,7 +24913,7 @@
             {
               "key": "dividendYield",
               "label": "Dividend Yield",
-              "value": 0.9
+              "value": 0.91
             },
             {
               "key": "payoutRatio",
@@ -27026,7 +27036,8 @@
           "date": "2026-08-26",
           "close": 1402.7
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "COALINDIA.NS": {
       "snapshot": {
@@ -27040,7 +27051,7 @@
         "market_cap": 2486661021696,
         "52w_high": 491.25,
         "52w_low": 368.65,
-        "pe_trailing": 8.041052,
+        "pe_trailing": 7.983775,
         "pe_forward": 7.123607,
         "price_to_book": 2.0876448,
         "debt_to_equity": 11.629,
@@ -27185,7 +27196,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 8.041052
+              "value": 7.983775
             },
             {
               "key": "forwardPE",
@@ -27225,7 +27236,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 50.18
+              "value": 50.54
             },
             {
               "key": "forwardEps",
@@ -29483,7 +29494,8 @@
           "date": "2026-08-26",
           "close": 403.5
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "DRREDDY.NS": {
       "snapshot": {
@@ -29497,7 +29509,7 @@
         "market_cap": 984606048256,
         "52w_high": 1414.9,
         "52w_low": 1101.0,
-        "pe_trailing": 29.73585,
+        "pe_trailing": 29.74333,
         "pe_forward": 19.901533,
         "price_to_book": 2.567857,
         "debt_to_equity": 18.605,
@@ -29602,12 +29614,12 @@
             {
               "key": "fiftyDayAverage",
               "label": "50-Day Avg",
-              "value": 1236.178
+              "value": 1234.51
             },
             {
               "key": "twoHundredDayAverage",
               "label": "200-Day Avg",
-              "value": 1258.2795
+              "value": 1257.996
             },
             {
               "key": "volume",
@@ -29617,7 +29629,7 @@
             {
               "key": "averageVolume",
               "label": "Avg Volume (10d)",
-              "value": 2124524
+              "value": 2115720
             },
             {
               "key": "beta",
@@ -29642,7 +29654,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 29.73585
+              "value": 29.74333
             },
             {
               "key": "forwardPE",
@@ -31940,7 +31952,8 @@
           "date": "2026-08-26",
           "close": 1182.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "EICHERMOT.NS": {
       "snapshot": {
@@ -31953,7 +31966,7 @@
         "prev_close": 8055.0,
         "market_cap": 2205781852160,
         "52w_high": 8230.0,
-        "52w_low": 5960.0,
+        "52w_low": 6070.0,
         "pe_trailing": 38.218227,
         "pe_forward": 29.579958,
         "price_to_book": 8.781277,
@@ -32049,7 +32062,7 @@
             {
               "key": "fiftyTwoWeekLow",
               "label": "52-Week Low",
-              "value": 5960.0
+              "value": 6070.0
             },
             {
               "key": "fiftyTwoWeekHigh",
@@ -32467,7 +32480,7 @@
         },
         {
           "date": "2024-09-19",
-          "close": 4752.85
+          "close": 4752.86
         },
         {
           "date": "2024-09-20",
@@ -32531,7 +32544,7 @@
         },
         {
           "date": "2024-10-14",
-          "close": 4669.72
+          "close": 4669.71
         },
         {
           "date": "2024-10-15",
@@ -32675,7 +32688,7 @@
         },
         {
           "date": "2024-12-05",
-          "close": 4726.14
+          "close": 4726.13
         },
         {
           "date": "2024-12-06",
@@ -32691,7 +32704,7 @@
         },
         {
           "date": "2024-12-11",
-          "close": 4691.35
+          "close": 4691.36
         },
         {
           "date": "2024-12-12",
@@ -32903,7 +32916,7 @@
         },
         {
           "date": "2025-02-24",
-          "close": 4895.4
+          "close": 4895.39
         },
         {
           "date": "2025-02-25",
@@ -33067,7 +33080,7 @@
         },
         {
           "date": "2025-04-30",
-          "close": 5438.79
+          "close": 5438.78
         },
         {
           "date": "2025-05-02",
@@ -33239,7 +33252,7 @@
         },
         {
           "date": "2025-07-01",
-          "close": 5583.86
+          "close": 5583.87
         },
         {
           "date": "2025-07-02",
@@ -34397,7 +34410,8 @@
           "date": "2026-08-26",
           "close": 8035.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "ETERNAL.NS": {
       "snapshot": {
@@ -36854,7 +36868,8 @@
           "date": "2026-08-26",
           "close": 327.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "GRASIM.NS": {
       "snapshot": {
@@ -36973,12 +36988,12 @@
             {
               "key": "fiftyDayAverage",
               "label": "50-Day Avg",
-              "value": 3180.86
+              "value": 3183.846
             },
             {
               "key": "twoHundredDayAverage",
               "label": "200-Day Avg",
-              "value": 2911.6736
+              "value": 2914.398
             },
             {
               "key": "volume",
@@ -36988,7 +37003,7 @@
             {
               "key": "averageVolume",
               "label": "Avg Volume (10d)",
-              "value": 748277
+              "value": 764210
             },
             {
               "key": "beta",
@@ -39311,7 +39326,8 @@
           "date": "2026-08-26",
           "close": 3299.9
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "HCLTECH.NS": {
       "snapshot": {
@@ -39978,7 +39994,7 @@
         },
         {
           "date": "2024-11-08",
-          "close": 1707.01
+          "close": 1707.02
         },
         {
           "date": "2024-11-11",
@@ -41768,7 +41784,8 @@
           "date": "2026-08-26",
           "close": 1298.5
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "HDFCBANK.NS": {
       "snapshot": {
@@ -41792,7 +41809,7 @@
         "roe_pct": 13.84,
         "revenue_growth_pct": 16.6,
         "earnings_growth_pct": 18.1,
-        "dividend_yield_pct": 1.78,
+        "dividend_yield_pct": 1.79,
         "target_mean_price": 1021.1951,
         "analyst_recommendation": "strong_buy",
         "next_earnings_date": "2026-10-17",
@@ -41967,7 +41984,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 45.69
+              "value": 45.76
             },
             {
               "key": "forwardEps",
@@ -42102,7 +42119,7 @@
             {
               "key": "dividendYield",
               "label": "Dividend Yield",
-              "value": 1.78
+              "value": 1.79
             },
             {
               "key": "payoutRatio",
@@ -44225,7 +44242,8 @@
           "date": "2026-08-26",
           "close": 727.2
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "HDFCLIFE.NS": {
       "snapshot": {
@@ -44359,7 +44377,7 @@
             {
               "key": "averageVolume",
               "label": "Avg Volume (10d)",
-              "value": 3402544
+              "value": 3420968
             },
             {
               "key": "beta",
@@ -46682,7 +46700,8 @@
           "date": "2026-08-26",
           "close": 553.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "HINDALCO.NS": {
       "snapshot": {
@@ -49139,7 +49158,8 @@
           "date": "2026-08-26",
           "close": 1053.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "HINDUNILVR.NS": {
       "snapshot": {
@@ -49273,7 +49293,7 @@
             {
               "key": "averageVolume",
               "label": "Avg Volume (10d)",
-              "value": 1921162
+              "value": 1915106
             },
             {
               "key": "beta",
@@ -50014,7 +50034,7 @@
         },
         {
           "date": "2025-01-24",
-          "close": 2301.77
+          "close": 2301.76
         },
         {
           "date": "2025-01-27",
@@ -50246,7 +50266,7 @@
         },
         {
           "date": "2025-04-23",
-          "close": 2355.91
+          "close": 2355.9
         },
         {
           "date": "2025-04-24",
@@ -50394,7 +50414,7 @@
         },
         {
           "date": "2025-06-16",
-          "close": 2262.2
+          "close": 2262.21
         },
         {
           "date": "2025-06-17",
@@ -51596,7 +51616,8 @@
           "date": "2026-08-26",
           "close": 2021.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "ICICIBANK.NS": {
       "snapshot": {
@@ -54053,7 +54074,8 @@
           "date": "2026-08-26",
           "close": 1430.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "ITC.NS": {
       "snapshot": {
@@ -54067,7 +54089,7 @@
         "market_cap": 3386173554688,
         "52w_high": 427.0,
         "52w_low": 265.0,
-        "pe_trailing": 16.964846,
+        "pe_trailing": 17.050472,
         "pe_forward": 16.137644,
         "price_to_book": 4.6700306,
         "debt_to_equity": 3.293,
@@ -54212,7 +54234,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 16.964846
+              "value": 17.050472
             },
             {
               "key": "forwardPE",
@@ -54252,7 +54274,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 15.93
+              "value": 15.85
             },
             {
               "key": "forwardEps",
@@ -56480,7 +56502,8 @@
           "date": "2026-08-26",
           "close": 270.25
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "INFY.NS": {
       "snapshot": {
@@ -58937,7 +58960,8 @@
           "date": "2026-08-26",
           "close": 1120.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "INDIGO.NS": {
       "snapshot": {
@@ -61390,7 +61414,8 @@
           "date": "2026-08-26",
           "close": 5250.5
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "JSWSTEEL.NS": {
       "snapshot": {
@@ -63847,7 +63872,8 @@
           "date": "2026-08-26",
           "close": 1341.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "JIOFIN.NS": {
       "snapshot": {
@@ -63861,7 +63887,7 @@
         "market_cap": 1591357079552,
         "52w_high": 321.6,
         "52w_low": 223.3,
-        "pe_trailing": 74.84472,
+        "pe_trailing": 75.07788,
         "pe_forward": 54.035873,
         "price_to_book": 1.1398247,
         "debt_to_equity": 16.286,
@@ -64006,7 +64032,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 74.84472
+              "value": 75.07788
             },
             {
               "key": "forwardPE",
@@ -64046,7 +64072,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 3.23
+              "value": 3.21
             },
             {
               "key": "forwardEps",
@@ -66304,7 +66330,8 @@
           "date": "2026-08-26",
           "close": 241.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "KOTAKBANK.NS": {
       "snapshot": {
@@ -68761,7 +68788,8 @@
           "date": "2026-08-26",
           "close": 416.7
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "LT.NS": {
       "snapshot": {
@@ -68775,7 +68803,7 @@
         "market_cap": 5555885178880,
         "52w_high": 4440.0,
         "52w_low": 3288.1,
-        "pe_trailing": 33.232655,
+        "pe_trailing": 33.458447,
         "pe_forward": 22.403433,
         "price_to_book": 5.08276,
         "debt_to_equity": 97.64,
@@ -68920,7 +68948,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 33.232655
+              "value": 33.458447
             },
             {
               "key": "forwardPE",
@@ -69232,7 +69260,7 @@
         },
         {
           "date": "2024-08-30",
-          "close": 3634.91
+          "close": 3634.92
         },
         {
           "date": "2024-09-02",
@@ -69404,7 +69432,7 @@
         },
         {
           "date": "2024-10-31",
-          "close": 3554.12
+          "close": 3554.11
         },
         {
           "date": "2024-11-01",
@@ -71218,7 +71246,8 @@
           "date": "2026-08-26",
           "close": 4038.1
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "M&M.NS": {
       "snapshot": {
@@ -72441,7 +72470,7 @@
         },
         {
           "date": "2025-06-04",
-          "close": 2997.58
+          "close": 2997.59
         },
         {
           "date": "2025-06-05",
@@ -72509,7 +72538,7 @@
         },
         {
           "date": "2025-06-27",
-          "close": 3144.74
+          "close": 3144.75
         },
         {
           "date": "2025-06-30",
@@ -73675,7 +73704,8 @@
           "date": "2026-08-26",
           "close": 3398.2
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "MARUTI.NS": {
       "snapshot": {
@@ -73699,7 +73729,7 @@
         "roe_pct": null,
         "revenue_growth_pct": 35.9,
         "earnings_growth_pct": -9.1,
-        "dividend_yield_pct": 1.03,
+        "dividend_yield_pct": 1.02,
         "target_mean_price": 15925.462,
         "analyst_recommendation": "buy",
         "next_earnings_date": "2026-10-29",
@@ -74009,7 +74039,7 @@
             {
               "key": "dividendYield",
               "label": "Dividend Yield",
-              "value": 1.03
+              "value": 1.02
             },
             {
               "key": "payoutRatio",
@@ -74166,7 +74196,7 @@
         },
         {
           "date": "2024-09-06",
-          "close": 11935.79
+          "close": 11935.8
         },
         {
           "date": "2024-09-09",
@@ -74206,7 +74236,7 @@
         },
         {
           "date": "2024-09-20",
-          "close": 12355.35
+          "close": 12355.34
         },
         {
           "date": "2024-09-23",
@@ -74242,7 +74272,7 @@
         },
         {
           "date": "2024-10-04",
-          "close": 12346.78
+          "close": 12346.77
         },
         {
           "date": "2024-10-07",
@@ -74306,7 +74336,7 @@
         },
         {
           "date": "2024-10-28",
-          "close": 11247.33
+          "close": 11247.34
         },
         {
           "date": "2024-10-29",
@@ -74386,7 +74416,7 @@
         },
         {
           "date": "2024-11-27",
-          "close": 10831.16
+          "close": 10831.17
         },
         {
           "date": "2024-11-28",
@@ -74590,7 +74620,7 @@
         },
         {
           "date": "2025-02-06",
-          "close": 12805.4
+          "close": 12805.41
         },
         {
           "date": "2025-02-07",
@@ -74838,7 +74868,7 @@
         },
         {
           "date": "2025-05-14",
-          "close": 12409.71
+          "close": 12409.7
         },
         {
           "date": "2025-05-15",
@@ -76132,7 +76162,8 @@
           "date": "2026-08-26",
           "close": 13520.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "MAXHEALTH.NS": {
       "snapshot": {
@@ -78589,7 +78620,8 @@
           "date": "2026-08-26",
           "close": 1005.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "NTPC.NS": {
       "snapshot": {
@@ -81046,7 +81078,8 @@
           "date": "2026-08-26",
           "close": 334.6
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "NESTLEIND.NS": {
       "snapshot": {
@@ -81070,7 +81103,7 @@
         "roe_pct": null,
         "revenue_growth_pct": 25.2,
         "earnings_growth_pct": 48.1,
-        "dividend_yield_pct": 0.82,
+        "dividend_yield_pct": 0.81,
         "target_mean_price": 1592.1111,
         "analyst_recommendation": "buy",
         "next_earnings_date": "2026-10-15",
@@ -81380,7 +81413,7 @@
             {
               "key": "dividendYield",
               "label": "Dividend Yield",
-              "value": 0.82
+              "value": 0.81
             },
             {
               "key": "payoutRatio",
@@ -83503,7 +83536,8 @@
           "date": "2026-08-26",
           "close": 1451.5
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "ONGC.NS": {
       "snapshot": {
@@ -83517,7 +83551,7 @@
         "market_cap": 2921266675712,
         "52w_high": 307.5,
         "52w_low": 227.65,
-        "pe_trailing": 6.783816,
+        "pe_trailing": 6.7093325,
         "pe_forward": 5.589361,
         "price_to_book": 0.78582066,
         "debt_to_equity": 42.548,
@@ -83527,7 +83561,7 @@
         "roe_pct": null,
         "revenue_growth_pct": 25.7,
         "earnings_growth_pct": 21.4,
-        "dividend_yield_pct": 6.13,
+        "dividend_yield_pct": 6.2,
         "target_mean_price": 294.7,
         "analyst_recommendation": "buy",
         "next_earnings_date": "2026-08-04",
@@ -83662,7 +83696,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 6.783816
+              "value": 6.7093325
             },
             {
               "key": "forwardPE",
@@ -83702,7 +83736,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 34.23
+              "value": 34.61
             },
             {
               "key": "forwardEps",
@@ -83837,7 +83871,7 @@
             {
               "key": "dividendYield",
               "label": "Dividend Yield",
-              "value": 6.13
+              "value": 6.2
             },
             {
               "key": "payoutRatio",
@@ -83919,6 +83953,12 @@
       ],
       "news": [
         {
+          "title": "India\u2019s ONGC Targets Tenfold Oil Output Boost in Venezuela",
+          "publisher": "Oilprice.com",
+          "published": "2026-08-26T14:30:00Z",
+          "url": "https://finance.yahoo.com/energy/articles/india-ongc-targets-tenfold-oil-143000296.html"
+        },
+        {
           "title": "Transocean (RIG) Has Fresh Attention, But What Is The Market Weighing?",
           "publisher": "Simply Wall St.",
           "published": "2026-08-22T06:09:27Z",
@@ -83947,12 +83987,6 @@
           "publisher": "Offshore Technology",
           "published": "2026-08-21T10:59:37Z",
           "url": "https://www.offshore-technology.com/news/ongc-transocean-loa-dhirubhai-drillship-india/"
-        },
-        {
-          "title": "RIG Stock Edges Higher Overnight: Transocean Announces $300M Contract For Ultra-Deepwater Drillship",
-          "publisher": "Stocktwits",
-          "published": "2026-08-21T06:51:13Z",
-          "url": "https://stocktwits.com/news-articles/markets/equity/rig-stock-edges-higher-overnight-transocean-announces-300-m-contract-for-ultra-deepwater-drillship/cZYBNAtRJNa"
         }
       ],
       "history": [
@@ -85960,7 +85994,8 @@
           "date": "2026-08-26",
           "close": 232.21
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "POWERGRID.NS": {
       "snapshot": {
@@ -85974,7 +86009,7 @@
         "market_cap": 2466520236032,
         "52w_high": 324.95,
         "52w_low": 250.0,
-        "pe_trailing": 13.012759,
+        "pe_trailing": 12.980911,
         "pe_forward": 13.574036,
         "price_to_book": 2.4543965,
         "debt_to_equity": 150.813,
@@ -86119,7 +86154,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 13.012759
+              "value": 12.980911
             },
             {
               "key": "forwardPE",
@@ -86159,7 +86194,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 20.38
+              "value": 20.43
             },
             {
               "key": "forwardEps",
@@ -86595,7 +86630,7 @@
         },
         {
           "date": "2024-10-29",
-          "close": 302.47
+          "close": 302.48
         },
         {
           "date": "2024-10-30",
@@ -88417,2464 +88452,8 @@
           "date": "2026-08-26",
           "close": 265.2
         }
-      ]
-    },
-    "RELIANCE.NS": {
-      "snapshot": {
-        "symbol": "RELIANCE.NS",
-        "name": "Reliance Industries Limited",
-        "sector": "Energy",
-        "industry": "Oil & Gas Refining & Marketing",
-        "currency": "INR",
-        "price": 1298.0,
-        "prev_close": 1317.0,
-        "market_cap": 17565149560832,
-        "52w_high": 1611.8,
-        "52w_low": 1249.8,
-        "pe_trailing": 23.353724,
-        "pe_forward": 18.122704,
-        "price_to_book": 1.9429829,
-        "debt_to_equity": 36.653,
-        "current_ratio": null,
-        "quick_ratio": null,
-        "profit_margin_pct": 6.61,
-        "roe_pct": null,
-        "revenue_growth_pct": 29.7,
-        "earnings_growth_pct": -22.4,
-        "dividend_yield_pct": 0.46,
-        "target_mean_price": 1673.0,
-        "analyst_recommendation": "strong_buy",
-        "next_earnings_date": "2026-10-16",
-        "logo_url": "https://logo.clearbit.com/ril.com",
-        "orig_currency": "INR",
-        "fx_rate": 1.0
-      },
-      "raw": [
-        {
-          "group": "Company",
-          "fields": [
-            {
-              "key": "longName",
-              "label": "Name",
-              "value": "Reliance Industries Limited"
-            },
-            {
-              "key": "sector",
-              "label": "Sector",
-              "value": "Energy"
-            },
-            {
-              "key": "industry",
-              "label": "Industry",
-              "value": "Oil & Gas Refining & Marketing"
-            },
-            {
-              "key": "country",
-              "label": "Country",
-              "value": "India"
-            },
-            {
-              "key": "exchange",
-              "label": "Exchange",
-              "value": "NSI"
-            },
-            {
-              "key": "currency",
-              "label": "Currency",
-              "value": "INR"
-            },
-            {
-              "key": "fullTimeEmployees",
-              "label": "Employees",
-              "value": 404501
-            },
-            {
-              "key": "longBusinessSummary",
-              "label": "Business Summary",
-              "value": "Reliance Industries Limited engages in hydrocarbon exploration and production, petroleum refining and marketing, petrochemicals, advanced materials and composites, renewable, financial services, retail, and digital services worldwide. It operates through the Oil to Chemicals, Oil and Gas, Retail, Digital Services, and Others segments. The company is involved in refining and marketing products, including liquefied petroleum gas, propylene, naphtha, gasoline, jet/aviation turbine fuel, kerosine oil, diesel, sulfur, and petroleum coke. It also provides polymers comprising high-density and low-density polyethylene (PE), linear low-density PE, homopolymer, random and impact copolymer, and polyvinyl chloride; fiber intermediates that include purified terephthalic acid, and ethylene glycols and oxide; aromatics, such as paraxylene, ortho xylene, benzene, and linear alkyl benzene and paraffin; and textiles that consist of fabrics, apparel, and auto furnishings. In addition, the company offers elastomers, such as polybutadiene rubber, styrene butadiene rubber, and butyl rubber; fiber and yarn polyesters; and bioenergy solutions, including compressed biogas, and pellets and briquettes. Further, it engages in oil and gas exploration and production activities; operation of various stores comprising supermarkets, hypermarket, wholesale cash and carry, specialty, and online stores; operation of media and entertainment platforms, and Network18 and television channels; and publishing of magazines. Additionally, the company provides highway hospitality and fleet management services, as well as digital services, such as connectivity, fiber, mobile devices, apps, business, and other digital solutions. Reliance Industries Limited was founded in 1957 and is based in Mumbai, India."
-            }
-          ]
-        },
-        {
-          "group": "Price & Trading",
-          "fields": [
-            {
-              "key": "currentPrice",
-              "label": "Current Price",
-              "value": 1298.0
-            },
-            {
-              "key": "previousClose",
-              "label": "Previous Close",
-              "value": 1317.0
-            },
-            {
-              "key": "open",
-              "label": "Open",
-              "value": 1310.0
-            },
-            {
-              "key": "dayLow",
-              "label": "Day Low",
-              "value": 1298.0
-            },
-            {
-              "key": "dayHigh",
-              "label": "Day High",
-              "value": 1315.6
-            },
-            {
-              "key": "fiftyTwoWeekLow",
-              "label": "52-Week Low",
-              "value": 1249.8
-            },
-            {
-              "key": "fiftyTwoWeekHigh",
-              "label": "52-Week High",
-              "value": 1611.8
-            },
-            {
-              "key": "fiftyDayAverage",
-              "label": "50-Day Avg",
-              "value": 1306.414
-            },
-            {
-              "key": "twoHundredDayAverage",
-              "label": "200-Day Avg",
-              "value": 1392.7445
-            },
-            {
-              "key": "volume",
-              "label": "Volume",
-              "value": 5735384
-            },
-            {
-              "key": "averageVolume",
-              "label": "Avg Volume (10d)",
-              "value": 13543620
-            },
-            {
-              "key": "beta",
-              "label": "Beta",
-              "value": 0.157
-            }
-          ]
-        },
-        {
-          "group": "Valuation",
-          "fields": [
-            {
-              "key": "marketCap",
-              "label": "Market Cap",
-              "value": 17565149560832
-            },
-            {
-              "key": "enterpriseValue",
-              "label": "Enterprise Value",
-              "value": 21039157346304
-            },
-            {
-              "key": "trailingPE",
-              "label": "P/E (Trailing)",
-              "value": 23.353724
-            },
-            {
-              "key": "forwardPE",
-              "label": "P/E (Forward)",
-              "value": 18.122704
-            },
-            {
-              "key": "pegRatio",
-              "label": "PEG Ratio",
-              "value": 0.82
-            },
-            {
-              "key": "priceToBook",
-              "label": "Price/Book",
-              "value": 1.9429829
-            },
-            {
-              "key": "priceToSalesTrailing12Months",
-              "label": "Price/Sales (TTM)",
-              "value": 1.5549816
-            },
-            {
-              "key": "enterpriseToRevenue",
-              "label": "EV/Revenue",
-              "value": 1.863
-            },
-            {
-              "key": "enterpriseToEbitda",
-              "label": "EV/EBITDA",
-              "value": 11.647
-            }
-          ]
-        },
-        {
-          "group": "Per-Share Data",
-          "fields": [
-            {
-              "key": "trailingEps",
-              "label": "EPS (Trailing)",
-              "value": 55.58
-            },
-            {
-              "key": "forwardEps",
-              "label": "EPS (Forward)",
-              "value": 71.62287
-            },
-            {
-              "key": "bookValue",
-              "label": "Book Value/Share",
-              "value": 668.045
-            },
-            {
-              "key": "revenuePerShare",
-              "label": "Revenue/Share",
-              "value": 834.734
-            }
-          ]
-        },
-        {
-          "group": "Profitability",
-          "fields": [
-            {
-              "key": "grossMargins",
-              "label": "Gross Margin",
-              "value": 33.84
-            },
-            {
-              "key": "operatingMargins",
-              "label": "Operating Margin",
-              "value": 12.33
-            },
-            {
-              "key": "profitMargins",
-              "label": "Net Margin",
-              "value": 6.61
-            },
-            {
-              "key": "ebitdaMargins",
-              "label": "EBITDA Margin",
-              "value": 15.99
-            },
-            {
-              "key": "returnOnAssets",
-              "label": "Return on Assets",
-              "value": null
-            },
-            {
-              "key": "returnOnEquity",
-              "label": "Return on Equity",
-              "value": null
-            }
-          ]
-        },
-        {
-          "group": "Growth",
-          "fields": [
-            {
-              "key": "revenueGrowth",
-              "label": "Revenue Growth (YoY)",
-              "value": 29.7
-            },
-            {
-              "key": "earningsGrowth",
-              "label": "Earnings Growth (YoY)",
-              "value": -22.4
-            },
-            {
-              "key": "earningsQuarterlyGrowth",
-              "label": "Earnings Growth (QoQ)",
-              "value": -22.4
-            }
-          ]
-        },
-        {
-          "group": "Balance Sheet & Cash Flow",
-          "fields": [
-            {
-              "key": "totalCash",
-              "label": "Total Cash",
-              "value": 2581470117888
-            },
-            {
-              "key": "totalDebt",
-              "label": "Total Debt",
-              "value": 3979999969280
-            },
-            {
-              "key": "debtToEquity",
-              "label": "Debt/Equity",
-              "value": 36.653
-            },
-            {
-              "key": "currentRatio",
-              "label": "Current Ratio",
-              "value": null
-            },
-            {
-              "key": "quickRatio",
-              "label": "Quick Ratio",
-              "value": null
-            },
-            {
-              "key": "totalRevenue",
-              "label": "Total Revenue",
-              "value": 11296050249728
-            },
-            {
-              "key": "ebitda",
-              "label": "EBITDA",
-              "value": 1806359986176
-            },
-            {
-              "key": "operatingCashflow",
-              "label": "Operating Cash Flow",
-              "value": null
-            },
-            {
-              "key": "freeCashflow",
-              "label": "Free Cash Flow",
-              "value": null
-            }
-          ]
-        },
-        {
-          "group": "Dividend",
-          "fields": [
-            {
-              "key": "dividendRate",
-              "label": "Dividend Rate",
-              "value": 6.0
-            },
-            {
-              "key": "dividendYield",
-              "label": "Dividend Yield",
-              "value": 0.46
-            },
-            {
-              "key": "payoutRatio",
-              "label": "Payout Ratio",
-              "value": 20.83
-            },
-            {
-              "key": "exDividendDate",
-              "label": "Ex-Dividend Date",
-              "value": "2026-06-05"
-            },
-            {
-              "key": "fiveYearAvgDividendYield",
-              "label": "5Y Avg Div Yield",
-              "value": 0.44
-            }
-          ]
-        },
-        {
-          "group": "Ownership & Shares",
-          "fields": [
-            {
-              "key": "sharesOutstanding",
-              "label": "Shares Outstanding",
-              "value": 13532472634
-            },
-            {
-              "key": "floatShares",
-              "label": "Float Shares",
-              "value": 6638895750
-            },
-            {
-              "key": "heldPercentInsiders",
-              "label": "Held by Insiders",
-              "value": 51.8
-            },
-            {
-              "key": "heldPercentInstitutions",
-              "label": "Held by Institutions",
-              "value": 28.07
-            },
-            {
-              "key": "sharesShort",
-              "label": "Shares Short",
-              "value": null
-            }
-          ]
-        },
-        {
-          "group": "Analyst Coverage",
-          "fields": [
-            {
-              "key": "numberOfAnalystOpinions",
-              "label": "# Analysts",
-              "value": 28
-            },
-            {
-              "key": "recommendationKey",
-              "label": "Consensus Rating",
-              "value": "strong_buy"
-            },
-            {
-              "key": "targetLowPrice",
-              "label": "Target Low",
-              "value": 1350.0
-            },
-            {
-              "key": "targetMeanPrice",
-              "label": "Target Mean",
-              "value": 1673.0
-            },
-            {
-              "key": "targetHighPrice",
-              "label": "Target High",
-              "value": 1890.0
-            }
-          ]
-        }
       ],
-      "news": [
-        {
-          "title": "Rolls-Royce Stock Hits First New High In 14 Years. Firm Announces Engine Project.",
-          "publisher": "Investor's Business Daily",
-          "published": "2026-08-17T18:27:44Z",
-          "url": "https://www.investors.com/news/rolls-royce-jet-engines-india/?src=A00220&yptr=yahoo"
-        },
-        {
-          "title": "ELAM: Let\u2019s make deal \u2013 not",
-          "publisher": "Odessa American, Texas",
-          "published": "2026-08-08T00:01:00Z",
-          "url": "https://www.oaoa.com/?p=368558"
-        },
-        {
-          "title": "Reliance's luxury unit brings Kim Kardashian's SKIMS to India",
-          "publisher": "Reuters",
-          "published": "2026-08-05T12:13:21Z",
-          "url": "https://sg.finance.yahoo.com/news/reliances-luxury-unit-brings-kim-121321384.html"
-        },
-        {
-          "title": "India's Reliance ramps up diesel exports to Europe, Brazil in July, sources say",
-          "publisher": "Reuters",
-          "published": "2026-07-31T01:54:53Z",
-          "url": "https://sg.finance.yahoo.com/news/indias-reliance-ramps-diesel-exports-100646238.html"
-        },
-        {
-          "title": "Reliance Industries Ltd (WBO:RLI) Q1 2027 Earnings Call Highlights: Strong Revenue Growth Amid ...",
-          "publisher": "GuruFocus.com",
-          "published": "2026-07-25T01:00:25Z",
-          "url": "https://finance.yahoo.com/markets/stocks/articles/reliance-industries-ltd-wbo-rli-010025257.html"
-        },
-        {
-          "title": "Global Refiners Are Cutting Out Oil Traders To Buy Venezuelan Crude Directly",
-          "publisher": "Oilprice.com",
-          "published": "2026-07-23T00:00:00Z",
-          "url": "https://finance.yahoo.com/energy/articles/global-refiners-cutting-oil-traders-000000289.html"
-        }
-      ],
-      "history": [
-        {
-          "date": "2024-08-26",
-          "close": 1499.65
-        },
-        {
-          "date": "2024-08-27",
-          "close": 1487.6
-        },
-        {
-          "date": "2024-08-28",
-          "close": 1485.47
-        },
-        {
-          "date": "2024-08-29",
-          "close": 1507.9
-        },
-        {
-          "date": "2024-08-30",
-          "close": 1496.7
-        },
-        {
-          "date": "2024-09-02",
-          "close": 1503.27
-        },
-        {
-          "date": "2024-09-03",
-          "close": 1496.2
-        },
-        {
-          "date": "2024-09-04",
-          "close": 1501.58
-        },
-        {
-          "date": "2024-09-05",
-          "close": 1480.19
-        },
-        {
-          "date": "2024-09-06",
-          "close": 1452.28
-        },
-        {
-          "date": "2024-09-09",
-          "close": 1449.93
-        },
-        {
-          "date": "2024-09-10",
-          "close": 1449.01
-        },
-        {
-          "date": "2024-09-11",
-          "close": 1439.07
-        },
-        {
-          "date": "2024-09-12",
-          "close": 1467.13
-        },
-        {
-          "date": "2024-09-13",
-          "close": 1460.02
-        },
-        {
-          "date": "2024-09-16",
-          "close": 1458.75
-        },
-        {
-          "date": "2024-09-17",
-          "close": 1459.69
-        },
-        {
-          "date": "2024-09-18",
-          "close": 1450.92
-        },
-        {
-          "date": "2024-09-19",
-          "close": 1457.09
-        },
-        {
-          "date": "2024-09-20",
-          "close": 1473.2
-        },
-        {
-          "date": "2024-09-23",
-          "close": 1480.59
-        },
-        {
-          "date": "2024-09-24",
-          "close": 1476.62
-        },
-        {
-          "date": "2024-09-25",
-          "close": 1481.16
-        },
-        {
-          "date": "2024-09-26",
-          "close": 1485.12
-        },
-        {
-          "date": "2024-09-27",
-          "close": 1513.11
-        },
-        {
-          "date": "2024-09-30",
-          "close": 1463.93
-        },
-        {
-          "date": "2024-10-01",
-          "close": 1452.28
-        },
-        {
-          "date": "2024-10-03",
-          "close": 1394.93
-        },
-        {
-          "date": "2024-10-04",
-          "close": 1374.65
-        },
-        {
-          "date": "2024-10-07",
-          "close": 1358.99
-        },
-        {
-          "date": "2024-10-08",
-          "close": 1385.39
-        },
-        {
-          "date": "2024-10-09",
-          "close": 1362.83
-        },
-        {
-          "date": "2024-10-10",
-          "close": 1359.31
-        },
-        {
-          "date": "2024-10-11",
-          "close": 1360.35
-        },
-        {
-          "date": "2024-10-14",
-          "close": 1360.77
-        },
-        {
-          "date": "2024-10-15",
-          "close": 1332.52
-        },
-        {
-          "date": "2024-10-16",
-          "close": 1342.48
-        },
-        {
-          "date": "2024-10-17",
-          "close": 1344.81
-        },
-        {
-          "date": "2024-10-18",
-          "close": 1347.66
-        },
-        {
-          "date": "2024-10-21",
-          "close": 1357.48
-        },
-        {
-          "date": "2024-10-22",
-          "close": 1331.85
-        },
-        {
-          "date": "2024-10-23",
-          "close": 1327.06
-        },
-        {
-          "date": "2024-10-24",
-          "close": 1328.33
-        },
-        {
-          "date": "2024-10-25",
-          "close": 1316.48
-        },
-        {
-          "date": "2024-10-28",
-          "close": 1322.93
-        },
-        {
-          "date": "2024-10-29",
-          "close": 1328.53
-        },
-        {
-          "date": "2024-10-30",
-          "close": 1332.39
-        },
-        {
-          "date": "2024-10-31",
-          "close": 1320.65
-        },
-        {
-          "date": "2024-11-01",
-          "close": 1327.19
-        },
-        {
-          "date": "2024-11-04",
-          "close": 1291.0
-        },
-        {
-          "date": "2024-11-05",
-          "close": 1294.12
-        },
-        {
-          "date": "2024-11-06",
-          "close": 1314.0
-        },
-        {
-          "date": "2024-11-07",
-          "close": 1294.47
-        },
-        {
-          "date": "2024-11-08",
-          "close": 1272.76
-        },
-        {
-          "date": "2024-11-11",
-          "close": 1261.8
-        },
-        {
-          "date": "2024-11-12",
-          "close": 1263.34
-        },
-        {
-          "date": "2024-11-13",
-          "close": 1241.33
-        },
-        {
-          "date": "2024-11-14",
-          "close": 1256.75
-        },
-        {
-          "date": "2024-11-18",
-          "close": 1249.96
-        },
-        {
-          "date": "2024-11-19",
-          "close": 1231.02
-        },
-        {
-          "date": "2024-11-21",
-          "close": 1212.53
-        },
-        {
-          "date": "2024-11-22",
-          "close": 1254.57
-        },
-        {
-          "date": "2024-11-25",
-          "close": 1275.98
-        },
-        {
-          "date": "2024-11-26",
-          "close": 1284.61
-        },
-        {
-          "date": "2024-11-27",
-          "close": 1282.13
-        },
-        {
-          "date": "2024-11-28",
-          "close": 1259.92
-        },
-        {
-          "date": "2024-11-29",
-          "close": 1281.14
-        },
-        {
-          "date": "2024-12-02",
-          "close": 1297.94
-        },
-        {
-          "date": "2024-12-03",
-          "close": 1311.97
-        },
-        {
-          "date": "2024-12-04",
-          "close": 1297.74
-        },
-        {
-          "date": "2024-12-05",
-          "close": 1310.73
-        },
-        {
-          "date": "2024-12-06",
-          "close": 1300.32
-        },
-        {
-          "date": "2024-12-09",
-          "close": 1284.06
-        },
-        {
-          "date": "2024-12-10",
-          "close": 1273.85
-        },
-        {
-          "date": "2024-12-11",
-          "close": 1267.26
-        },
-        {
-          "date": "2024-12-12",
-          "close": 1252.09
-        },
-        {
-          "date": "2024-12-13",
-          "close": 1261.95
-        },
-        {
-          "date": "2024-12-16",
-          "close": 1257.44
-        },
-        {
-          "date": "2024-12-17",
-          "close": 1234.64
-        },
-        {
-          "date": "2024-12-18",
-          "close": 1242.52
-        },
-        {
-          "date": "2024-12-19",
-          "close": 1219.91
-        },
-        {
-          "date": "2024-12-20",
-          "close": 1194.98
-        },
-        {
-          "date": "2024-12-23",
-          "close": 1211.83
-        },
-        {
-          "date": "2024-12-24",
-          "close": 1212.28
-        },
-        {
-          "date": "2024-12-26",
-          "close": 1206.13
-        },
-        {
-          "date": "2024-12-27",
-          "close": 1210.6
-        },
-        {
-          "date": "2024-12-30",
-          "close": 1200.33
-        },
-        {
-          "date": "2024-12-31",
-          "close": 1205.04
-        },
-        {
-          "date": "2025-01-01",
-          "close": 1210.79
-        },
-        {
-          "date": "2025-01-02",
-          "close": 1231.17
-        },
-        {
-          "date": "2025-01-03",
-          "close": 1240.44
-        },
-        {
-          "date": "2025-01-06",
-          "close": 1207.57
-        },
-        {
-          "date": "2025-01-07",
-          "close": 1230.23
-        },
-        {
-          "date": "2025-01-08",
-          "close": 1254.66
-        },
-        {
-          "date": "2025-01-09",
-          "close": 1244.01
-        },
-        {
-          "date": "2025-01-10",
-          "close": 1231.27
-        },
-        {
-          "date": "2025-01-13",
-          "close": 1229.23
-        },
-        {
-          "date": "2025-01-14",
-          "close": 1228.14
-        },
-        {
-          "date": "2025-01-15",
-          "close": 1241.48
-        },
-        {
-          "date": "2025-01-16",
-          "close": 1255.61
-        },
-        {
-          "date": "2025-01-17",
-          "close": 1291.2
-        },
-        {
-          "date": "2025-01-20",
-          "close": 1294.27
-        },
-        {
-          "date": "2025-01-21",
-          "close": 1262.79
-        },
-        {
-          "date": "2025-01-22",
-          "close": 1266.17
-        },
-        {
-          "date": "2025-01-23",
-          "close": 1252.83
-        },
-        {
-          "date": "2025-01-24",
-          "close": 1235.63
-        },
-        {
-          "date": "2025-01-27",
-          "close": 1218.82
-        },
-        {
-          "date": "2025-01-28",
-          "close": 1223.83
-        },
-        {
-          "date": "2025-01-29",
-          "close": 1224.92
-        },
-        {
-          "date": "2025-01-30",
-          "close": 1242.32
-        },
-        {
-          "date": "2025-01-31",
-          "close": 1254.27
-        },
-        {
-          "date": "2025-02-01",
-          "close": 1253.77
-        },
-        {
-          "date": "2025-02-03",
-          "close": 1235.23
-        },
-        {
-          "date": "2025-02-04",
-          "close": 1274.2
-        },
-        {
-          "date": "2025-02-05",
-          "close": 1267.26
-        },
-        {
-          "date": "2025-02-06",
-          "close": 1270.58
-        },
-        {
-          "date": "2025-02-07",
-          "close": 1255.85
-        },
-        {
-          "date": "2025-02-10",
-          "close": 1242.92
-        },
-        {
-          "date": "2025-02-11",
-          "close": 1224.28
-        },
-        {
-          "date": "2025-02-12",
-          "close": 1206.13
-        },
-        {
-          "date": "2025-02-13",
-          "close": 1205.69
-        },
-        {
-          "date": "2025-02-14",
-          "close": 1206.83
-        },
-        {
-          "date": "2025-02-17",
-          "close": 1214.41
-        },
-        {
-          "date": "2025-02-18",
-          "close": 1214.91
-        },
-        {
-          "date": "2025-02-19",
-          "close": 1216.94
-        },
-        {
-          "date": "2025-02-20",
-          "close": 1222.44
-        },
-        {
-          "date": "2025-02-21",
-          "close": 1217.63
-        },
-        {
-          "date": "2025-02-24",
-          "close": 1204.15
-        },
-        {
-          "date": "2025-02-25",
-          "close": 1193.69
-        },
-        {
-          "date": "2025-02-27",
-          "close": 1196.76
-        },
-        {
-          "date": "2025-02-28",
-          "close": 1189.82
-        },
-        {
-          "date": "2025-03-03",
-          "close": 1161.22
-        },
-        {
-          "date": "2025-03-04",
-          "close": 1151.95
-        },
-        {
-          "date": "2025-03-05",
-          "close": 1165.53
-        },
-        {
-          "date": "2025-03-06",
-          "close": 1199.24
-        },
-        {
-          "date": "2025-03-07",
-          "close": 1239.1
-        },
-        {
-          "date": "2025-03-10",
-          "close": 1227.8
-        },
-        {
-          "date": "2025-03-11",
-          "close": 1236.62
-        },
-        {
-          "date": "2025-03-12",
-          "close": 1246.29
-        },
-        {
-          "date": "2025-03-13",
-          "close": 1237.22
-        },
-        {
-          "date": "2025-03-17",
-          "close": 1228.24
-        },
-        {
-          "date": "2025-03-18",
-          "close": 1228.24
-        },
-        {
-          "date": "2025-03-19",
-          "close": 1236.47
-        },
-        {
-          "date": "2025-03-20",
-          "close": 1258.28
-        },
-        {
-          "date": "2025-03-21",
-          "close": 1265.42
-        },
-        {
-          "date": "2025-03-24",
-          "close": 1290.95
-        },
-        {
-          "date": "2025-03-25",
-          "close": 1274.44
-        },
-        {
-          "date": "2025-03-26",
-          "close": 1262.15
-        },
-        {
-          "date": "2025-03-27",
-          "close": 1267.26
-        },
-        {
-          "date": "2025-03-28",
-          "close": 1264.18
-        },
-        {
-          "date": "2025-04-01",
-          "close": 1241.88
-        },
-        {
-          "date": "2025-04-02",
-          "close": 1240.44
-        },
-        {
-          "date": "2025-04-03",
-          "close": 1238.01
-        },
-        {
-          "date": "2025-04-04",
-          "close": 1194.39
-        },
-        {
-          "date": "2025-04-07",
-          "close": 1155.72
-        },
-        {
-          "date": "2025-04-08",
-          "close": 1172.08
-        },
-        {
-          "date": "2025-04-09",
-          "close": 1175.2
-        },
-        {
-          "date": "2025-04-11",
-          "close": 1208.51
-        },
-        {
-          "date": "2025-04-15",
-          "close": 1229.48
-        },
-        {
-          "date": "2025-04-16",
-          "close": 1228.69
-        },
-        {
-          "date": "2025-04-17",
-          "close": 1263.59
-        },
-        {
-          "date": "2025-04-21",
-          "close": 1284.41
-        },
-        {
-          "date": "2025-04-22",
-          "close": 1280.14
-        },
-        {
-          "date": "2025-04-23",
-          "close": 1288.87
-        },
-        {
-          "date": "2025-04-24",
-          "close": 1290.46
-        },
-        {
-          "date": "2025-04-25",
-          "close": 1289.27
-        },
-        {
-          "date": "2025-04-28",
-          "close": 1357.08
-        },
-        {
-          "date": "2025-04-29",
-          "close": 1387.72
-        },
-        {
-          "date": "2025-04-30",
-          "close": 1392.97
-        },
-        {
-          "date": "2025-05-02",
-          "close": 1407.64
-        },
-        {
-          "date": "2025-05-05",
-          "close": 1419.05
-        },
-        {
-          "date": "2025-05-06",
-          "close": 1408.73
-        },
-        {
-          "date": "2025-05-07",
-          "close": 1393.96
-        },
-        {
-          "date": "2025-05-08",
-          "close": 1394.95
-        },
-        {
-          "date": "2025-05-09",
-          "close": 1365.41
-        },
-        {
-          "date": "2025-05-12",
-          "close": 1424.2
-        },
-        {
-          "date": "2025-05-13",
-          "close": 1403.58
-        },
-        {
-          "date": "2025-05-14",
-          "close": 1412.2
-        },
-        {
-          "date": "2025-05-15",
-          "close": 1441.75
-        },
-        {
-          "date": "2025-05-16",
-          "close": 1443.93
-        },
-        {
-          "date": "2025-05-19",
-          "close": 1428.46
-        },
-        {
-          "date": "2025-05-20",
-          "close": 1412.4
-        },
-        {
-          "date": "2025-05-21",
-          "close": 1416.96
-        },
-        {
-          "date": "2025-05-22",
-          "close": 1397.33
-        },
-        {
-          "date": "2025-05-23",
-          "close": 1414.58
-        },
-        {
-          "date": "2025-05-26",
-          "close": 1422.52
-        },
-        {
-          "date": "2025-05-27",
-          "close": 1409.92
-        },
-        {
-          "date": "2025-05-28",
-          "close": 1400.8
-        },
-        {
-          "date": "2025-05-29",
-          "close": 1405.66
-        },
-        {
-          "date": "2025-05-30",
-          "close": 1408.73
-        },
-        {
-          "date": "2025-06-02",
-          "close": 1401.6
-        },
-        {
-          "date": "2025-06-03",
-          "close": 1393.47
-        },
-        {
-          "date": "2025-06-04",
-          "close": 1411.31
-        },
-        {
-          "date": "2025-06-05",
-          "close": 1430.05
-        },
-        {
-          "date": "2025-06-06",
-          "close": 1431.14
-        },
-        {
-          "date": "2025-06-09",
-          "close": 1436.4
-        },
-        {
-          "date": "2025-06-10",
-          "close": 1426.18
-        },
-        {
-          "date": "2025-06-11",
-          "close": 1436.49
-        },
-        {
-          "date": "2025-06-12",
-          "close": 1429.26
-        },
-        {
-          "date": "2025-06-13",
-          "close": 1415.67
-        },
-        {
-          "date": "2025-06-16",
-          "close": 1425.49
-        },
-        {
-          "date": "2025-06-17",
-          "close": 1418.95
-        },
-        {
-          "date": "2025-06-18",
-          "close": 1417.86
-        },
-        {
-          "date": "2025-06-19",
-          "close": 1421.03
-        },
-        {
-          "date": "2025-06-20",
-          "close": 1453.65
-        },
-        {
-          "date": "2025-06-23",
-          "close": 1444.33
-        },
-        {
-          "date": "2025-06-24",
-          "close": 1438.38
-        },
-        {
-          "date": "2025-06-25",
-          "close": 1454.74
-        },
-        {
-          "date": "2025-06-26",
-          "close": 1482.5
-        },
-        {
-          "date": "2025-06-27",
-          "close": 1502.43
-        },
-        {
-          "date": "2025-06-30",
-          "close": 1487.75
-        },
-        {
-          "date": "2025-07-01",
-          "close": 1515.31
-        },
-        {
-          "date": "2025-07-02",
-          "close": 1505.8
-        },
-        {
-          "date": "2025-07-03",
-          "close": 1504.8
-        },
-        {
-          "date": "2025-07-04",
-          "close": 1514.22
-        },
-        {
-          "date": "2025-07-07",
-          "close": 1528.3
-        },
-        {
-          "date": "2025-07-08",
-          "close": 1524.43
-        },
-        {
-          "date": "2025-07-09",
-          "close": 1505.99
-        },
-        {
-          "date": "2025-07-10",
-          "close": 1504.21
-        },
-        {
-          "date": "2025-07-11",
-          "close": 1482.4
-        },
-        {
-          "date": "2025-07-14",
-          "close": 1471.0
-        },
-        {
-          "date": "2025-07-15",
-          "close": 1472.68
-        },
-        {
-          "date": "2025-07-16",
-          "close": 1472.88
-        },
-        {
-          "date": "2025-07-17",
-          "close": 1463.76
-        },
-        {
-          "date": "2025-07-18",
-          "close": 1463.36
-        },
-        {
-          "date": "2025-07-21",
-          "close": 1416.37
-        },
-        {
-          "date": "2025-07-22",
-          "close": 1400.7
-        },
-        {
-          "date": "2025-07-23",
-          "close": 1412.4
-        },
-        {
-          "date": "2025-07-24",
-          "close": 1390.89
-        },
-        {
-          "date": "2025-07-25",
-          "close": 1379.78
-        },
-        {
-          "date": "2025-07-28",
-          "close": 1375.72
-        },
-        {
-          "date": "2025-07-29",
-          "close": 1404.97
-        },
-        {
-          "date": "2025-07-30",
-          "close": 1398.03
-        },
-        {
-          "date": "2025-07-31",
-          "close": 1378.3
-        },
-        {
-          "date": "2025-08-01",
-          "close": 1381.77
-        },
-        {
-          "date": "2025-08-04",
-          "close": 1399.41
-        },
-        {
-          "date": "2025-08-05",
-          "close": 1379.78
-        },
-        {
-          "date": "2025-08-06",
-          "close": 1380.87
-        },
-        {
-          "date": "2025-08-07",
-          "close": 1377.5
-        },
-        {
-          "date": "2025-08-08",
-          "close": 1356.09
-        },
-        {
-          "date": "2025-08-11",
-          "close": 1374.33
-        },
-        {
-          "date": "2025-08-12",
-          "close": 1368.58
-        },
-        {
-          "date": "2025-08-13",
-          "close": 1370.76
-        },
-        {
-          "date": "2025-08-14",
-          "close": 1367.48
-        },
-        {
-          "date": "2025-08-18",
-          "close": 1375.34
-        },
-        {
-          "date": "2025-08-19",
-          "close": 1413.56
-        },
-        {
-          "date": "2025-08-20",
-          "close": 1406.5
-        },
-        {
-          "date": "2025-08-21",
-          "close": 1418.24
-        },
-        {
-          "date": "2025-08-22",
-          "close": 1402.71
-        },
-        {
-          "date": "2025-08-25",
-          "close": 1406.1
-        },
-        {
-          "date": "2025-08-26",
-          "close": 1378.53
-        },
-        {
-          "date": "2025-08-28",
-          "close": 1379.52
-        },
-        {
-          "date": "2025-08-29",
-          "close": 1350.95
-        },
-        {
-          "date": "2025-09-01",
-          "close": 1347.67
-        },
-        {
-          "date": "2025-09-02",
-          "close": 1360.21
-        },
-        {
-          "date": "2025-09-03",
-          "close": 1366.28
-        },
-        {
-          "date": "2025-09-04",
-          "close": 1353.04
-        },
-        {
-          "date": "2025-09-05",
-          "close": 1368.67
-        },
-        {
-          "date": "2025-09-08",
-          "close": 1372.16
-        },
-        {
-          "date": "2025-09-09",
-          "close": 1369.87
-        },
-        {
-          "date": "2025-09-10",
-          "close": 1370.66
-        },
-        {
-          "date": "2025-09-11",
-          "close": 1376.93
-        },
-        {
-          "date": "2025-09-12",
-          "close": 1388.58
-        },
-        {
-          "date": "2025-09-15",
-          "close": 1392.86
-        },
-        {
-          "date": "2025-09-16",
-          "close": 1398.83
-        },
-        {
-          "date": "2025-09-17",
-          "close": 1407.29
-        },
-        {
-          "date": "2025-09-18",
-          "close": 1408.49
-        },
-        {
-          "date": "2025-09-19",
-          "close": 1400.92
-        },
-        {
-          "date": "2025-09-22",
-          "close": 1384.2
-        },
-        {
-          "date": "2025-09-23",
-          "close": 1383.4
-        },
-        {
-          "date": "2025-09-24",
-          "close": 1376.64
-        },
-        {
-          "date": "2025-09-25",
-          "close": 1366.08
-        },
-        {
-          "date": "2025-09-26",
-          "close": 1371.26
-        },
-        {
-          "date": "2025-09-29",
-          "close": 1366.48
-        },
-        {
-          "date": "2025-09-30",
-          "close": 1357.72
-        },
-        {
-          "date": "2025-10-01",
-          "close": 1362.4
-        },
-        {
-          "date": "2025-10-03",
-          "close": 1357.13
-        },
-        {
-          "date": "2025-10-06",
-          "close": 1368.67
-        },
-        {
-          "date": "2025-10-07",
-          "close": 1378.43
-        },
-        {
-          "date": "2025-10-08",
-          "close": 1361.11
-        },
-        {
-          "date": "2025-10-09",
-          "close": 1371.46
-        },
-        {
-          "date": "2025-10-10",
-          "close": 1375.34
-        },
-        {
-          "date": "2025-10-13",
-          "close": 1368.67
-        },
-        {
-          "date": "2025-10-14",
-          "close": 1369.57
-        },
-        {
-          "date": "2025-10-15",
-          "close": 1367.98
-        },
-        {
-          "date": "2025-10-16",
-          "close": 1391.86
-        },
-        {
-          "date": "2025-10-17",
-          "close": 1410.28
-        },
-        {
-          "date": "2025-10-20",
-          "close": 1460.05
-        },
-        {
-          "date": "2025-10-21",
-          "close": 1458.46
-        },
-        {
-          "date": "2025-10-23",
-          "close": 1441.73
-        },
-        {
-          "date": "2025-10-24",
-          "close": 1444.92
-        },
-        {
-          "date": "2025-10-27",
-          "close": 1477.27
-        },
-        {
-          "date": "2025-10-28",
-          "close": 1480.06
-        },
-        {
-          "date": "2025-10-29",
-          "close": 1497.28
-        },
-        {
-          "date": "2025-10-30",
-          "close": 1481.65
-        },
-        {
-          "date": "2025-10-31",
-          "close": 1479.56
-        },
-        {
-          "date": "2025-11-03",
-          "close": 1477.87
-        },
-        {
-          "date": "2025-11-04",
-          "close": 1466.32
-        },
-        {
-          "date": "2025-11-06",
-          "close": 1489.21
-        },
-        {
-          "date": "2025-11-07",
-          "close": 1471.2
-        },
-        {
-          "date": "2025-11-10",
-          "close": 1482.45
-        },
-        {
-          "date": "2025-11-11",
-          "close": 1486.53
-        },
-        {
-          "date": "2025-11-12",
-          "close": 1504.54
-        },
-        {
-          "date": "2025-11-13",
-          "close": 1503.95
-        },
-        {
-          "date": "2025-11-14",
-          "close": 1511.91
-        },
-        {
-          "date": "2025-11-17",
-          "close": 1511.31
-        },
-        {
-          "date": "2025-11-18",
-          "close": 1512.41
-        },
-        {
-          "date": "2025-11-19",
-          "close": 1511.91
-        },
-        {
-          "date": "2025-11-20",
-          "close": 1541.97
-        },
-        {
-          "date": "2025-11-21",
-          "close": 1539.48
-        },
-        {
-          "date": "2025-11-24",
-          "close": 1528.83
-        },
-        {
-          "date": "2025-11-25",
-          "close": 1532.61
-        },
-        {
-          "date": "2025-11-26",
-          "close": 1562.67
-        },
-        {
-          "date": "2025-11-27",
-          "close": 1556.2
-        },
-        {
-          "date": "2025-11-28",
-          "close": 1560.29
-        },
-        {
-          "date": "2025-12-01",
-          "close": 1558.89
-        },
-        {
-          "date": "2025-12-02",
-          "close": 1539.18
-        },
-        {
-          "date": "2025-12-03",
-          "close": 1531.72
-        },
-        {
-          "date": "2025-12-04",
-          "close": 1528.53
-        },
-        {
-          "date": "2025-12-05",
-          "close": 1533.51
-        },
-        {
-          "date": "2025-12-08",
-          "close": 1535.9
-        },
-        {
-          "date": "2025-12-09",
-          "close": 1522.36
-        },
-        {
-          "date": "2025-12-10",
-          "close": 1529.83
-        },
-        {
-          "date": "2025-12-11",
-          "close": 1537.89
-        },
-        {
-          "date": "2025-12-12",
-          "close": 1549.34
-        },
-        {
-          "date": "2025-12-15",
-          "close": 1549.04
-        },
-        {
-          "date": "2025-12-16",
-          "close": 1535.2
-        },
-        {
-          "date": "2025-12-17",
-          "close": 1537.29
-        },
-        {
-          "date": "2025-12-18",
-          "close": 1537.29
-        },
-        {
-          "date": "2025-12-19",
-          "close": 1557.9
-        },
-        {
-          "date": "2025-12-22",
-          "close": 1568.15
-        },
-        {
-          "date": "2025-12-23",
-          "close": 1563.47
-        },
-        {
-          "date": "2025-12-24",
-          "close": 1551.03
-        },
-        {
-          "date": "2025-12-26",
-          "close": 1552.02
-        },
-        {
-          "date": "2025-12-29",
-          "close": 1538.49
-        },
-        {
-          "date": "2025-12-30",
-          "close": 1532.71
-        },
-        {
-          "date": "2025-12-31",
-          "close": 1563.17
-        },
-        {
-          "date": "2026-01-01",
-          "close": 1568.35
-        },
-        {
-          "date": "2026-01-02",
-          "close": 1584.97
-        },
-        {
-          "date": "2026-01-05",
-          "close": 1570.84
-        },
-        {
-          "date": "2026-01-06",
-          "close": 1500.66
-        },
-        {
-          "date": "2026-01-07",
-          "close": 1497.28
-        },
-        {
-          "date": "2026-01-08",
-          "close": 1463.83
-        },
-        {
-          "date": "2026-01-09",
-          "close": 1468.51
-        },
-        {
-          "date": "2026-01-12",
-          "close": 1476.37
-        },
-        {
-          "date": "2026-01-13",
-          "close": 1446.11
-        },
-        {
-          "date": "2026-01-14",
-          "close": 1452.09
-        },
-        {
-          "date": "2026-01-15",
-          "close": 1452.09
-        },
-        {
-          "date": "2026-01-16",
-          "close": 1451.19
-        },
-        {
-          "date": "2026-01-19",
-          "close": 1407.09
-        },
-        {
-          "date": "2026-01-20",
-          "close": 1387.58
-        },
-        {
-          "date": "2026-01-21",
-          "close": 1398.14
-        },
-        {
-          "date": "2026-01-22",
-          "close": 1396.05
-        },
-        {
-          "date": "2026-01-23",
-          "close": 1379.72
-        },
-        {
-          "date": "2026-01-27",
-          "close": 1374.15
-        },
-        {
-          "date": "2026-01-28",
-          "close": 1390.27
-        },
-        {
-          "date": "2026-01-29",
-          "close": 1384.6
-        },
-        {
-          "date": "2026-01-30",
-          "close": 1388.98
-        },
-        {
-          "date": "2026-02-02",
-          "close": 1384.0
-        },
-        {
-          "date": "2026-02-03",
-          "close": 1430.49
-        },
-        {
-          "date": "2026-02-04",
-          "close": 1450.1
-        },
-        {
-          "date": "2026-02-05",
-          "close": 1436.76
-        },
-        {
-          "date": "2026-02-06",
-          "close": 1444.12
-        },
-        {
-          "date": "2026-02-09",
-          "close": 1454.87
-        },
-        {
-          "date": "2026-02-10",
-          "close": 1451.79
-        },
-        {
-          "date": "2026-02-11",
-          "close": 1461.94
-        },
-        {
-          "date": "2026-02-12",
-          "close": 1442.23
-        },
-        {
-          "date": "2026-02-13",
-          "close": 1413.07
-        },
-        {
-          "date": "2026-02-16",
-          "close": 1430.49
-        },
-        {
-          "date": "2026-02-17",
-          "close": 1416.45
-        },
-        {
-          "date": "2026-02-18",
-          "close": 1434.67
-        },
-        {
-          "date": "2026-02-19",
-          "close": 1403.01
-        },
-        {
-          "date": "2026-02-20",
-          "close": 1412.87
-        },
-        {
-          "date": "2026-02-23",
-          "close": 1421.43
-        },
-        {
-          "date": "2026-02-24",
-          "close": 1422.22
-        },
-        {
-          "date": "2026-02-25",
-          "close": 1392.06
-        },
-        {
-          "date": "2026-02-26",
-          "close": 1400.33
-        },
-        {
-          "date": "2026-02-27",
-          "close": 1387.48
-        },
-        {
-          "date": "2026-03-02",
-          "close": 1351.75
-        },
-        {
-          "date": "2026-03-04",
-          "close": 1338.81
-        },
-        {
-          "date": "2026-03-05",
-          "close": 1383.01
-        },
-        {
-          "date": "2026-03-06",
-          "close": 1398.33
-        },
-        {
-          "date": "2026-03-09",
-          "close": 1417.45
-        },
-        {
-          "date": "2026-03-10",
-          "close": 1402.32
-        },
-        {
-          "date": "2026-03-11",
-          "close": 1383.8
-        },
-        {
-          "date": "2026-03-12",
-          "close": 1385.79
-        },
-        {
-          "date": "2026-03-13",
-          "close": 1374.35
-        },
-        {
-          "date": "2026-03-16",
-          "close": 1388.68
-        },
-        {
-          "date": "2026-03-17",
-          "close": 1391.17
-        },
-        {
-          "date": "2026-03-18",
-          "close": 1401.62
-        },
-        {
-          "date": "2026-03-19",
-          "close": 1378.43
-        },
-        {
-          "date": "2026-03-20",
-          "close": 1407.89
-        },
-        {
-          "date": "2026-03-23",
-          "close": 1401.32
-        },
-        {
-          "date": "2026-03-24",
-          "close": 1405.3
-        },
-        {
-          "date": "2026-03-25",
-          "close": 1406.6
-        },
-        {
-          "date": "2026-03-27",
-          "close": 1341.9
-        },
-        {
-          "date": "2026-03-30",
-          "close": 1337.71
-        },
-        {
-          "date": "2026-04-01",
-          "close": 1362.9
-        },
-        {
-          "date": "2026-04-02",
-          "close": 1344.28
-        },
-        {
-          "date": "2026-04-06",
-          "close": 1298.7
-        },
-        {
-          "date": "2026-04-07",
-          "close": 1298.6
-        },
-        {
-          "date": "2026-04-08",
-          "close": 1341.6
-        },
-        {
-          "date": "2026-04-09",
-          "close": 1323.88
-        },
-        {
-          "date": "2026-04-10",
-          "close": 1343.99
-        },
-        {
-          "date": "2026-04-13",
-          "close": 1309.05
-        },
-        {
-          "date": "2026-04-15",
-          "close": 1337.91
-        },
-        {
-          "date": "2026-04-16",
-          "close": 1337.12
-        },
-        {
-          "date": "2026-04-17",
-          "close": 1358.72
-        },
-        {
-          "date": "2026-04-20",
-          "close": 1357.03
-        },
-        {
-          "date": "2026-04-21",
-          "close": 1347.07
-        },
-        {
-          "date": "2026-04-22",
-          "close": 1355.83
-        },
-        {
-          "date": "2026-04-23",
-          "close": 1337.22
-        },
-        {
-          "date": "2026-04-24",
-          "close": 1321.69
-        },
-        {
-          "date": "2026-04-27",
-          "close": 1359.51
-        },
-        {
-          "date": "2026-04-28",
-          "close": 1382.51
-        },
-        {
-          "date": "2026-04-29",
-          "close": 1418.84
-        },
-        {
-          "date": "2026-04-30",
-          "close": 1424.22
-        },
-        {
-          "date": "2026-05-01",
-          "close": 1424.22
-        },
-        {
-          "date": "2026-05-04",
-          "close": 1456.37
-        },
-        {
-          "date": "2026-05-05",
-          "close": 1456.86
-        },
-        {
-          "date": "2026-05-06",
-          "close": 1431.28
-        },
-        {
-          "date": "2026-05-07",
-          "close": 1429.59
-        },
-        {
-          "date": "2026-05-08",
-          "close": 1428.59
-        },
-        {
-          "date": "2026-05-11",
-          "close": 1381.81
-        },
-        {
-          "date": "2026-05-12",
-          "close": 1357.72
-        },
-        {
-          "date": "2026-05-13",
-          "close": 1352.55
-        },
-        {
-          "date": "2026-05-14",
-          "close": 1355.53
-        },
-        {
-          "date": "2026-05-15",
-          "close": 1330.25
-        },
-        {
-          "date": "2026-05-18",
-          "close": 1329.75
-        },
-        {
-          "date": "2026-05-19",
-          "close": 1316.61
-        },
-        {
-          "date": "2026-05-20",
-          "close": 1353.44
-        },
-        {
-          "date": "2026-05-21",
-          "close": 1343.39
-        },
-        {
-          "date": "2026-05-22",
-          "close": 1348.27
-        },
-        {
-          "date": "2026-05-25",
-          "close": 1360.71
-        },
-        {
-          "date": "2026-05-26",
-          "close": 1350.06
-        },
-        {
-          "date": "2026-05-27",
-          "close": 1344.28
-        },
-        {
-          "date": "2026-05-28",
-          "close": 1344.28
-        },
-        {
-          "date": "2026-05-29",
-          "close": 1315.12
-        },
-        {
-          "date": "2026-06-01",
-          "close": 1313.92
-        },
-        {
-          "date": "2026-06-02",
-          "close": 1308.55
-        },
-        {
-          "date": "2026-06-03",
-          "close": 1307.16
-        },
-        {
-          "date": "2026-06-04",
-          "close": 1297.7
-        },
-        {
-          "date": "2026-06-05",
-          "close": 1291.0
-        },
-        {
-          "date": "2026-06-08",
-          "close": 1263.3
-        },
-        {
-          "date": "2026-06-09",
-          "close": 1269.2
-        },
-        {
-          "date": "2026-06-10",
-          "close": 1258.8
-        },
-        {
-          "date": "2026-06-11",
-          "close": 1263.0
-        },
-        {
-          "date": "2026-06-12",
-          "close": 1293.0
-        },
-        {
-          "date": "2026-06-15",
-          "close": 1307.0
-        },
-        {
-          "date": "2026-06-16",
-          "close": 1328.8
-        },
-        {
-          "date": "2026-06-17",
-          "close": 1332.7
-        },
-        {
-          "date": "2026-06-18",
-          "close": 1328.1
-        },
-        {
-          "date": "2026-06-19",
-          "close": 1309.5
-        },
-        {
-          "date": "2026-06-22",
-          "close": 1326.5
-        },
-        {
-          "date": "2026-06-23",
-          "close": 1309.5
-        },
-        {
-          "date": "2026-06-24",
-          "close": 1313.6
-        },
-        {
-          "date": "2026-06-25",
-          "close": 1318.1
-        },
-        {
-          "date": "2026-06-26",
-          "close": 1318.1
-        },
-        {
-          "date": "2026-06-29",
-          "close": 1301.0
-        },
-        {
-          "date": "2026-06-30",
-          "close": 1293.9
-        },
-        {
-          "date": "2026-07-01",
-          "close": 1308.0
-        },
-        {
-          "date": "2026-07-02",
-          "close": 1303.5
-        },
-        {
-          "date": "2026-07-03",
-          "close": 1304.0
-        },
-        {
-          "date": "2026-07-06",
-          "close": 1321.3
-        },
-        {
-          "date": "2026-07-07",
-          "close": 1308.4
-        },
-        {
-          "date": "2026-07-08",
-          "close": 1275.9
-        },
-        {
-          "date": "2026-07-09",
-          "close": 1279.8
-        },
-        {
-          "date": "2026-07-10",
-          "close": 1307.8
-        },
-        {
-          "date": "2026-07-13",
-          "close": 1296.9
-        },
-        {
-          "date": "2026-07-14",
-          "close": 1293.0
-        },
-        {
-          "date": "2026-07-15",
-          "close": 1295.5
-        },
-        {
-          "date": "2026-07-16",
-          "close": 1296.6
-        },
-        {
-          "date": "2026-07-17",
-          "close": 1327.2
-        },
-        {
-          "date": "2026-07-20",
-          "close": 1323.1
-        },
-        {
-          "date": "2026-07-21",
-          "close": 1303.7
-        },
-        {
-          "date": "2026-07-22",
-          "close": 1288.6
-        },
-        {
-          "date": "2026-07-23",
-          "close": 1272.2
-        },
-        {
-          "date": "2026-07-24",
-          "close": 1278.0
-        },
-        {
-          "date": "2026-07-27",
-          "close": 1280.0
-        },
-        {
-          "date": "2026-07-28",
-          "close": 1267.7
-        },
-        {
-          "date": "2026-07-29",
-          "close": 1275.9
-        },
-        {
-          "date": "2026-07-30",
-          "close": 1292.9
-        },
-        {
-          "date": "2026-07-31",
-          "close": 1307.8
-        },
-        {
-          "date": "2026-08-03",
-          "close": 1319.0
-        },
-        {
-          "date": "2026-08-04",
-          "close": 1290.9
-        },
-        {
-          "date": "2026-08-05",
-          "close": 1280.0
-        },
-        {
-          "date": "2026-08-06",
-          "close": 1325.0
-        },
-        {
-          "date": "2026-08-07",
-          "close": 1334.8
-        },
-        {
-          "date": "2026-08-10",
-          "close": 1327.3
-        },
-        {
-          "date": "2026-08-11",
-          "close": 1323.9
-        },
-        {
-          "date": "2026-08-12",
-          "close": 1329.0
-        },
-        {
-          "date": "2026-08-13",
-          "close": 1317.0
-        },
-        {
-          "date": "2026-08-14",
-          "close": 1310.0
-        },
-        {
-          "date": "2026-08-17",
-          "close": 1316.0
-        },
-        {
-          "date": "2026-08-18",
-          "close": 1322.0
-        },
-        {
-          "date": "2026-08-19",
-          "close": 1311.0
-        },
-        {
-          "date": "2026-08-20",
-          "close": 1313.2
-        },
-        {
-          "date": "2026-08-21",
-          "close": 1316.0
-        },
-        {
-          "date": "2026-08-24",
-          "close": 1309.8
-        },
-        {
-          "date": "2026-08-25",
-          "close": 1317.0
-        },
-        {
-          "date": "2026-08-26",
-          "close": 1298.0
-        }
-      ]
+      "fetched_on": "2026-08-26"
     },
     "SBILIFE.NS": {
       "snapshot": {
@@ -91008,7 +88587,7 @@
             {
               "key": "averageVolume",
               "label": "Avg Volume (10d)",
-              "value": 975011
+              "value": 977585
             },
             {
               "key": "beta",
@@ -93331,7 +90910,8 @@
           "date": "2026-08-26",
           "close": 1768.2
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "SHRIRAMFIN.NS": {
       "snapshot": {
@@ -93345,7 +90925,7 @@
         "market_cap": 2629459247104,
         "52w_high": 1153.7,
         "52w_low": 566.5,
-        "pe_trailing": 19.397675,
+        "pe_trailing": 19.750795,
         "pe_forward": 15.569966,
         "price_to_book": 3.1897678,
         "debt_to_equity": 276.215,
@@ -93355,7 +90935,7 @@
         "roe_pct": 18.5,
         "revenue_growth_pct": 42.8,
         "earnings_growth_pct": 29.5,
-        "dividend_yield_pct": 1.23,
+        "dividend_yield_pct": 1.21,
         "target_mean_price": 1198.7812,
         "analyst_recommendation": "strong_buy",
         "next_earnings_date": "2026-10-30",
@@ -93490,7 +91070,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 19.397675
+              "value": 19.750795
             },
             {
               "key": "forwardPE",
@@ -93665,7 +91245,7 @@
             {
               "key": "dividendYield",
               "label": "Dividend Yield",
-              "value": 1.23
+              "value": 1.21
             },
             {
               "key": "payoutRatio",
@@ -93826,7 +91406,7 @@
         },
         {
           "date": "2024-09-09",
-          "close": 644.97
+          "close": 644.98
         },
         {
           "date": "2024-09-10",
@@ -95788,7 +93368,8 @@
           "date": "2026-08-26",
           "close": 1117.5
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "SBIN.NS": {
       "snapshot": {
@@ -96229,9 +93810,9 @@
         },
         {
           "title": "Avaada secures $1.3bn in financing for 2.15GW renewable energy projects",
-          "publisher": "Energy Monitor",
+          "publisher": "Power Technology",
           "published": "2026-08-03T08:56:35Z",
-          "url": "https://www.energymonitor.ai/news/avaada-secures-1-3bn-financing/"
+          "url": "https://www.power-technology.com/news/avaada-secures-1-3bn-financing/"
         },
         {
           "title": "State Bank of India's perpetual bond demand seen spurring more issuances, bankers say",
@@ -98245,7 +95826,8 @@
           "date": "2026-08-26",
           "close": 1052.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "SUNPHARMA.NS": {
       "snapshot": {
@@ -98852,7 +96434,7 @@
         },
         {
           "date": "2024-10-18",
-          "close": 1875.54
+          "close": 1875.55
         },
         {
           "date": "2024-10-21",
@@ -99012,7 +96594,7 @@
         },
         {
           "date": "2024-12-17",
-          "close": 1756.46
+          "close": 1756.45
         },
         {
           "date": "2024-12-18",
@@ -99124,7 +96706,7 @@
         },
         {
           "date": "2025-01-27",
-          "close": 1754.29
+          "close": 1754.3
         },
         {
           "date": "2025-01-28",
@@ -99136,7 +96718,7 @@
         },
         {
           "date": "2025-01-30",
-          "close": 1707.41
+          "close": 1707.42
         },
         {
           "date": "2025-01-31",
@@ -100702,7 +98284,8 @@
           "date": "2026-08-26",
           "close": 1899.5
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "TCS.NS": {
       "snapshot": {
@@ -100716,7 +98299,7 @@
         "market_cap": 8213058551808,
         "52w_high": 3350.0,
         "52w_low": 1976.8,
-        "pe_trailing": 16.394627,
+        "pe_trailing": 16.50429,
         "pe_forward": 13.969308,
         "price_to_book": 7.4914026,
         "debt_to_equity": 10.211,
@@ -100861,7 +98444,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 16.394627
+              "value": 16.50429
             },
             {
               "key": "forwardPE",
@@ -100901,12 +98484,12 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 138.46
+              "value": 137.54
             },
             {
               "key": "forwardEps",
               "label": "EPS (Forward)",
-              "value": 162.49973
+              "value": 162.4991
             },
             {
               "key": "bookValue",
@@ -101161,7 +98744,7 @@
         },
         {
           "date": "2024-08-27",
-          "close": 4178.12
+          "close": 4178.13
         },
         {
           "date": "2024-08-28",
@@ -101657,7 +99240,7 @@
         },
         {
           "date": "2025-02-20",
-          "close": 3584.63
+          "close": 3584.62
         },
         {
           "date": "2025-02-21",
@@ -101665,7 +99248,7 @@
         },
         {
           "date": "2025-02-24",
-          "close": 3486.18
+          "close": 3486.17
         },
         {
           "date": "2025-02-25",
@@ -101965,7 +99548,7 @@
         },
         {
           "date": "2025-06-18",
-          "close": 3302.63
+          "close": 3302.62
         },
         {
           "date": "2025-06-19",
@@ -102201,7 +99784,7 @@
         },
         {
           "date": "2025-09-11",
-          "close": 2999.68
+          "close": 2999.67
         },
         {
           "date": "2025-09-12",
@@ -102209,7 +99792,7 @@
         },
         {
           "date": "2025-09-15",
-          "close": 2987.87
+          "close": 2987.86
         },
         {
           "date": "2025-09-16",
@@ -102541,11 +100124,11 @@
         },
         {
           "date": "2026-01-14",
-          "close": 3076.69
+          "close": 3076.68
         },
         {
           "date": "2026-01-15",
-          "close": 3076.69
+          "close": 3076.68
         },
         {
           "date": "2026-01-16",
@@ -103159,7 +100742,8 @@
           "date": "2026-08-26",
           "close": 2270.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "TATACONSUM.NS": {
       "snapshot": {
@@ -105616,7 +103200,8 @@
           "date": "2026-08-26",
           "close": 1047.1
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "TMPV.NS": {
       "snapshot": {
@@ -106431,7 +104016,7 @@
         },
         {
           "date": "2025-01-03",
-          "close": 777.22
+          "close": 777.21
         },
         {
           "date": "2025-01-06",
@@ -108073,7 +105658,8 @@
           "date": "2026-08-26",
           "close": 313.1
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "TATASTEEL.NS": {
       "snapshot": {
@@ -110530,7 +108116,8 @@
           "date": "2026-08-26",
           "close": 188.01
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "TECHM.NS": {
       "snapshot": {
@@ -111261,7 +108848,7 @@
         },
         {
           "date": "2024-12-04",
-          "close": 1666.81
+          "close": 1666.8
         },
         {
           "date": "2024-12-05",
@@ -112987,7 +110574,8 @@
           "date": "2026-08-26",
           "close": 1571.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "TITAN.NS": {
       "snapshot": {
@@ -113001,7 +110589,7 @@
         "market_cap": 4525292781568,
         "52w_high": 5168.0,
         "52w_low": 3303.1,
-        "pe_trailing": 77.743904,
+        "pe_trailing": 78.36509,
         "pe_forward": 57.3864,
         "price_to_book": 28.833433,
         "debt_to_equity": 195.001,
@@ -113121,7 +110709,7 @@
             {
               "key": "averageVolume",
               "label": "Avg Volume (10d)",
-              "value": 891998
+              "value": 893987
             },
             {
               "key": "beta",
@@ -113146,7 +110734,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 77.743904
+              "value": 78.36509
             },
             {
               "key": "forwardPE",
@@ -113186,7 +110774,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 65.6
+              "value": 65.08
             },
             {
               "key": "forwardEps",
@@ -115444,7 +113032,8 @@
           "date": "2026-08-26",
           "close": 5100.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "TRENT.NS": {
       "snapshot": {
@@ -115458,7 +113047,7 @@
         "market_cap": 1550746124288,
         "52w_high": 5674.0,
         "52w_low": 2183.6667,
-        "pe_trailing": 84.83664,
+        "pe_trailing": 85.560455,
         "pe_forward": 57.081123,
         "price_to_book": 22.202032,
         "debt_to_equity": 36.034,
@@ -115603,7 +113192,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 84.83664
+              "value": 85.560455
             },
             {
               "key": "forwardPE",
@@ -115643,7 +113232,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 34.28
+              "value": 33.99
             },
             {
               "key": "forwardEps",
@@ -117901,7 +115490,8 @@
           "date": "2026-08-26",
           "close": 2908.2
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "ULTRACEMCO.NS": {
       "snapshot": {
@@ -117915,7 +115505,7 @@
         "market_cap": 3446785703936,
         "52w_high": 13110.0,
         "52w_low": 10325.0,
-        "pe_trailing": 40.290913,
+        "pe_trailing": 40.45227,
         "pe_forward": 27.114714,
         "price_to_book": 4.4977126,
         "debt_to_equity": 29.432,
@@ -118060,7 +115650,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 40.290913
+              "value": 40.45227
             },
             {
               "key": "forwardPE",
@@ -118100,7 +115690,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 290.81
+              "value": 289.65
             },
             {
               "key": "forwardEps",
@@ -120358,7 +117948,8 @@
           "date": "2026-08-26",
           "close": 11717.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "WIPRO.NS": {
       "snapshot": {
@@ -120557,7 +118148,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 12.5
+              "value": 12.59
             },
             {
               "key": "forwardEps",
@@ -122169,7 +119760,7 @@
         },
         {
           "date": "2026-01-05",
-          "close": 253.77
+          "close": 253.78
         },
         {
           "date": "2026-01-06",
@@ -122815,7 +120406,8 @@
           "date": "2026-08-26",
           "close": 177.35
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "PAYTM.NS": {
       "snapshot": {
@@ -125272,7 +122864,8 @@
           "date": "2026-08-26",
           "close": 1716.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "NYKAA.NS": {
       "snapshot": {
@@ -125286,7 +122879,7 @@
         "market_cap": 974130511872,
         "52w_high": 348.0,
         "52w_low": 225.26,
-        "pe_trailing": 382.0225,
+        "pe_trailing": 377.7778,
         "pe_forward": 115.83064,
         "price_to_book": 67.70211,
         "debt_to_equity": 82.829,
@@ -125431,7 +123024,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 382.0225
+              "value": 377.7778
             },
             {
               "key": "forwardPE",
@@ -125471,7 +123064,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 0.89
+              "value": 0.9
             },
             {
               "key": "forwardEps",
@@ -127729,7 +125322,8 @@
           "date": "2026-08-26",
           "close": 340.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "POLICYBZR.NS": {
       "snapshot": {
@@ -130182,7 +127776,8 @@
           "date": "2026-08-26",
           "close": 1840.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "DMART.NS": {
       "snapshot": {
@@ -132609,7 +130204,8 @@
           "date": "2026-08-26",
           "close": 3826.9
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "VEDL.NS": {
       "snapshot": {
@@ -132623,7 +130219,7 @@
         "market_cap": 1118725734400,
         "52w_high": 795.0,
         "52w_low": 249.7,
-        "pe_trailing": 12.671384,
+        "pe_trailing": 12.582345,
         "pe_forward": 8.910677,
         "price_to_book": 2.2531378,
         "debt_to_equity": 48.044,
@@ -132768,7 +130364,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 12.671384
+              "value": 12.582345
             },
             {
               "key": "forwardPE",
@@ -132808,7 +130404,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 22.61
+              "value": 22.77
             },
             {
               "key": "forwardEps",
@@ -135066,7 +132662,8 @@
           "date": "2026-08-26",
           "close": 286.5
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "YESBANK.NS": {
       "snapshot": {
@@ -135080,7 +132677,7 @@
         "market_cap": 702470029312,
         "52w_high": 25.78,
         "52w_low": 17.2,
-        "pe_trailing": 18.80672,
+        "pe_trailing": 18.649998,
         "pe_forward": 12.324738,
         "price_to_book": 1.3454369,
         "debt_to_equity": null,
@@ -135225,7 +132822,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 18.80672
+              "value": 18.649998
             },
             {
               "key": "forwardPE",
@@ -135265,7 +132862,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 1.19
+              "value": 1.2
             },
             {
               "key": "forwardEps",
@@ -137523,7 +135120,8 @@
           "date": "2026-08-26",
           "close": 22.38
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "IDEA.NS": {
       "snapshot": {
@@ -139980,7 +137578,8 @@
           "date": "2026-08-26",
           "close": 15.06
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "IRCTC.NS": {
       "snapshot": {
@@ -142425,7 +140024,8 @@
           "date": "2026-08-26",
           "close": 491.75
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "LICI.NS": {
       "snapshot": {
@@ -144882,7 +142482,8 @@
           "date": "2026-08-26",
           "close": 415.3
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "BANKBARODA.NS": {
       "snapshot": {
@@ -144896,7 +142497,7 @@
         "market_cap": 1254055346176,
         "52w_high": 325.5,
         "52w_low": 230.81,
-        "pe_trailing": 6.920662,
+        "pe_trailing": 6.906864,
         "pe_forward": 5.6924534,
         "price_to_book": 0.7439038,
         "debt_to_equity": null,
@@ -144906,7 +142507,7 @@
         "roe_pct": 11.32,
         "revenue_growth_pct": 18.0,
         "earnings_growth_pct": -48.6,
-        "dividend_yield_pct": 3.52,
+        "dividend_yield_pct": 3.53,
         "target_mean_price": 291.82858,
         "analyst_recommendation": "buy",
         "next_earnings_date": "2026-10-30",
@@ -145041,7 +142642,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 6.920662
+              "value": 6.906864
             },
             {
               "key": "forwardPE",
@@ -145081,7 +142682,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 35.04
+              "value": 35.11
             },
             {
               "key": "forwardEps",
@@ -145216,7 +142817,7 @@
             {
               "key": "dividendYield",
               "label": "Dividend Yield",
-              "value": 3.52
+              "value": 3.53
             },
             {
               "key": "payoutRatio",
@@ -147339,7 +144940,8 @@
           "date": "2026-08-26",
           "close": 242.5
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "PNB.NS": {
       "snapshot": {
@@ -149796,7 +147398,8 @@
           "date": "2026-08-26",
           "close": 116.7
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "CANBK.NS": {
       "snapshot": {
@@ -149810,7 +147413,7 @@
         "market_cap": 1174195798016,
         "52w_high": 162.89,
         "52w_low": 103.55,
-        "pe_trailing": 5.8416066,
+        "pe_trailing": 5.910959,
         "pe_forward": 5.560082,
         "price_to_book": 0.9975802,
         "debt_to_equity": null,
@@ -149955,7 +147558,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 5.8416066
+              "value": 5.910959
             },
             {
               "key": "forwardPE",
@@ -149995,7 +147598,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 22.16
+              "value": 21.9
             },
             {
               "key": "forwardEps",
@@ -152253,7 +149856,8 @@
           "date": "2026-08-26",
           "close": 129.45
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "GAIL.NS": {
       "snapshot": {
@@ -154698,7 +152302,8 @@
           "date": "2026-08-26",
           "close": 174.49
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "IOC.NS": {
       "snapshot": {
@@ -154897,7 +152502,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 24.53
+              "value": 24.44
             },
             {
               "key": "forwardEps",
@@ -157155,7 +154760,8 @@
           "date": "2026-08-26",
           "close": 139.48
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "BPCL.NS": {
       "snapshot": {
@@ -157179,7 +154785,7 @@
         "roe_pct": null,
         "revenue_growth_pct": 34.4,
         "earnings_growth_pct": null,
-        "dividend_yield_pct": 6.41,
+        "dividend_yield_pct": 6.29,
         "target_mean_price": 345.32257,
         "analyst_recommendation": "hold",
         "next_earnings_date": "2026-10-22",
@@ -157354,7 +154960,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 40.91
+              "value": 40.11
             },
             {
               "key": "forwardEps",
@@ -157489,7 +155095,7 @@
             {
               "key": "dividendYield",
               "label": "Dividend Yield",
-              "value": 6.41
+              "value": 6.29
             },
             {
               "key": "payoutRatio",
@@ -159612,7 +157218,8 @@
           "date": "2026-08-26",
           "close": 318.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "HAL.NS": {
       "snapshot": {
@@ -160067,7 +157674,7 @@
       "history": [
         {
           "date": "2024-08-26",
-          "close": 4702.77
+          "close": 4702.78
         },
         {
           "date": "2024-08-27",
@@ -160115,7 +157722,7 @@
         },
         {
           "date": "2024-09-11",
-          "close": 4503.72
+          "close": 4503.73
         },
         {
           "date": "2024-09-12",
@@ -160239,7 +157846,7 @@
         },
         {
           "date": "2024-10-25",
-          "close": 4079.52
+          "close": 4079.53
         },
         {
           "date": "2024-10-28",
@@ -160271,7 +157878,7 @@
         },
         {
           "date": "2024-11-06",
-          "close": 4299.44
+          "close": 4299.43
         },
         {
           "date": "2024-11-07",
@@ -160287,7 +157894,7 @@
         },
         {
           "date": "2024-11-12",
-          "close": 4155.81
+          "close": 4155.82
         },
         {
           "date": "2024-11-13",
@@ -160835,7 +158442,7 @@
         },
         {
           "date": "2025-06-04",
-          "close": 4892.5
+          "close": 4892.51
         },
         {
           "date": "2025-06-05",
@@ -162069,7 +159676,8 @@
           "date": "2026-08-26",
           "close": 4865.5
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "MAZDOCK.NS": {
       "snapshot": {
@@ -162827,11 +160435,11 @@
         },
         {
           "date": "2024-12-27",
-          "close": 2296.32
+          "close": 2296.33
         },
         {
           "date": "2024-12-30",
-          "close": 2248.42
+          "close": 2248.41
         },
         {
           "date": "2024-12-31",
@@ -163395,7 +161003,7 @@
         },
         {
           "date": "2025-07-23",
-          "close": 2896.12
+          "close": 2896.11
         },
         {
           "date": "2025-07-24",
@@ -163563,7 +161171,7 @@
         },
         {
           "date": "2025-09-23",
-          "close": 2918.71
+          "close": 2918.7
         },
         {
           "date": "2025-09-24",
@@ -164489,7 +162097,8 @@
           "date": "2026-08-26",
           "close": 2625.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "IDFCFIRSTB.NS": {
       "snapshot": {
@@ -164688,7 +162297,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 2.57
+              "value": 2.59
             },
             {
               "key": "forwardEps",
@@ -166946,7 +164555,8 @@
           "date": "2026-08-26",
           "close": 84.4
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "FEDERALBNK.NS": {
       "snapshot": {
@@ -166970,7 +164580,7 @@
         "roe_pct": null,
         "revenue_growth_pct": 21.4,
         "earnings_growth_pct": 32.7,
-        "dividend_yield_pct": 0.34,
+        "dividend_yield_pct": 0.35,
         "target_mean_price": 364.45715,
         "analyst_recommendation": "buy",
         "next_earnings_date": "2026-10-15",
@@ -167080,7 +164690,7 @@
             {
               "key": "averageVolume",
               "label": "Avg Volume (10d)",
-              "value": 10793303
+              "value": 10790282
             },
             {
               "key": "beta",
@@ -167280,7 +164890,7 @@
             {
               "key": "dividendYield",
               "label": "Dividend Yield",
-              "value": 0.34
+              "value": 0.35
             },
             {
               "key": "payoutRatio",
@@ -169403,7 +167013,8 @@
           "date": "2026-08-26",
           "close": 345.3
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "GODREJCP.NS": {
       "snapshot": {
@@ -170410,7 +168021,7 @@
         },
         {
           "date": "2025-03-12",
-          "close": 1015.37
+          "close": 1015.36
         },
         {
           "date": "2025-03-13",
@@ -171134,7 +168745,7 @@
         },
         {
           "date": "2025-12-05",
-          "close": 1119.3
+          "close": 1119.31
         },
         {
           "date": "2025-12-08",
@@ -171860,7 +169471,8 @@
           "date": "2026-08-26",
           "close": 922.8
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "DABUR.NS": {
       "snapshot": {
@@ -171874,7 +169486,7 @@
         "market_cap": 695745970176,
         "52w_high": 577.0,
         "52w_low": 392.15,
-        "pe_trailing": 35.589836,
+        "pe_trailing": 35.333332,
         "pe_forward": 29.76195,
         "price_to_book": 6.09167,
         "debt_to_equity": 10.907,
@@ -172019,7 +169631,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 35.589836
+              "value": 35.333332
             },
             {
               "key": "forwardPE",
@@ -172059,7 +169671,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 11.02
+              "value": 11.1
             },
             {
               "key": "forwardEps",
@@ -172527,7 +170139,7 @@
         },
         {
           "date": "2024-11-08",
-          "close": 516.75
+          "close": 516.76
         },
         {
           "date": "2024-11-11",
@@ -172771,7 +170383,7 @@
         },
         {
           "date": "2025-02-05",
-          "close": 516.75
+          "close": 516.76
         },
         {
           "date": "2025-02-06",
@@ -174317,7 +171929,8 @@
           "date": "2026-08-26",
           "close": 392.2
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "BRITANNIA.NS": {
       "snapshot": {
@@ -176774,7 +174387,8 @@
           "date": "2026-08-26",
           "close": 5310.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "HAVELLS.NS": {
       "snapshot": {
@@ -177349,7 +174963,7 @@
         },
         {
           "date": "2024-10-08",
-          "close": 1920.58
+          "close": 1920.59
         },
         {
           "date": "2024-10-09",
@@ -179231,7 +176845,8 @@
           "date": "2026-08-26",
           "close": 1258.7
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "PIDILITIND.NS": {
       "snapshot": {
@@ -179245,7 +176860,7 @@
         "market_cap": 1679501426688,
         "52w_high": 1707.5,
         "52w_low": 1259.0,
-        "pe_trailing": 64.052795,
+        "pe_trailing": 63.657406,
         "pe_forward": 51.999493,
         "price_to_book": 15.503002,
         "debt_to_equity": 3.776,
@@ -179390,7 +177005,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 64.052795
+              "value": 63.657406
             },
             {
               "key": "forwardPE",
@@ -179430,7 +177045,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 25.76
+              "value": 25.92
             },
             {
               "key": "forwardEps",
@@ -181676,7 +179291,8 @@
           "date": "2026-08-26",
           "close": 1650.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "VOLTAS.NS": {
       "snapshot": {
@@ -184133,7 +181749,8 @@
           "date": "2026-08-26",
           "close": 1217.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "MUTHOOTFIN.NS": {
       "snapshot": {
@@ -184147,7 +181764,7 @@
         "market_cap": 1287469268992,
         "52w_high": 4149.5,
         "52w_low": 2604.2,
-        "pe_trailing": 11.345834,
+        "pe_trailing": 11.320201,
         "pe_forward": 10.045892,
         "price_to_book": 3.171004,
         "debt_to_equity": 393.56,
@@ -184292,7 +181909,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 11.345834
+              "value": 11.320201
             },
             {
               "key": "forwardPE",
@@ -184332,7 +181949,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 282.65
+              "value": 283.29
             },
             {
               "key": "forwardEps",
@@ -186590,7 +184207,8 @@
           "date": "2026-08-26",
           "close": 3206.9
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "DELHIVERY.NS": {
       "snapshot": {
@@ -186724,7 +184342,7 @@
             {
               "key": "averageVolume",
               "label": "Avg Volume (10d)",
-              "value": 4327631
+              "value": 4354257
             },
             {
               "key": "beta",
@@ -189017,7 +186635,8 @@
           "date": "2026-08-26",
           "close": 449.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "PVRINOX.NS": {
       "snapshot": {
@@ -191470,7 +189089,8 @@
           "date": "2026-08-26",
           "close": 1255.3
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "ZEEL.NS": {
       "snapshot": {
@@ -191484,7 +189104,7 @@
         "market_cap": 100297433088,
         "52w_high": 121.8,
         "52w_low": 68.0,
-        "pe_trailing": 49.25472,
+        "pe_trailing": 49.48815,
         "pe_forward": 13.103242,
         "price_to_book": 0.84404355,
         "debt_to_equity": 2.26,
@@ -191544,7 +189164,7 @@
             {
               "key": "longBusinessSummary",
               "label": "Business Summary",
-              "value": "Zee Entertainment Enterprises Limited, together with its subsidiaries, engages in broadcasting satellite television channels and digital media in India and internationally. The company broadcasts Hindi general entertainment channels, such as Zee TV, Zee TV HD, &tv, &tv HD, Zing, BIG Magic, and Zee Anmol; Hindi movie channels comprising Zee Anmol Cinema, Zee Cinema, Zee Action, Zee Classic, &pictures, and Zee Bollywood, as well as Zee Cinema HD, &xplor HD, and &pictures HD; and regional entertainment channels, including Zee Marathi, Zee Yuva, Zee Bangla, Zee Tamil, Zee Telegu, Zee Kannada, Zee Sarthak, Zee Ganga, Zee Talkies, Zee Bangla Cinema, Zee Bioskop, Zee Marathi HD, Zee Talkies HD, Zee Telugu HD, and Zee Bangla HD. It also broadcasts Zee Caf\u00e9, Zee Caf\u00e9 HD, &priv\u00e9 HD, Zee Studio, &flix, &flix HD, Zeezest, Zeezest HD, Zee TV Canada, Zee TV Caribbean, Zee Magic, Zee World, Zee One, and Zee Bollymovies. In addition, it produces and distributes movies through Zee Studios and Zee Plex; publishes music through Zee Music CO; operates Zee5 OTT platform; act as a space selling agent for other satellite television channels; and sells media content, which include programs/film rights/feeds/music rights. The company was formerly known as Zee Telefilms Limited and changed its name to Zee Entertainment Enterprises Limited in January 2007. Zee Entertainment Enterprises Limited was incorporated in 1982 and is based in Mumbai, India."
+              "value": "Zee Entertainment Enterprises Limited, together with its subsidiaries, engages in broadcasting satellite television channels and digital media in India and internationally. The company broadcasts Hindi general entertainment channels, such as Zee TV, Zee TV HD, &tv, &tv HD, and BIG Magic; Hindi movie channels comprising Zee Anmol Cinema, Zee Cinema, Zee Action, Zee Classic, &pictures, and Zee Bollywood, as well as Zee Cinema HD, &xplor HD, and &pictures HD; and regional entertainment channels, including Zee Marathi, Zee Yuva, Zee Bangla, Zee Tamil, Zee Telegu, Zee Kannada, Zee Sarthak, Zee Ganga, Zee Talkies, Zee Bangla Cinema, Zee Bioskop, Zee Marathi HD, Zee Talkies HD, Zee Telugu HD, and Zee Bangla HD. It also broadcasts Zee Caf\u00e9, Zee Caf\u00e9 HD, &priv\u00e9 HD, Zee Studio, &flix, &flix HD, Zeezest, Zeezest HD, Zee TV Canada, Zee TV Caribbean, Zee Magic, Zee World, Zee One, and Zee Bollymovies. In addition, it produces and distributes movies through Zee Studios and Zee Plex; publishes music through Zee Music CO; operates Zee5 OTT platform; act as a space selling agent for other satellite television channels; and sells media content, which include programs/film rights/feeds/music rights. The company was formerly known as Zee Telefilms Limited and changed its name to Zee Entertainment Enterprises Limited in January 2007. Zee Entertainment Enterprises Limited was incorporated in 1982 and is based in Mumbai, India."
             }
           ]
         },
@@ -191629,7 +189249,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 49.25472
+              "value": 49.48815
             },
             {
               "key": "forwardPE",
@@ -191669,7 +189289,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 2.12
+              "value": 2.11
             },
             {
               "key": "forwardEps",
@@ -193927,7 +191547,8 @@
           "date": "2026-08-26",
           "close": 104.42
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "SAIL.NS": {
       "snapshot": {
@@ -193941,7 +191562,7 @@
         "market_cap": 805039308800,
         "52w_high": 209.7,
         "52w_low": 118.1,
-        "pe_trailing": 18.3349,
+        "pe_trailing": 18.812742,
         "pe_forward": 12.287351,
         "price_to_book": 1.3349223,
         "debt_to_equity": 52.899,
@@ -194086,7 +191707,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 18.3349
+              "value": 18.812742
             },
             {
               "key": "forwardPE",
@@ -194126,7 +191747,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 10.63
+              "value": 10.36
             },
             {
               "key": "forwardEps",
@@ -196384,7 +194005,8 @@
           "date": "2026-08-26",
           "close": 194.9
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "BHEL.NS": {
       "snapshot": {
@@ -196398,7 +194020,7 @@
         "market_cap": 1446797377536,
         "52w_high": 446.5,
         "52w_low": 205.12,
-        "pe_trailing": 58.603664,
+        "pe_trailing": 59.272465,
         "pe_forward": 30.145111,
         "price_to_book": 5.533434,
         "debt_to_equity": 31.312,
@@ -196543,7 +194165,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 58.603664
+              "value": 59.272465
             },
             {
               "key": "forwardPE",
@@ -196583,7 +194205,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 7.09
+              "value": 7.01
             },
             {
               "key": "forwardEps",
@@ -198841,7 +196463,8 @@
           "date": "2026-08-26",
           "close": 415.5
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "NHPC.NS": {
       "snapshot": {
@@ -201298,7 +198921,8 @@
           "date": "2026-08-26",
           "close": 76.24
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "IRFC.NS": {
       "snapshot": {
@@ -201312,7 +198936,7 @@
         "market_cap": 1119970918400,
         "52w_high": 137.17,
         "52w_low": 85.0,
-        "pe_trailing": 15.724771,
+        "pe_trailing": 15.610201,
         "pe_forward": 11.739725,
         "price_to_book": 1.971792,
         "debt_to_equity": 773.347,
@@ -201322,7 +198946,7 @@
         "roe_pct": null,
         "revenue_growth_pct": 10.3,
         "earnings_growth_pct": 9.7,
-        "dividend_yield_pct": 3.37,
+        "dividend_yield_pct": 3.39,
         "target_mean_price": 60.0,
         "analyst_recommendation": "sell",
         "next_earnings_date": "2026-10-14",
@@ -201457,7 +199081,7 @@
             {
               "key": "trailingPE",
               "label": "P/E (Trailing)",
-              "value": 15.724771
+              "value": 15.610201
             },
             {
               "key": "forwardPE",
@@ -201497,7 +199121,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 5.45
+              "value": 5.49
             },
             {
               "key": "forwardEps",
@@ -201632,7 +199256,7 @@
             {
               "key": "dividendYield",
               "label": "Dividend Yield",
-              "value": 3.37
+              "value": 3.39
             },
             {
               "key": "payoutRatio",
@@ -203755,7 +201379,8 @@
           "date": "2026-08-26",
           "close": 85.7
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "SWIGGY.NS": {
       "snapshot": {
@@ -205988,7 +203613,8 @@
           "date": "2026-08-26",
           "close": 286.55
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "HYUNDAI.NS": {
       "snapshot": {
@@ -206012,7 +203638,7 @@
         "roe_pct": null,
         "revenue_growth_pct": -0.5,
         "earnings_growth_pct": -35.1,
-        "dividend_yield_pct": 0.95,
+        "dividend_yield_pct": 0.94,
         "target_mean_price": 2293.4443,
         "analyst_recommendation": "buy",
         "next_earnings_date": null,
@@ -206322,7 +203948,7 @@
             {
               "key": "dividendYield",
               "label": "Dividend Yield",
-              "value": 0.95
+              "value": 0.94
             },
             {
               "key": "payoutRatio",
@@ -207135,7 +204761,7 @@
         },
         {
           "date": "2025-07-03",
-          "close": 2052.23
+          "close": 2052.24
         },
         {
           "date": "2025-07-04",
@@ -208285,7 +205911,8 @@
           "date": "2026-08-26",
           "close": 2250.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "BAJAJHFL.NS": {
       "snapshot": {
@@ -208404,12 +206031,12 @@
             {
               "key": "fiftyDayAverage",
               "label": "50-Day Avg",
-              "value": 86.532
+              "value": 86.4944
             },
             {
               "key": "twoHundredDayAverage",
               "label": "200-Day Avg",
-              "value": 88.38245
+              "value": 88.27225
             },
             {
               "key": "volume",
@@ -208419,7 +206046,7 @@
             {
               "key": "averageVolume",
               "label": "Avg Volume (10d)",
-              "value": 4309992
+              "value": 4270512
             },
             {
               "key": "beta",
@@ -210682,7 +208309,8 @@
           "date": "2026-08-26",
           "close": 84.07
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "OLAELEC.NS": {
       "snapshot": {
@@ -210881,7 +208509,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": -3.82
+              "value": -3.94
             },
             {
               "key": "forwardEps",
@@ -213139,7 +210767,8 @@
           "date": "2026-08-26",
           "close": 38.0
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "ADANIPOWER.NS": {
       "snapshot": {
@@ -213338,7 +210967,7 @@
             {
               "key": "trailingEps",
               "label": "EPS (Trailing)",
-              "value": 7.49
+              "value": 7.39
             },
             {
               "key": "forwardEps",
@@ -215596,7 +213225,8 @@
           "date": "2026-08-26",
           "close": 207.2
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
     },
     "ADANIGREEN.NS": {
       "snapshot": {
@@ -218053,7 +215683,2466 @@
           "date": "2026-08-26",
           "close": 1303.2
         }
-      ]
+      ],
+      "fetched_on": "2026-08-26"
+    },
+    "RELIANCE.NS": {
+      "snapshot": {
+        "symbol": "RELIANCE.NS",
+        "name": "Reliance Industries Limited",
+        "sector": "Energy",
+        "industry": "Oil & Gas Refining & Marketing",
+        "currency": "INR",
+        "price": 1298.0,
+        "prev_close": 1317.0,
+        "market_cap": 17565149560832,
+        "52w_high": 1611.8,
+        "52w_low": 1249.8,
+        "pe_trailing": 23.523016,
+        "pe_forward": 18.122704,
+        "price_to_book": 1.9429829,
+        "debt_to_equity": 36.653,
+        "current_ratio": null,
+        "quick_ratio": null,
+        "profit_margin_pct": 6.61,
+        "roe_pct": null,
+        "revenue_growth_pct": 29.7,
+        "earnings_growth_pct": -22.4,
+        "dividend_yield_pct": 0.46,
+        "target_mean_price": 1673.0,
+        "analyst_recommendation": "strong_buy",
+        "next_earnings_date": "2026-10-16",
+        "logo_url": "https://logo.clearbit.com/ril.com",
+        "orig_currency": "INR",
+        "fx_rate": 1.0
+      },
+      "raw": [
+        {
+          "group": "Company",
+          "fields": [
+            {
+              "key": "longName",
+              "label": "Name",
+              "value": "Reliance Industries Limited"
+            },
+            {
+              "key": "sector",
+              "label": "Sector",
+              "value": "Energy"
+            },
+            {
+              "key": "industry",
+              "label": "Industry",
+              "value": "Oil & Gas Refining & Marketing"
+            },
+            {
+              "key": "country",
+              "label": "Country",
+              "value": "India"
+            },
+            {
+              "key": "exchange",
+              "label": "Exchange",
+              "value": "NSI"
+            },
+            {
+              "key": "currency",
+              "label": "Currency",
+              "value": "INR"
+            },
+            {
+              "key": "fullTimeEmployees",
+              "label": "Employees",
+              "value": 404501
+            },
+            {
+              "key": "longBusinessSummary",
+              "label": "Business Summary",
+              "value": "Reliance Industries Limited engages in hydrocarbon exploration and production, petroleum refining and marketing, petrochemicals, advanced materials and composites, renewable, financial services, retail, and digital services worldwide. It operates through the Oil to Chemicals, Oil and Gas, Retail, Digital Services, and Others segments. The company is involved in refining and marketing products, including liquefied petroleum gas, propylene, naphtha, gasoline, jet/aviation turbine fuel, kerosine oil, diesel, sulfur, and petroleum coke. It also provides polymers comprising high-density and low-density polyethylene (PE), linear low-density PE, homopolymer, random and impact copolymer, and polyvinyl chloride; fiber intermediates that include purified terephthalic acid, and ethylene glycols and oxide; aromatics, such as paraxylene, ortho xylene, benzene, and linear alkyl benzene and paraffin; and textiles that consist of fabrics, apparel, and auto furnishings. In addition, the company offers elastomers, such as polybutadiene rubber, styrene butadiene rubber, and butyl rubber; fiber and yarn polyesters; and bioenergy solutions, including compressed biogas, and pellets and briquettes. Further, it engages in oil and gas exploration and production activities; operation of various stores comprising supermarkets, hypermarket, wholesale cash and carry, specialty, and online stores; operation of media and entertainment platforms, and Network18 and television channels; and publishing of magazines. Additionally, the company provides highway hospitality and fleet management services, as well as digital services, such as connectivity, fiber, mobile devices, apps, business, and other digital solutions. Reliance Industries Limited was founded in 1957 and is based in Mumbai, India."
+            }
+          ]
+        },
+        {
+          "group": "Price & Trading",
+          "fields": [
+            {
+              "key": "currentPrice",
+              "label": "Current Price",
+              "value": 1298.0
+            },
+            {
+              "key": "previousClose",
+              "label": "Previous Close",
+              "value": 1317.0
+            },
+            {
+              "key": "open",
+              "label": "Open",
+              "value": 1310.0
+            },
+            {
+              "key": "dayLow",
+              "label": "Day Low",
+              "value": 1298.0
+            },
+            {
+              "key": "dayHigh",
+              "label": "Day High",
+              "value": 1315.6
+            },
+            {
+              "key": "fiftyTwoWeekLow",
+              "label": "52-Week Low",
+              "value": 1249.8
+            },
+            {
+              "key": "fiftyTwoWeekHigh",
+              "label": "52-Week High",
+              "value": 1611.8
+            },
+            {
+              "key": "fiftyDayAverage",
+              "label": "50-Day Avg",
+              "value": 1306.414
+            },
+            {
+              "key": "twoHundredDayAverage",
+              "label": "200-Day Avg",
+              "value": 1392.7445
+            },
+            {
+              "key": "volume",
+              "label": "Volume",
+              "value": 5735384
+            },
+            {
+              "key": "averageVolume",
+              "label": "Avg Volume (10d)",
+              "value": 13543620
+            },
+            {
+              "key": "beta",
+              "label": "Beta",
+              "value": 0.157
+            }
+          ]
+        },
+        {
+          "group": "Valuation",
+          "fields": [
+            {
+              "key": "marketCap",
+              "label": "Market Cap",
+              "value": 17565149560832
+            },
+            {
+              "key": "enterpriseValue",
+              "label": "Enterprise Value",
+              "value": 21039157346304
+            },
+            {
+              "key": "trailingPE",
+              "label": "P/E (Trailing)",
+              "value": 23.523016
+            },
+            {
+              "key": "forwardPE",
+              "label": "P/E (Forward)",
+              "value": 18.122704
+            },
+            {
+              "key": "pegRatio",
+              "label": "PEG Ratio",
+              "value": 0.82
+            },
+            {
+              "key": "priceToBook",
+              "label": "Price/Book",
+              "value": 1.9429829
+            },
+            {
+              "key": "priceToSalesTrailing12Months",
+              "label": "Price/Sales (TTM)",
+              "value": 1.5549816
+            },
+            {
+              "key": "enterpriseToRevenue",
+              "label": "EV/Revenue",
+              "value": 1.863
+            },
+            {
+              "key": "enterpriseToEbitda",
+              "label": "EV/EBITDA",
+              "value": 11.647
+            }
+          ]
+        },
+        {
+          "group": "Per-Share Data",
+          "fields": [
+            {
+              "key": "trailingEps",
+              "label": "EPS (Trailing)",
+              "value": 55.18
+            },
+            {
+              "key": "forwardEps",
+              "label": "EPS (Forward)",
+              "value": 71.62287
+            },
+            {
+              "key": "bookValue",
+              "label": "Book Value/Share",
+              "value": 668.045
+            },
+            {
+              "key": "revenuePerShare",
+              "label": "Revenue/Share",
+              "value": 834.734
+            }
+          ]
+        },
+        {
+          "group": "Profitability",
+          "fields": [
+            {
+              "key": "grossMargins",
+              "label": "Gross Margin",
+              "value": 33.84
+            },
+            {
+              "key": "operatingMargins",
+              "label": "Operating Margin",
+              "value": 12.33
+            },
+            {
+              "key": "profitMargins",
+              "label": "Net Margin",
+              "value": 6.61
+            },
+            {
+              "key": "ebitdaMargins",
+              "label": "EBITDA Margin",
+              "value": 15.99
+            },
+            {
+              "key": "returnOnAssets",
+              "label": "Return on Assets",
+              "value": null
+            },
+            {
+              "key": "returnOnEquity",
+              "label": "Return on Equity",
+              "value": null
+            }
+          ]
+        },
+        {
+          "group": "Growth",
+          "fields": [
+            {
+              "key": "revenueGrowth",
+              "label": "Revenue Growth (YoY)",
+              "value": 29.7
+            },
+            {
+              "key": "earningsGrowth",
+              "label": "Earnings Growth (YoY)",
+              "value": -22.4
+            },
+            {
+              "key": "earningsQuarterlyGrowth",
+              "label": "Earnings Growth (QoQ)",
+              "value": -22.4
+            }
+          ]
+        },
+        {
+          "group": "Balance Sheet & Cash Flow",
+          "fields": [
+            {
+              "key": "totalCash",
+              "label": "Total Cash",
+              "value": 2581470117888
+            },
+            {
+              "key": "totalDebt",
+              "label": "Total Debt",
+              "value": 3979999969280
+            },
+            {
+              "key": "debtToEquity",
+              "label": "Debt/Equity",
+              "value": 36.653
+            },
+            {
+              "key": "currentRatio",
+              "label": "Current Ratio",
+              "value": null
+            },
+            {
+              "key": "quickRatio",
+              "label": "Quick Ratio",
+              "value": null
+            },
+            {
+              "key": "totalRevenue",
+              "label": "Total Revenue",
+              "value": 11296050249728
+            },
+            {
+              "key": "ebitda",
+              "label": "EBITDA",
+              "value": 1806359986176
+            },
+            {
+              "key": "operatingCashflow",
+              "label": "Operating Cash Flow",
+              "value": null
+            },
+            {
+              "key": "freeCashflow",
+              "label": "Free Cash Flow",
+              "value": null
+            }
+          ]
+        },
+        {
+          "group": "Dividend",
+          "fields": [
+            {
+              "key": "dividendRate",
+              "label": "Dividend Rate",
+              "value": 6.0
+            },
+            {
+              "key": "dividendYield",
+              "label": "Dividend Yield",
+              "value": 0.46
+            },
+            {
+              "key": "payoutRatio",
+              "label": "Payout Ratio",
+              "value": 20.83
+            },
+            {
+              "key": "exDividendDate",
+              "label": "Ex-Dividend Date",
+              "value": "2026-06-05"
+            },
+            {
+              "key": "fiveYearAvgDividendYield",
+              "label": "5Y Avg Div Yield",
+              "value": 0.44
+            }
+          ]
+        },
+        {
+          "group": "Ownership & Shares",
+          "fields": [
+            {
+              "key": "sharesOutstanding",
+              "label": "Shares Outstanding",
+              "value": 13532472634
+            },
+            {
+              "key": "floatShares",
+              "label": "Float Shares",
+              "value": 6638895750
+            },
+            {
+              "key": "heldPercentInsiders",
+              "label": "Held by Insiders",
+              "value": 51.8
+            },
+            {
+              "key": "heldPercentInstitutions",
+              "label": "Held by Institutions",
+              "value": 28.07
+            },
+            {
+              "key": "sharesShort",
+              "label": "Shares Short",
+              "value": null
+            }
+          ]
+        },
+        {
+          "group": "Analyst Coverage",
+          "fields": [
+            {
+              "key": "numberOfAnalystOpinions",
+              "label": "# Analysts",
+              "value": 28
+            },
+            {
+              "key": "recommendationKey",
+              "label": "Consensus Rating",
+              "value": "strong_buy"
+            },
+            {
+              "key": "targetLowPrice",
+              "label": "Target Low",
+              "value": 1350.0
+            },
+            {
+              "key": "targetMeanPrice",
+              "label": "Target Mean",
+              "value": 1673.0
+            },
+            {
+              "key": "targetHighPrice",
+              "label": "Target High",
+              "value": 1890.0
+            }
+          ]
+        }
+      ],
+      "news": [
+        {
+          "title": "Rolls-Royce Stock Hits First New High In 14 Years. Firm Announces Engine Project.",
+          "publisher": "Investor's Business Daily",
+          "published": "2026-08-17T18:27:44Z",
+          "url": "https://www.investors.com/news/rolls-royce-jet-engines-india/?src=A00220&yptr=yahoo"
+        },
+        {
+          "title": "ELAM: Let\u2019s make deal \u2013 not",
+          "publisher": "Odessa American, Texas",
+          "published": "2026-08-08T00:01:00Z",
+          "url": "https://www.oaoa.com/?p=368558"
+        },
+        {
+          "title": "Reliance's luxury unit brings Kim Kardashian's SKIMS to India",
+          "publisher": "Reuters",
+          "published": "2026-08-05T12:13:21Z",
+          "url": "https://sg.finance.yahoo.com/news/reliances-luxury-unit-brings-kim-121321384.html"
+        },
+        {
+          "title": "India's Reliance ramps up diesel exports to Europe, Brazil in July, sources say",
+          "publisher": "Reuters",
+          "published": "2026-07-31T01:54:53Z",
+          "url": "https://sg.finance.yahoo.com/news/indias-reliance-ramps-diesel-exports-100646238.html"
+        },
+        {
+          "title": "Reliance Industries Ltd (WBO:RLI) Q1 2027 Earnings Call Highlights: Strong Revenue Growth Amid ...",
+          "publisher": "GuruFocus.com",
+          "published": "2026-07-25T01:00:25Z",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/reliance-industries-ltd-wbo-rli-010025257.html"
+        },
+        {
+          "title": "Global Refiners Are Cutting Out Oil Traders To Buy Venezuelan Crude Directly",
+          "publisher": "Oilprice.com",
+          "published": "2026-07-23T00:00:00Z",
+          "url": "https://finance.yahoo.com/energy/articles/global-refiners-cutting-oil-traders-000000289.html"
+        }
+      ],
+      "history": [
+        {
+          "date": "2024-08-26",
+          "close": 1499.65
+        },
+        {
+          "date": "2024-08-27",
+          "close": 1487.6
+        },
+        {
+          "date": "2024-08-28",
+          "close": 1485.47
+        },
+        {
+          "date": "2024-08-29",
+          "close": 1507.9
+        },
+        {
+          "date": "2024-08-30",
+          "close": 1496.7
+        },
+        {
+          "date": "2024-09-02",
+          "close": 1503.27
+        },
+        {
+          "date": "2024-09-03",
+          "close": 1496.2
+        },
+        {
+          "date": "2024-09-04",
+          "close": 1501.58
+        },
+        {
+          "date": "2024-09-05",
+          "close": 1480.19
+        },
+        {
+          "date": "2024-09-06",
+          "close": 1452.28
+        },
+        {
+          "date": "2024-09-09",
+          "close": 1449.93
+        },
+        {
+          "date": "2024-09-10",
+          "close": 1449.01
+        },
+        {
+          "date": "2024-09-11",
+          "close": 1439.07
+        },
+        {
+          "date": "2024-09-12",
+          "close": 1467.13
+        },
+        {
+          "date": "2024-09-13",
+          "close": 1460.02
+        },
+        {
+          "date": "2024-09-16",
+          "close": 1458.75
+        },
+        {
+          "date": "2024-09-17",
+          "close": 1459.69
+        },
+        {
+          "date": "2024-09-18",
+          "close": 1450.92
+        },
+        {
+          "date": "2024-09-19",
+          "close": 1457.09
+        },
+        {
+          "date": "2024-09-20",
+          "close": 1473.2
+        },
+        {
+          "date": "2024-09-23",
+          "close": 1480.59
+        },
+        {
+          "date": "2024-09-24",
+          "close": 1476.62
+        },
+        {
+          "date": "2024-09-25",
+          "close": 1481.16
+        },
+        {
+          "date": "2024-09-26",
+          "close": 1485.12
+        },
+        {
+          "date": "2024-09-27",
+          "close": 1513.11
+        },
+        {
+          "date": "2024-09-30",
+          "close": 1463.93
+        },
+        {
+          "date": "2024-10-01",
+          "close": 1452.28
+        },
+        {
+          "date": "2024-10-03",
+          "close": 1394.93
+        },
+        {
+          "date": "2024-10-04",
+          "close": 1374.65
+        },
+        {
+          "date": "2024-10-07",
+          "close": 1358.99
+        },
+        {
+          "date": "2024-10-08",
+          "close": 1385.39
+        },
+        {
+          "date": "2024-10-09",
+          "close": 1362.83
+        },
+        {
+          "date": "2024-10-10",
+          "close": 1359.31
+        },
+        {
+          "date": "2024-10-11",
+          "close": 1360.35
+        },
+        {
+          "date": "2024-10-14",
+          "close": 1360.77
+        },
+        {
+          "date": "2024-10-15",
+          "close": 1332.52
+        },
+        {
+          "date": "2024-10-16",
+          "close": 1342.48
+        },
+        {
+          "date": "2024-10-17",
+          "close": 1344.81
+        },
+        {
+          "date": "2024-10-18",
+          "close": 1347.66
+        },
+        {
+          "date": "2024-10-21",
+          "close": 1357.48
+        },
+        {
+          "date": "2024-10-22",
+          "close": 1331.85
+        },
+        {
+          "date": "2024-10-23",
+          "close": 1327.06
+        },
+        {
+          "date": "2024-10-24",
+          "close": 1328.33
+        },
+        {
+          "date": "2024-10-25",
+          "close": 1316.48
+        },
+        {
+          "date": "2024-10-28",
+          "close": 1322.93
+        },
+        {
+          "date": "2024-10-29",
+          "close": 1328.53
+        },
+        {
+          "date": "2024-10-30",
+          "close": 1332.39
+        },
+        {
+          "date": "2024-10-31",
+          "close": 1320.65
+        },
+        {
+          "date": "2024-11-01",
+          "close": 1327.19
+        },
+        {
+          "date": "2024-11-04",
+          "close": 1291.0
+        },
+        {
+          "date": "2024-11-05",
+          "close": 1294.12
+        },
+        {
+          "date": "2024-11-06",
+          "close": 1314.0
+        },
+        {
+          "date": "2024-11-07",
+          "close": 1294.47
+        },
+        {
+          "date": "2024-11-08",
+          "close": 1272.76
+        },
+        {
+          "date": "2024-11-11",
+          "close": 1261.8
+        },
+        {
+          "date": "2024-11-12",
+          "close": 1263.34
+        },
+        {
+          "date": "2024-11-13",
+          "close": 1241.33
+        },
+        {
+          "date": "2024-11-14",
+          "close": 1256.75
+        },
+        {
+          "date": "2024-11-18",
+          "close": 1249.96
+        },
+        {
+          "date": "2024-11-19",
+          "close": 1231.02
+        },
+        {
+          "date": "2024-11-21",
+          "close": 1212.53
+        },
+        {
+          "date": "2024-11-22",
+          "close": 1254.57
+        },
+        {
+          "date": "2024-11-25",
+          "close": 1275.98
+        },
+        {
+          "date": "2024-11-26",
+          "close": 1284.61
+        },
+        {
+          "date": "2024-11-27",
+          "close": 1282.13
+        },
+        {
+          "date": "2024-11-28",
+          "close": 1259.92
+        },
+        {
+          "date": "2024-11-29",
+          "close": 1281.14
+        },
+        {
+          "date": "2024-12-02",
+          "close": 1297.94
+        },
+        {
+          "date": "2024-12-03",
+          "close": 1311.97
+        },
+        {
+          "date": "2024-12-04",
+          "close": 1297.74
+        },
+        {
+          "date": "2024-12-05",
+          "close": 1310.73
+        },
+        {
+          "date": "2024-12-06",
+          "close": 1300.32
+        },
+        {
+          "date": "2024-12-09",
+          "close": 1284.06
+        },
+        {
+          "date": "2024-12-10",
+          "close": 1273.85
+        },
+        {
+          "date": "2024-12-11",
+          "close": 1267.26
+        },
+        {
+          "date": "2024-12-12",
+          "close": 1252.09
+        },
+        {
+          "date": "2024-12-13",
+          "close": 1261.95
+        },
+        {
+          "date": "2024-12-16",
+          "close": 1257.44
+        },
+        {
+          "date": "2024-12-17",
+          "close": 1234.64
+        },
+        {
+          "date": "2024-12-18",
+          "close": 1242.52
+        },
+        {
+          "date": "2024-12-19",
+          "close": 1219.91
+        },
+        {
+          "date": "2024-12-20",
+          "close": 1194.98
+        },
+        {
+          "date": "2024-12-23",
+          "close": 1211.83
+        },
+        {
+          "date": "2024-12-24",
+          "close": 1212.28
+        },
+        {
+          "date": "2024-12-26",
+          "close": 1206.13
+        },
+        {
+          "date": "2024-12-27",
+          "close": 1210.6
+        },
+        {
+          "date": "2024-12-30",
+          "close": 1200.33
+        },
+        {
+          "date": "2024-12-31",
+          "close": 1205.04
+        },
+        {
+          "date": "2025-01-01",
+          "close": 1210.79
+        },
+        {
+          "date": "2025-01-02",
+          "close": 1231.17
+        },
+        {
+          "date": "2025-01-03",
+          "close": 1240.44
+        },
+        {
+          "date": "2025-01-06",
+          "close": 1207.57
+        },
+        {
+          "date": "2025-01-07",
+          "close": 1230.23
+        },
+        {
+          "date": "2025-01-08",
+          "close": 1254.66
+        },
+        {
+          "date": "2025-01-09",
+          "close": 1244.01
+        },
+        {
+          "date": "2025-01-10",
+          "close": 1231.27
+        },
+        {
+          "date": "2025-01-13",
+          "close": 1229.23
+        },
+        {
+          "date": "2025-01-14",
+          "close": 1228.14
+        },
+        {
+          "date": "2025-01-15",
+          "close": 1241.48
+        },
+        {
+          "date": "2025-01-16",
+          "close": 1255.61
+        },
+        {
+          "date": "2025-01-17",
+          "close": 1291.2
+        },
+        {
+          "date": "2025-01-20",
+          "close": 1294.27
+        },
+        {
+          "date": "2025-01-21",
+          "close": 1262.79
+        },
+        {
+          "date": "2025-01-22",
+          "close": 1266.17
+        },
+        {
+          "date": "2025-01-23",
+          "close": 1252.83
+        },
+        {
+          "date": "2025-01-24",
+          "close": 1235.63
+        },
+        {
+          "date": "2025-01-27",
+          "close": 1218.82
+        },
+        {
+          "date": "2025-01-28",
+          "close": 1223.83
+        },
+        {
+          "date": "2025-01-29",
+          "close": 1224.92
+        },
+        {
+          "date": "2025-01-30",
+          "close": 1242.32
+        },
+        {
+          "date": "2025-01-31",
+          "close": 1254.27
+        },
+        {
+          "date": "2025-02-01",
+          "close": 1253.77
+        },
+        {
+          "date": "2025-02-03",
+          "close": 1235.23
+        },
+        {
+          "date": "2025-02-04",
+          "close": 1274.2
+        },
+        {
+          "date": "2025-02-05",
+          "close": 1267.26
+        },
+        {
+          "date": "2025-02-06",
+          "close": 1270.58
+        },
+        {
+          "date": "2025-02-07",
+          "close": 1255.85
+        },
+        {
+          "date": "2025-02-10",
+          "close": 1242.92
+        },
+        {
+          "date": "2025-02-11",
+          "close": 1224.28
+        },
+        {
+          "date": "2025-02-12",
+          "close": 1206.13
+        },
+        {
+          "date": "2025-02-13",
+          "close": 1205.69
+        },
+        {
+          "date": "2025-02-14",
+          "close": 1206.83
+        },
+        {
+          "date": "2025-02-17",
+          "close": 1214.41
+        },
+        {
+          "date": "2025-02-18",
+          "close": 1214.91
+        },
+        {
+          "date": "2025-02-19",
+          "close": 1216.94
+        },
+        {
+          "date": "2025-02-20",
+          "close": 1222.44
+        },
+        {
+          "date": "2025-02-21",
+          "close": 1217.63
+        },
+        {
+          "date": "2025-02-24",
+          "close": 1204.15
+        },
+        {
+          "date": "2025-02-25",
+          "close": 1193.69
+        },
+        {
+          "date": "2025-02-27",
+          "close": 1196.76
+        },
+        {
+          "date": "2025-02-28",
+          "close": 1189.82
+        },
+        {
+          "date": "2025-03-03",
+          "close": 1161.22
+        },
+        {
+          "date": "2025-03-04",
+          "close": 1151.95
+        },
+        {
+          "date": "2025-03-05",
+          "close": 1165.53
+        },
+        {
+          "date": "2025-03-06",
+          "close": 1199.24
+        },
+        {
+          "date": "2025-03-07",
+          "close": 1239.1
+        },
+        {
+          "date": "2025-03-10",
+          "close": 1227.8
+        },
+        {
+          "date": "2025-03-11",
+          "close": 1236.62
+        },
+        {
+          "date": "2025-03-12",
+          "close": 1246.29
+        },
+        {
+          "date": "2025-03-13",
+          "close": 1237.22
+        },
+        {
+          "date": "2025-03-17",
+          "close": 1228.24
+        },
+        {
+          "date": "2025-03-18",
+          "close": 1228.24
+        },
+        {
+          "date": "2025-03-19",
+          "close": 1236.47
+        },
+        {
+          "date": "2025-03-20",
+          "close": 1258.28
+        },
+        {
+          "date": "2025-03-21",
+          "close": 1265.42
+        },
+        {
+          "date": "2025-03-24",
+          "close": 1290.95
+        },
+        {
+          "date": "2025-03-25",
+          "close": 1274.44
+        },
+        {
+          "date": "2025-03-26",
+          "close": 1262.15
+        },
+        {
+          "date": "2025-03-27",
+          "close": 1267.26
+        },
+        {
+          "date": "2025-03-28",
+          "close": 1264.18
+        },
+        {
+          "date": "2025-04-01",
+          "close": 1241.88
+        },
+        {
+          "date": "2025-04-02",
+          "close": 1240.44
+        },
+        {
+          "date": "2025-04-03",
+          "close": 1238.01
+        },
+        {
+          "date": "2025-04-04",
+          "close": 1194.39
+        },
+        {
+          "date": "2025-04-07",
+          "close": 1155.72
+        },
+        {
+          "date": "2025-04-08",
+          "close": 1172.08
+        },
+        {
+          "date": "2025-04-09",
+          "close": 1175.2
+        },
+        {
+          "date": "2025-04-11",
+          "close": 1208.51
+        },
+        {
+          "date": "2025-04-15",
+          "close": 1229.48
+        },
+        {
+          "date": "2025-04-16",
+          "close": 1228.69
+        },
+        {
+          "date": "2025-04-17",
+          "close": 1263.59
+        },
+        {
+          "date": "2025-04-21",
+          "close": 1284.41
+        },
+        {
+          "date": "2025-04-22",
+          "close": 1280.14
+        },
+        {
+          "date": "2025-04-23",
+          "close": 1288.87
+        },
+        {
+          "date": "2025-04-24",
+          "close": 1290.46
+        },
+        {
+          "date": "2025-04-25",
+          "close": 1289.27
+        },
+        {
+          "date": "2025-04-28",
+          "close": 1357.08
+        },
+        {
+          "date": "2025-04-29",
+          "close": 1387.72
+        },
+        {
+          "date": "2025-04-30",
+          "close": 1392.97
+        },
+        {
+          "date": "2025-05-02",
+          "close": 1407.64
+        },
+        {
+          "date": "2025-05-05",
+          "close": 1419.05
+        },
+        {
+          "date": "2025-05-06",
+          "close": 1408.73
+        },
+        {
+          "date": "2025-05-07",
+          "close": 1393.96
+        },
+        {
+          "date": "2025-05-08",
+          "close": 1394.95
+        },
+        {
+          "date": "2025-05-09",
+          "close": 1365.41
+        },
+        {
+          "date": "2025-05-12",
+          "close": 1424.2
+        },
+        {
+          "date": "2025-05-13",
+          "close": 1403.58
+        },
+        {
+          "date": "2025-05-14",
+          "close": 1412.2
+        },
+        {
+          "date": "2025-05-15",
+          "close": 1441.75
+        },
+        {
+          "date": "2025-05-16",
+          "close": 1443.93
+        },
+        {
+          "date": "2025-05-19",
+          "close": 1428.46
+        },
+        {
+          "date": "2025-05-20",
+          "close": 1412.4
+        },
+        {
+          "date": "2025-05-21",
+          "close": 1416.96
+        },
+        {
+          "date": "2025-05-22",
+          "close": 1397.33
+        },
+        {
+          "date": "2025-05-23",
+          "close": 1414.58
+        },
+        {
+          "date": "2025-05-26",
+          "close": 1422.52
+        },
+        {
+          "date": "2025-05-27",
+          "close": 1409.92
+        },
+        {
+          "date": "2025-05-28",
+          "close": 1400.8
+        },
+        {
+          "date": "2025-05-29",
+          "close": 1405.66
+        },
+        {
+          "date": "2025-05-30",
+          "close": 1408.73
+        },
+        {
+          "date": "2025-06-02",
+          "close": 1401.6
+        },
+        {
+          "date": "2025-06-03",
+          "close": 1393.47
+        },
+        {
+          "date": "2025-06-04",
+          "close": 1411.31
+        },
+        {
+          "date": "2025-06-05",
+          "close": 1430.05
+        },
+        {
+          "date": "2025-06-06",
+          "close": 1431.14
+        },
+        {
+          "date": "2025-06-09",
+          "close": 1436.4
+        },
+        {
+          "date": "2025-06-10",
+          "close": 1426.18
+        },
+        {
+          "date": "2025-06-11",
+          "close": 1436.49
+        },
+        {
+          "date": "2025-06-12",
+          "close": 1429.26
+        },
+        {
+          "date": "2025-06-13",
+          "close": 1415.67
+        },
+        {
+          "date": "2025-06-16",
+          "close": 1425.49
+        },
+        {
+          "date": "2025-06-17",
+          "close": 1418.95
+        },
+        {
+          "date": "2025-06-18",
+          "close": 1417.86
+        },
+        {
+          "date": "2025-06-19",
+          "close": 1421.03
+        },
+        {
+          "date": "2025-06-20",
+          "close": 1453.65
+        },
+        {
+          "date": "2025-06-23",
+          "close": 1444.33
+        },
+        {
+          "date": "2025-06-24",
+          "close": 1438.38
+        },
+        {
+          "date": "2025-06-25",
+          "close": 1454.74
+        },
+        {
+          "date": "2025-06-26",
+          "close": 1482.5
+        },
+        {
+          "date": "2025-06-27",
+          "close": 1502.43
+        },
+        {
+          "date": "2025-06-30",
+          "close": 1487.75
+        },
+        {
+          "date": "2025-07-01",
+          "close": 1515.31
+        },
+        {
+          "date": "2025-07-02",
+          "close": 1505.8
+        },
+        {
+          "date": "2025-07-03",
+          "close": 1504.8
+        },
+        {
+          "date": "2025-07-04",
+          "close": 1514.22
+        },
+        {
+          "date": "2025-07-07",
+          "close": 1528.3
+        },
+        {
+          "date": "2025-07-08",
+          "close": 1524.44
+        },
+        {
+          "date": "2025-07-09",
+          "close": 1505.99
+        },
+        {
+          "date": "2025-07-10",
+          "close": 1504.21
+        },
+        {
+          "date": "2025-07-11",
+          "close": 1482.4
+        },
+        {
+          "date": "2025-07-14",
+          "close": 1471.0
+        },
+        {
+          "date": "2025-07-15",
+          "close": 1472.68
+        },
+        {
+          "date": "2025-07-16",
+          "close": 1472.88
+        },
+        {
+          "date": "2025-07-17",
+          "close": 1463.76
+        },
+        {
+          "date": "2025-07-18",
+          "close": 1463.36
+        },
+        {
+          "date": "2025-07-21",
+          "close": 1416.37
+        },
+        {
+          "date": "2025-07-22",
+          "close": 1400.7
+        },
+        {
+          "date": "2025-07-23",
+          "close": 1412.4
+        },
+        {
+          "date": "2025-07-24",
+          "close": 1390.89
+        },
+        {
+          "date": "2025-07-25",
+          "close": 1379.78
+        },
+        {
+          "date": "2025-07-28",
+          "close": 1375.72
+        },
+        {
+          "date": "2025-07-29",
+          "close": 1404.97
+        },
+        {
+          "date": "2025-07-30",
+          "close": 1398.03
+        },
+        {
+          "date": "2025-07-31",
+          "close": 1378.3
+        },
+        {
+          "date": "2025-08-01",
+          "close": 1381.77
+        },
+        {
+          "date": "2025-08-04",
+          "close": 1399.41
+        },
+        {
+          "date": "2025-08-05",
+          "close": 1379.78
+        },
+        {
+          "date": "2025-08-06",
+          "close": 1380.87
+        },
+        {
+          "date": "2025-08-07",
+          "close": 1377.5
+        },
+        {
+          "date": "2025-08-08",
+          "close": 1356.09
+        },
+        {
+          "date": "2025-08-11",
+          "close": 1374.33
+        },
+        {
+          "date": "2025-08-12",
+          "close": 1368.58
+        },
+        {
+          "date": "2025-08-13",
+          "close": 1370.76
+        },
+        {
+          "date": "2025-08-14",
+          "close": 1367.48
+        },
+        {
+          "date": "2025-08-18",
+          "close": 1375.34
+        },
+        {
+          "date": "2025-08-19",
+          "close": 1413.56
+        },
+        {
+          "date": "2025-08-20",
+          "close": 1406.5
+        },
+        {
+          "date": "2025-08-21",
+          "close": 1418.24
+        },
+        {
+          "date": "2025-08-22",
+          "close": 1402.71
+        },
+        {
+          "date": "2025-08-25",
+          "close": 1406.1
+        },
+        {
+          "date": "2025-08-26",
+          "close": 1378.53
+        },
+        {
+          "date": "2025-08-28",
+          "close": 1379.52
+        },
+        {
+          "date": "2025-08-29",
+          "close": 1350.95
+        },
+        {
+          "date": "2025-09-01",
+          "close": 1347.67
+        },
+        {
+          "date": "2025-09-02",
+          "close": 1360.21
+        },
+        {
+          "date": "2025-09-03",
+          "close": 1366.28
+        },
+        {
+          "date": "2025-09-04",
+          "close": 1353.04
+        },
+        {
+          "date": "2025-09-05",
+          "close": 1368.67
+        },
+        {
+          "date": "2025-09-08",
+          "close": 1372.16
+        },
+        {
+          "date": "2025-09-09",
+          "close": 1369.87
+        },
+        {
+          "date": "2025-09-10",
+          "close": 1370.66
+        },
+        {
+          "date": "2025-09-11",
+          "close": 1376.93
+        },
+        {
+          "date": "2025-09-12",
+          "close": 1388.58
+        },
+        {
+          "date": "2025-09-15",
+          "close": 1392.86
+        },
+        {
+          "date": "2025-09-16",
+          "close": 1398.83
+        },
+        {
+          "date": "2025-09-17",
+          "close": 1407.29
+        },
+        {
+          "date": "2025-09-18",
+          "close": 1408.49
+        },
+        {
+          "date": "2025-09-19",
+          "close": 1400.92
+        },
+        {
+          "date": "2025-09-22",
+          "close": 1384.2
+        },
+        {
+          "date": "2025-09-23",
+          "close": 1383.4
+        },
+        {
+          "date": "2025-09-24",
+          "close": 1376.64
+        },
+        {
+          "date": "2025-09-25",
+          "close": 1366.08
+        },
+        {
+          "date": "2025-09-26",
+          "close": 1371.26
+        },
+        {
+          "date": "2025-09-29",
+          "close": 1366.48
+        },
+        {
+          "date": "2025-09-30",
+          "close": 1357.72
+        },
+        {
+          "date": "2025-10-01",
+          "close": 1362.4
+        },
+        {
+          "date": "2025-10-03",
+          "close": 1357.13
+        },
+        {
+          "date": "2025-10-06",
+          "close": 1368.67
+        },
+        {
+          "date": "2025-10-07",
+          "close": 1378.43
+        },
+        {
+          "date": "2025-10-08",
+          "close": 1361.11
+        },
+        {
+          "date": "2025-10-09",
+          "close": 1371.46
+        },
+        {
+          "date": "2025-10-10",
+          "close": 1375.34
+        },
+        {
+          "date": "2025-10-13",
+          "close": 1368.67
+        },
+        {
+          "date": "2025-10-14",
+          "close": 1369.57
+        },
+        {
+          "date": "2025-10-15",
+          "close": 1367.98
+        },
+        {
+          "date": "2025-10-16",
+          "close": 1391.86
+        },
+        {
+          "date": "2025-10-17",
+          "close": 1410.28
+        },
+        {
+          "date": "2025-10-20",
+          "close": 1460.05
+        },
+        {
+          "date": "2025-10-21",
+          "close": 1458.46
+        },
+        {
+          "date": "2025-10-23",
+          "close": 1441.73
+        },
+        {
+          "date": "2025-10-24",
+          "close": 1444.92
+        },
+        {
+          "date": "2025-10-27",
+          "close": 1477.27
+        },
+        {
+          "date": "2025-10-28",
+          "close": 1480.06
+        },
+        {
+          "date": "2025-10-29",
+          "close": 1497.28
+        },
+        {
+          "date": "2025-10-30",
+          "close": 1481.65
+        },
+        {
+          "date": "2025-10-31",
+          "close": 1479.56
+        },
+        {
+          "date": "2025-11-03",
+          "close": 1477.87
+        },
+        {
+          "date": "2025-11-04",
+          "close": 1466.32
+        },
+        {
+          "date": "2025-11-06",
+          "close": 1489.21
+        },
+        {
+          "date": "2025-11-07",
+          "close": 1471.2
+        },
+        {
+          "date": "2025-11-10",
+          "close": 1482.45
+        },
+        {
+          "date": "2025-11-11",
+          "close": 1486.53
+        },
+        {
+          "date": "2025-11-12",
+          "close": 1504.54
+        },
+        {
+          "date": "2025-11-13",
+          "close": 1503.95
+        },
+        {
+          "date": "2025-11-14",
+          "close": 1511.91
+        },
+        {
+          "date": "2025-11-17",
+          "close": 1511.31
+        },
+        {
+          "date": "2025-11-18",
+          "close": 1512.41
+        },
+        {
+          "date": "2025-11-19",
+          "close": 1511.91
+        },
+        {
+          "date": "2025-11-20",
+          "close": 1541.97
+        },
+        {
+          "date": "2025-11-21",
+          "close": 1539.48
+        },
+        {
+          "date": "2025-11-24",
+          "close": 1528.83
+        },
+        {
+          "date": "2025-11-25",
+          "close": 1532.61
+        },
+        {
+          "date": "2025-11-26",
+          "close": 1562.67
+        },
+        {
+          "date": "2025-11-27",
+          "close": 1556.2
+        },
+        {
+          "date": "2025-11-28",
+          "close": 1560.29
+        },
+        {
+          "date": "2025-12-01",
+          "close": 1558.89
+        },
+        {
+          "date": "2025-12-02",
+          "close": 1539.18
+        },
+        {
+          "date": "2025-12-03",
+          "close": 1531.72
+        },
+        {
+          "date": "2025-12-04",
+          "close": 1528.53
+        },
+        {
+          "date": "2025-12-05",
+          "close": 1533.51
+        },
+        {
+          "date": "2025-12-08",
+          "close": 1535.9
+        },
+        {
+          "date": "2025-12-09",
+          "close": 1522.36
+        },
+        {
+          "date": "2025-12-10",
+          "close": 1529.83
+        },
+        {
+          "date": "2025-12-11",
+          "close": 1537.89
+        },
+        {
+          "date": "2025-12-12",
+          "close": 1549.34
+        },
+        {
+          "date": "2025-12-15",
+          "close": 1549.04
+        },
+        {
+          "date": "2025-12-16",
+          "close": 1535.2
+        },
+        {
+          "date": "2025-12-17",
+          "close": 1537.29
+        },
+        {
+          "date": "2025-12-18",
+          "close": 1537.29
+        },
+        {
+          "date": "2025-12-19",
+          "close": 1557.9
+        },
+        {
+          "date": "2025-12-22",
+          "close": 1568.15
+        },
+        {
+          "date": "2025-12-23",
+          "close": 1563.47
+        },
+        {
+          "date": "2025-12-24",
+          "close": 1551.03
+        },
+        {
+          "date": "2025-12-26",
+          "close": 1552.02
+        },
+        {
+          "date": "2025-12-29",
+          "close": 1538.49
+        },
+        {
+          "date": "2025-12-30",
+          "close": 1532.71
+        },
+        {
+          "date": "2025-12-31",
+          "close": 1563.17
+        },
+        {
+          "date": "2026-01-01",
+          "close": 1568.35
+        },
+        {
+          "date": "2026-01-02",
+          "close": 1584.97
+        },
+        {
+          "date": "2026-01-05",
+          "close": 1570.84
+        },
+        {
+          "date": "2026-01-06",
+          "close": 1500.66
+        },
+        {
+          "date": "2026-01-07",
+          "close": 1497.28
+        },
+        {
+          "date": "2026-01-08",
+          "close": 1463.83
+        },
+        {
+          "date": "2026-01-09",
+          "close": 1468.51
+        },
+        {
+          "date": "2026-01-12",
+          "close": 1476.37
+        },
+        {
+          "date": "2026-01-13",
+          "close": 1446.11
+        },
+        {
+          "date": "2026-01-14",
+          "close": 1452.09
+        },
+        {
+          "date": "2026-01-15",
+          "close": 1452.09
+        },
+        {
+          "date": "2026-01-16",
+          "close": 1451.19
+        },
+        {
+          "date": "2026-01-19",
+          "close": 1407.09
+        },
+        {
+          "date": "2026-01-20",
+          "close": 1387.58
+        },
+        {
+          "date": "2026-01-21",
+          "close": 1398.14
+        },
+        {
+          "date": "2026-01-22",
+          "close": 1396.05
+        },
+        {
+          "date": "2026-01-23",
+          "close": 1379.72
+        },
+        {
+          "date": "2026-01-27",
+          "close": 1374.15
+        },
+        {
+          "date": "2026-01-28",
+          "close": 1390.27
+        },
+        {
+          "date": "2026-01-29",
+          "close": 1384.6
+        },
+        {
+          "date": "2026-01-30",
+          "close": 1388.98
+        },
+        {
+          "date": "2026-02-02",
+          "close": 1384.0
+        },
+        {
+          "date": "2026-02-03",
+          "close": 1430.49
+        },
+        {
+          "date": "2026-02-04",
+          "close": 1450.1
+        },
+        {
+          "date": "2026-02-05",
+          "close": 1436.76
+        },
+        {
+          "date": "2026-02-06",
+          "close": 1444.12
+        },
+        {
+          "date": "2026-02-09",
+          "close": 1454.87
+        },
+        {
+          "date": "2026-02-10",
+          "close": 1451.79
+        },
+        {
+          "date": "2026-02-11",
+          "close": 1461.94
+        },
+        {
+          "date": "2026-02-12",
+          "close": 1442.23
+        },
+        {
+          "date": "2026-02-13",
+          "close": 1413.07
+        },
+        {
+          "date": "2026-02-16",
+          "close": 1430.49
+        },
+        {
+          "date": "2026-02-17",
+          "close": 1416.45
+        },
+        {
+          "date": "2026-02-18",
+          "close": 1434.67
+        },
+        {
+          "date": "2026-02-19",
+          "close": 1403.01
+        },
+        {
+          "date": "2026-02-20",
+          "close": 1412.87
+        },
+        {
+          "date": "2026-02-23",
+          "close": 1421.43
+        },
+        {
+          "date": "2026-02-24",
+          "close": 1422.22
+        },
+        {
+          "date": "2026-02-25",
+          "close": 1392.06
+        },
+        {
+          "date": "2026-02-26",
+          "close": 1400.33
+        },
+        {
+          "date": "2026-02-27",
+          "close": 1387.48
+        },
+        {
+          "date": "2026-03-02",
+          "close": 1351.75
+        },
+        {
+          "date": "2026-03-04",
+          "close": 1338.81
+        },
+        {
+          "date": "2026-03-05",
+          "close": 1383.01
+        },
+        {
+          "date": "2026-03-06",
+          "close": 1398.33
+        },
+        {
+          "date": "2026-03-09",
+          "close": 1417.45
+        },
+        {
+          "date": "2026-03-10",
+          "close": 1402.32
+        },
+        {
+          "date": "2026-03-11",
+          "close": 1383.8
+        },
+        {
+          "date": "2026-03-12",
+          "close": 1385.79
+        },
+        {
+          "date": "2026-03-13",
+          "close": 1374.35
+        },
+        {
+          "date": "2026-03-16",
+          "close": 1388.68
+        },
+        {
+          "date": "2026-03-17",
+          "close": 1391.17
+        },
+        {
+          "date": "2026-03-18",
+          "close": 1401.62
+        },
+        {
+          "date": "2026-03-19",
+          "close": 1378.43
+        },
+        {
+          "date": "2026-03-20",
+          "close": 1407.89
+        },
+        {
+          "date": "2026-03-23",
+          "close": 1401.32
+        },
+        {
+          "date": "2026-03-24",
+          "close": 1405.3
+        },
+        {
+          "date": "2026-03-25",
+          "close": 1406.6
+        },
+        {
+          "date": "2026-03-27",
+          "close": 1341.9
+        },
+        {
+          "date": "2026-03-30",
+          "close": 1337.71
+        },
+        {
+          "date": "2026-04-01",
+          "close": 1362.9
+        },
+        {
+          "date": "2026-04-02",
+          "close": 1344.28
+        },
+        {
+          "date": "2026-04-06",
+          "close": 1298.7
+        },
+        {
+          "date": "2026-04-07",
+          "close": 1298.6
+        },
+        {
+          "date": "2026-04-08",
+          "close": 1341.6
+        },
+        {
+          "date": "2026-04-09",
+          "close": 1323.88
+        },
+        {
+          "date": "2026-04-10",
+          "close": 1343.99
+        },
+        {
+          "date": "2026-04-13",
+          "close": 1309.05
+        },
+        {
+          "date": "2026-04-15",
+          "close": 1337.91
+        },
+        {
+          "date": "2026-04-16",
+          "close": 1337.12
+        },
+        {
+          "date": "2026-04-17",
+          "close": 1358.72
+        },
+        {
+          "date": "2026-04-20",
+          "close": 1357.03
+        },
+        {
+          "date": "2026-04-21",
+          "close": 1347.07
+        },
+        {
+          "date": "2026-04-22",
+          "close": 1355.83
+        },
+        {
+          "date": "2026-04-23",
+          "close": 1337.22
+        },
+        {
+          "date": "2026-04-24",
+          "close": 1321.69
+        },
+        {
+          "date": "2026-04-27",
+          "close": 1359.51
+        },
+        {
+          "date": "2026-04-28",
+          "close": 1382.51
+        },
+        {
+          "date": "2026-04-29",
+          "close": 1418.84
+        },
+        {
+          "date": "2026-04-30",
+          "close": 1424.22
+        },
+        {
+          "date": "2026-05-01",
+          "close": 1424.22
+        },
+        {
+          "date": "2026-05-04",
+          "close": 1456.37
+        },
+        {
+          "date": "2026-05-05",
+          "close": 1456.86
+        },
+        {
+          "date": "2026-05-06",
+          "close": 1431.28
+        },
+        {
+          "date": "2026-05-07",
+          "close": 1429.59
+        },
+        {
+          "date": "2026-05-08",
+          "close": 1428.59
+        },
+        {
+          "date": "2026-05-11",
+          "close": 1381.81
+        },
+        {
+          "date": "2026-05-12",
+          "close": 1357.72
+        },
+        {
+          "date": "2026-05-13",
+          "close": 1352.55
+        },
+        {
+          "date": "2026-05-14",
+          "close": 1355.53
+        },
+        {
+          "date": "2026-05-15",
+          "close": 1330.25
+        },
+        {
+          "date": "2026-05-18",
+          "close": 1329.75
+        },
+        {
+          "date": "2026-05-19",
+          "close": 1316.61
+        },
+        {
+          "date": "2026-05-20",
+          "close": 1353.44
+        },
+        {
+          "date": "2026-05-21",
+          "close": 1343.39
+        },
+        {
+          "date": "2026-05-22",
+          "close": 1348.27
+        },
+        {
+          "date": "2026-05-25",
+          "close": 1360.71
+        },
+        {
+          "date": "2026-05-26",
+          "close": 1350.06
+        },
+        {
+          "date": "2026-05-27",
+          "close": 1344.28
+        },
+        {
+          "date": "2026-05-28",
+          "close": 1344.28
+        },
+        {
+          "date": "2026-05-29",
+          "close": 1315.12
+        },
+        {
+          "date": "2026-06-01",
+          "close": 1313.92
+        },
+        {
+          "date": "2026-06-02",
+          "close": 1308.55
+        },
+        {
+          "date": "2026-06-03",
+          "close": 1307.16
+        },
+        {
+          "date": "2026-06-04",
+          "close": 1297.7
+        },
+        {
+          "date": "2026-06-05",
+          "close": 1291.0
+        },
+        {
+          "date": "2026-06-08",
+          "close": 1263.3
+        },
+        {
+          "date": "2026-06-09",
+          "close": 1269.2
+        },
+        {
+          "date": "2026-06-10",
+          "close": 1258.8
+        },
+        {
+          "date": "2026-06-11",
+          "close": 1263.0
+        },
+        {
+          "date": "2026-06-12",
+          "close": 1293.0
+        },
+        {
+          "date": "2026-06-15",
+          "close": 1307.0
+        },
+        {
+          "date": "2026-06-16",
+          "close": 1328.8
+        },
+        {
+          "date": "2026-06-17",
+          "close": 1332.7
+        },
+        {
+          "date": "2026-06-18",
+          "close": 1328.1
+        },
+        {
+          "date": "2026-06-19",
+          "close": 1309.5
+        },
+        {
+          "date": "2026-06-22",
+          "close": 1326.5
+        },
+        {
+          "date": "2026-06-23",
+          "close": 1309.5
+        },
+        {
+          "date": "2026-06-24",
+          "close": 1313.6
+        },
+        {
+          "date": "2026-06-25",
+          "close": 1318.1
+        },
+        {
+          "date": "2026-06-26",
+          "close": 1318.1
+        },
+        {
+          "date": "2026-06-29",
+          "close": 1301.0
+        },
+        {
+          "date": "2026-06-30",
+          "close": 1293.9
+        },
+        {
+          "date": "2026-07-01",
+          "close": 1308.0
+        },
+        {
+          "date": "2026-07-02",
+          "close": 1303.5
+        },
+        {
+          "date": "2026-07-03",
+          "close": 1304.0
+        },
+        {
+          "date": "2026-07-06",
+          "close": 1321.3
+        },
+        {
+          "date": "2026-07-07",
+          "close": 1308.4
+        },
+        {
+          "date": "2026-07-08",
+          "close": 1275.9
+        },
+        {
+          "date": "2026-07-09",
+          "close": 1279.8
+        },
+        {
+          "date": "2026-07-10",
+          "close": 1307.8
+        },
+        {
+          "date": "2026-07-13",
+          "close": 1296.9
+        },
+        {
+          "date": "2026-07-14",
+          "close": 1293.0
+        },
+        {
+          "date": "2026-07-15",
+          "close": 1295.5
+        },
+        {
+          "date": "2026-07-16",
+          "close": 1296.6
+        },
+        {
+          "date": "2026-07-17",
+          "close": 1327.2
+        },
+        {
+          "date": "2026-07-20",
+          "close": 1323.1
+        },
+        {
+          "date": "2026-07-21",
+          "close": 1303.7
+        },
+        {
+          "date": "2026-07-22",
+          "close": 1288.6
+        },
+        {
+          "date": "2026-07-23",
+          "close": 1272.2
+        },
+        {
+          "date": "2026-07-24",
+          "close": 1278.0
+        },
+        {
+          "date": "2026-07-27",
+          "close": 1280.0
+        },
+        {
+          "date": "2026-07-28",
+          "close": 1267.7
+        },
+        {
+          "date": "2026-07-29",
+          "close": 1275.9
+        },
+        {
+          "date": "2026-07-30",
+          "close": 1292.9
+        },
+        {
+          "date": "2026-07-31",
+          "close": 1307.8
+        },
+        {
+          "date": "2026-08-03",
+          "close": 1319.0
+        },
+        {
+          "date": "2026-08-04",
+          "close": 1290.9
+        },
+        {
+          "date": "2026-08-05",
+          "close": 1280.0
+        },
+        {
+          "date": "2026-08-06",
+          "close": 1325.0
+        },
+        {
+          "date": "2026-08-07",
+          "close": 1334.8
+        },
+        {
+          "date": "2026-08-10",
+          "close": 1327.3
+        },
+        {
+          "date": "2026-08-11",
+          "close": 1323.9
+        },
+        {
+          "date": "2026-08-12",
+          "close": 1329.0
+        },
+        {
+          "date": "2026-08-13",
+          "close": 1317.0
+        },
+        {
+          "date": "2026-08-14",
+          "close": 1310.0
+        },
+        {
+          "date": "2026-08-17",
+          "close": 1316.0
+        },
+        {
+          "date": "2026-08-18",
+          "close": 1322.0
+        },
+        {
+          "date": "2026-08-19",
+          "close": 1311.0
+        },
+        {
+          "date": "2026-08-20",
+          "close": 1313.2
+        },
+        {
+          "date": "2026-08-21",
+          "close": 1316.0
+        },
+        {
+          "date": "2026-08-24",
+          "close": 1309.8
+        },
+        {
+          "date": "2026-08-25",
+          "close": 1317.0
+        },
+        {
+          "date": "2026-08-26",
+          "close": 1298.0
+        }
+      ],
+      "fetched_on": "2026-08-26"
     }
   }
 }

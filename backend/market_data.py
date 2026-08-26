@@ -253,7 +253,9 @@ def get_daily_quote(symbol: str) -> dict:
         raise QuoteNotAvailable(
             f"{symbol} isn't part of the currently tracked set. Ask the admin to add it in the next data refresh."
         )
-    as_of = data.get("as_of")
+    # a symbol carried over from a prior run (that day's fetch failed) keeps
+    # its own older date here, not the file's overall refresh date
+    as_of = quote.get("fetched_on") or data.get("as_of")
     return {
         "snapshot": quote["snapshot"],
         "raw": quote["raw"],
