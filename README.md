@@ -26,7 +26,7 @@ the one shared, non-personal view everyone sees the same data for.
 This is deliberately not a real access boundary: anyone who knows or guesses
 a person's email can open that account. Fine for a small, low-stakes group of
 peers, not for anything sensitive. The admin account is gated on a fixed
-owner ID (`ALPHADESK_OWNER_EMAIL` env var, default `adit.shiv.18.05` — not a
+owner ID (`ALPHADESK_OWNER_EMAIL` env var, default `adit.shiv@1805` — not a
 real email address, chosen specifically so it can't be guessed the way a
 public email could) rather than a real address, for the same reason.
 

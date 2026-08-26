@@ -20,7 +20,7 @@ _ASSET_VERSION = str(int(time.time()))  # busts browser cache for static assets 
 _EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 # Owner's account sees the admin/signups view; everyone else gets a 403.
 # Override via env var if you ever change the account you sign up with.
-_OWNER_EMAIL = os.environ.get("ALPHADESK_OWNER_EMAIL", "adit.shiv.18.05").lower()
+_OWNER_EMAIL = os.environ.get("ALPHADESK_OWNER_EMAIL", "adit.shiv@1805").lower()
 
 app = FastAPI(title="AlphaDesk")
 

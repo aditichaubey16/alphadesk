@@ -216,6 +216,20 @@ def get_latest_daily_quote(symbol: str) -> dict | None:
         conn.close()
 
 
+def get_recent_daily_quotes(symbol: str, limit: int = 5) -> list[dict]:
+    """Newest-first cached rows for this symbol, most recent `limit`. Used to
+    skip past a poisoned (empty/null) cached row to the next usable one,
+    rather than trusting whatever happens to be newest."""
+    conn = get_conn()
+    try:
+        rows = conn.execute(
+            "SELECT * FROM daily_quotes WHERE symbol = ? ORDER BY quote_date DESC LIMIT ?", (symbol, limit)
+        ).fetchall()
+        return [_row_to_dict(r) for r in rows]
+    finally:
+        conn.close()
+
+
 def save_daily_quote(symbol: str, quote_date: str, snapshot_json: str, raw_json: str | None, news_json: str | None) -> None:
     conn = get_conn()
     try:

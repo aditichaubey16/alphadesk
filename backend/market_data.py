@@ -28,20 +28,27 @@ _INFO_TTL_SECONDS = 90
 
 def _fetch_info_with_retry(t: "yf.Ticker", attempts: int = 2, delay_seconds: float = 2.5) -> dict:
     """Yahoo's rate-limit errors are often transient (a burst, not a hard
-    ban) — one short retry recovers a meaningful fraction of them."""
+    ban) — one short retry recovers a meaningful fraction of them.
+
+    Under rate limiting Yahoo sometimes returns HTTP 200 with a near-empty
+    body instead of throwing — `t.info` comes back as `{}` or missing the
+    fields that actually matter, with no exception raised. Treating that as
+    a successful fetch let `get_daily_quote` cache an all-null snapshot for
+    the rest of the day instead of falling back to stale/seed data — the
+    bug behind "rates for reliance not coming" even though the request
+    technically succeeded. Require at least a price field before accepting
+    the response as real."""
     last_err = None
     for attempt in range(attempts):
         try:
             info = t.info
-            if info:
+            if info and (info.get("currentPrice") or info.get("regularMarketPrice")):
                 return info
         except Exception as e:
             last_err = e
         if attempt < attempts - 1:
             time.sleep(delay_seconds)
-    if last_err:
-        raise last_err
-    return {}
+    raise last_err or RuntimeError("Yahoo returned no usable price data (empty/incomplete response).")
 
 
 def _get_info(symbol: str) -> tuple[dict, "yf.Ticker"]:
@@ -209,6 +216,10 @@ def _parse_quote_row(row: dict) -> dict:
     }
 
 
+def _has_usable_price(snapshot: dict) -> bool:
+    return snapshot.get("price") is not None
+
+
 def get_daily_quote(symbol: str) -> dict:
     """The one place that actually hits Yahoo for a symbol's snapshot/raw
     data/news. Fetches live at most once per calendar day — every request
@@ -219,6 +230,11 @@ def get_daily_quote(symbol: str) -> dict:
     marks the result `is_stale=True` instead of erroring — a rate-limited
     server shows yesterday's numbers, not a blank page.
 
+    Cached rows and fallback candidates are checked for a usable price
+    before being trusted — a row that was saved back when Yahoo returned a
+    "successful" but empty response (price: null) is treated the same as a
+    failed fetch, not returned as if it were good data.
+
     Returns {snapshot, raw, news, quote_date, is_stale}.
     """
     from . import db  # local import: db.py has no reverse dependency on this module
@@ -228,8 +244,11 @@ def get_daily_quote(symbol: str) -> dict:
     cached = db.get_daily_quote(symbol, today)
     if cached:
         result = _parse_quote_row(cached)
-        result["is_stale"] = False
-        return result
+        if _has_usable_price(result["snapshot"]):
+            result["is_stale"] = False
+            return result
+        # today's cached row is poisoned (empty response saved as if valid) —
+        # fall through and try a fresh live fetch instead of trusting it
 
     try:
         snapshot = fetch_snapshot(symbol)
@@ -241,11 +260,11 @@ def get_daily_quote(symbol: str) -> dict:
         db.save_daily_quote(symbol, today, json.dumps(snapshot), json.dumps(raw), json.dumps(news))
         return {"snapshot": snapshot, "raw": raw, "news": news, "quote_date": today, "is_stale": False}
     except Exception:
-        latest = db.get_latest_daily_quote(symbol)
-        if latest:
-            result = _parse_quote_row(latest)
-            result["is_stale"] = True
-            return result
+        for row in db.get_recent_daily_quotes(symbol, limit=5):
+            result = _parse_quote_row(row)
+            if _has_usable_price(result["snapshot"]):
+                result["is_stale"] = True
+                return result
         raise
 
 
