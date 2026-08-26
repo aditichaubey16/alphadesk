@@ -18,6 +18,9 @@ from . import auth, db, market_data, screener, universe
 FRONTEND_DIR = Path(__file__).parent.parent / "frontend" / "static"
 _ASSET_VERSION = str(int(time.time()))  # busts browser cache for static assets on each restart
 _EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+# Owner's account sees the admin/signups view; everyone else gets a 403.
+# Override via env var if you ever change the account you sign up with.
+_OWNER_EMAIL = os.environ.get("ALPHADESK_OWNER_EMAIL", "aditichaubey1805@gmail.com").lower()
 
 app = FastAPI(title="AlphaDesk")
 
@@ -109,10 +112,29 @@ def signup(body: SignupIn, response: Response):
         raise HTTPException(status_code=409, detail="An account with this email already exists — log in instead")
 
     user = db.create_user(name, email, auth.hash_password(password))
+    _seed_default_watchlist(user["id"])
     token = auth.new_session_token()
     db.create_session(token, user["id"], auth.session_expiry())
     _set_session_cookie(response, token)
     return _public_user(user)
+
+
+# A starter watchlist so new signups don't land on an empty screen. Names/
+# sectors are hardcoded rather than fetched live, so signup stays fast and
+# doesn't depend on yfinance being reachable at that exact moment.
+_DEFAULT_WATCHLIST = [
+    ("RELIANCE.NS", "Reliance Industries Limited", "Energy"),
+    ("TCS.NS", "Tata Consultancy Services Limited", "Information Technology"),
+    ("INFY.NS", "Infosys Limited", "Information Technology"),
+]
+
+
+def _seed_default_watchlist(user_id: int) -> None:
+    for symbol, name, sector in _DEFAULT_WATCHLIST:
+        try:
+            db.add_company(user_id, symbol, name, sector)
+        except Exception:
+            pass  # never let a seeding hiccup break signup
 
 
 class LoginIn(BaseModel):
@@ -145,6 +167,14 @@ def logout(request: Request, response: Response):
 @app.get("/api/auth/me")
 def me(user: dict = Depends(get_current_user)):
     return _public_user(user)
+
+
+@app.get("/api/admin/users")
+def admin_list_users(user: dict = Depends(get_current_user)):
+    if user["email"].lower() != _OWNER_EMAIL:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    users = db.list_users()
+    return {"total": len(users), "users": users}
 
 
 # ---- search ----

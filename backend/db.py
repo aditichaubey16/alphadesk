@@ -151,6 +151,19 @@ def get_user_by_email(email: str) -> dict | None:
         conn.close()
 
 
+def list_users() -> list[dict]:
+    """Signups so far, newest first — no password hashes included. Used by
+    the owner-only admin view, not exposed to regular users."""
+    conn = get_conn()
+    try:
+        rows = conn.execute(
+            "SELECT id, name, email, created_at FROM users ORDER BY created_at DESC"
+        ).fetchall()
+        return [_row_to_dict(r) for r in rows]
+    finally:
+        conn.close()
+
+
 def get_user_by_id(user_id: int) -> dict | None:
     conn = get_conn()
     try:

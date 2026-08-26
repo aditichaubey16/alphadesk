@@ -1196,6 +1196,7 @@ document.querySelectorAll(".nav-btn").forEach((btn) => {
     if (view === "calendar") loadCalendar();
     if (view === "screen") loadDailyScreen();
     if (view === "portfolio") loadHoldings();
+    if (view === "admin") loadAdmin();
   });
 });
 
@@ -1251,7 +1252,46 @@ document.getElementById("show-login").addEventListener("click", (e) => {
 async function enterApp(user) {
   document.getElementById("user-name").textContent = user.name;
   document.body.classList.add("authed");
+  try {
+    const check = await fetch("/api/admin/users");
+    document.getElementById("admin-nav-btn").classList.toggle("hidden", check.status !== 200);
+  } catch (e) {
+    document.getElementById("admin-nav-btn").classList.add("hidden");
+  }
   await loadWatchlist();
+}
+
+async function loadAdmin() {
+  const summaryEl = document.getElementById("admin-summary");
+  const listEl = document.getElementById("admin-users-list");
+  summaryEl.textContent = "Loading…";
+  listEl.innerHTML = "";
+  let data;
+  try {
+    data = await api("/api/admin/users");
+  } catch (e) {
+    summaryEl.textContent = `Error: ${e.message}`;
+    return;
+  }
+  summaryEl.textContent = `${data.total} signup${data.total === 1 ? "" : "s"} so far.`;
+  if (!data.users.length) {
+    listEl.appendChild(el('<div class="empty">No one has signed up yet.</div>'));
+    return;
+  }
+  data.users.forEach((u) => {
+    listEl.appendChild(el(`
+      <div class="watch-row">
+        <div class="meta row-with-avatar">
+          ${avatarHtml(u.email, u.name, "md")}
+          <div>
+            <span class="symbol">${u.name}</span>
+            <div class="name">${u.email}</div>
+          </div>
+        </div>
+        <span class="badge">${new Date(u.created_at).toLocaleString()}</span>
+      </div>
+    `));
+  });
 }
 
 document.getElementById("login-btn").addEventListener("click", async () => {

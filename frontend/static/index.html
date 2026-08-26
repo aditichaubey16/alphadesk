@@ -86,6 +86,10 @@
       <svg viewBox="0 0 20 20" fill="none"><rect x="3.5" y="4.5" width="13" height="12" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 8h13M7 3v3M13 3v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       <span>Calendar</span>
     </button>
+    <button class="nav-btn hidden" data-view="admin" id="admin-nav-btn">
+      <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="6.5" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 17c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span>Admin</span>
+    </button>
   </nav>
   <div class="user-menu">
     <span id="user-name" class="user-name"></span>
@@ -179,6 +183,14 @@
     <div class="panel">
       <h2>Upcoming</h2>
       <div id="calendar-list"></div>
+    </div>
+  </section>
+
+  <section id="view-admin" class="view hidden">
+    <div class="panel">
+      <h2>Signups</h2>
+      <div id="admin-summary" class="name" style="margin-bottom:12px;"></div>
+      <div id="admin-users-list"></div>
     </div>
   </section>
 
