@@ -5,6 +5,8 @@ concern flag is a named threshold rule, so results are traceable.
 """
 from __future__ import annotations
 
+import datetime as _dt
+import json
 import time
 
 import yfinance as yf
@@ -196,6 +198,55 @@ def fetch_price_history(symbol: str, period: str = "6mo") -> list[dict]:
             close = close * fx_rate
         points.append({"date": date.strftime("%Y-%m-%d"), "close": round(close, 2)})
     return points
+
+
+def _parse_quote_row(row: dict) -> dict:
+    return {
+        "snapshot": json.loads(row["snapshot_json"]),
+        "raw": json.loads(row["raw_json"]) if row.get("raw_json") else [],
+        "news": json.loads(row["news_json"]) if row.get("news_json") else [],
+        "quote_date": row["quote_date"],
+    }
+
+
+def get_daily_quote(symbol: str) -> dict:
+    """The one place that actually hits Yahoo for a symbol's snapshot/raw
+    data/news. Fetches live at most once per calendar day — every request
+    for that symbol that day (from any user) reads the same cached row
+    instead of triggering its own Yahoo call, which is what was tripping
+    rate limits on a shared cloud IP. If today's live fetch fails, falls
+    back to the most recent successfully cached quote (however old) and
+    marks the result `is_stale=True` instead of erroring — a rate-limited
+    server shows yesterday's numbers, not a blank page.
+
+    Returns {snapshot, raw, news, quote_date, is_stale}.
+    """
+    from . import db  # local import: db.py has no reverse dependency on this module
+
+    today = _dt.date.today().isoformat()
+
+    cached = db.get_daily_quote(symbol, today)
+    if cached:
+        result = _parse_quote_row(cached)
+        result["is_stale"] = False
+        return result
+
+    try:
+        snapshot = fetch_snapshot(symbol)
+        raw = fetch_raw_parameters(symbol)
+        try:
+            news = fetch_recent_news(symbol)
+        except Exception:
+            news = []
+        db.save_daily_quote(symbol, today, json.dumps(snapshot), json.dumps(raw), json.dumps(news))
+        return {"snapshot": snapshot, "raw": raw, "news": news, "quote_date": today, "is_stale": False}
+    except Exception:
+        latest = db.get_latest_daily_quote(symbol)
+        if latest:
+            result = _parse_quote_row(latest)
+            result["is_stale"] = True
+            return result
+        raise
 
 
 def _next_earnings_date(t: "yf.Ticker") -> str | None:

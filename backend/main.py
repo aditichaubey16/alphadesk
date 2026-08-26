@@ -342,18 +342,15 @@ def ensure_company(symbol: str, body: EnsureCompanyIn, user: dict = Depends(get_
 def get_company_snapshot(symbol: str, user: dict = Depends(get_current_user)):
     company = _company_or_404(symbol, user["id"])
     try:
-        snapshot = market_data.fetch_snapshot(company["symbol"])
+        quote = market_data.get_daily_quote(company["symbol"])
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"Could not fetch live data: {e}")
-    try:
-        news = market_data.fetch_recent_news(company["symbol"])
-    except Exception:
-        news = []
+
+    snapshot, raw, news = quote["snapshot"], quote["raw"], quote["news"]
     news_concerns = market_data.flag_news_concerns(news)
     news_positives = market_data.flag_news_positives(news)
 
     concerns = market_data.flag_concerns(snapshot) + news_concerns
-    raw = market_data.fetch_raw_parameters(company["symbol"])
     recommendation = market_data.build_recommendation(snapshot, concerns, news_positives)
     summary = market_data.build_summary(snapshot, concerns, recommendation)
     return {
@@ -365,6 +362,8 @@ def get_company_snapshot(symbol: str, user: dict = Depends(get_current_user)):
         "summary": summary,
         "news": news,
         "news_positives": news_positives,
+        "quote_date": quote["quote_date"],
+        "is_stale": quote["is_stale"],
     }
 
 
@@ -471,11 +470,8 @@ def post_event(event: EventIn, user: dict = Depends(get_current_user)):
 def _enrich_holding(h: dict) -> dict:
     symbol = h["company_symbol"]
     try:
-        snapshot = market_data.fetch_snapshot(symbol)
-        try:
-            news = market_data.fetch_recent_news(symbol)
-        except Exception:
-            news = []
+        quote = market_data.get_daily_quote(symbol)
+        snapshot, news = quote["snapshot"], quote["news"]
         news_concerns = market_data.flag_news_concerns(news)
         news_positives = market_data.flag_news_positives(news)
         concerns = market_data.flag_concerns(snapshot) + news_concerns
@@ -507,6 +503,8 @@ def _enrich_holding(h: dict) -> dict:
         "summary": market_data.build_summary(snapshot, concerns, financial_rec),
         "news": news,
         "news_positives": news_positives,
+        "quote_date": quote["quote_date"],
+        "is_stale": quote["is_stale"],
     }
 
 

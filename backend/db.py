@@ -99,6 +99,20 @@ CREATE TABLE IF NOT EXISTS qualitative_factors (
     notes TEXT,
     updated_at TEXT NOT NULL
 );
+
+-- One row per (symbol, calendar date) — fetched at most once per day per
+-- symbol, everyone reads from this instead of hitting Yahoo per page view.
+-- Keeps a rolling history (not just "today") so a failed fetch can fall
+-- back to the most recent successful one instead of erroring.
+CREATE TABLE IF NOT EXISTS daily_quotes (
+    symbol TEXT NOT NULL,
+    quote_date TEXT NOT NULL,
+    snapshot_json TEXT NOT NULL,
+    raw_json TEXT,
+    news_json TEXT,
+    fetched_at TEXT NOT NULL,
+    PRIMARY KEY (symbol, quote_date)
+);
 """
 
 
@@ -169,6 +183,52 @@ def get_user_by_id(user_id: int) -> dict | None:
     try:
         row = conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
         return _row_to_dict(row) if row else None
+    finally:
+        conn.close()
+
+
+# ---- daily quotes (once-per-day snapshot cache, not per-request) ----
+
+def get_daily_quote(symbol: str, quote_date: str) -> dict | None:
+    conn = get_conn()
+    try:
+        row = conn.execute(
+            "SELECT * FROM daily_quotes WHERE symbol = ? AND quote_date = ?", (symbol, quote_date)
+        ).fetchone()
+        return _row_to_dict(row) if row else None
+    finally:
+        conn.close()
+
+
+def get_latest_daily_quote(symbol: str) -> dict | None:
+    """Most recent cached quote for this symbol regardless of date — the
+    fallback when today's live fetch fails."""
+    conn = get_conn()
+    try:
+        row = conn.execute(
+            "SELECT * FROM daily_quotes WHERE symbol = ? ORDER BY quote_date DESC LIMIT 1", (symbol,)
+        ).fetchone()
+        return _row_to_dict(row) if row else None
+    finally:
+        conn.close()
+
+
+def save_daily_quote(symbol: str, quote_date: str, snapshot_json: str, raw_json: str | None, news_json: str | None) -> None:
+    conn = get_conn()
+    try:
+        conn.execute(
+            """
+            INSERT INTO daily_quotes (symbol, quote_date, snapshot_json, raw_json, news_json, fetched_at)
+            VALUES (?, ?, ?, ?, ?, ?)
+            ON CONFLICT(symbol, quote_date) DO UPDATE SET
+                snapshot_json = excluded.snapshot_json,
+                raw_json = excluded.raw_json,
+                news_json = excluded.news_json,
+                fetched_at = excluded.fetched_at
+            """,
+            (symbol, quote_date, snapshot_json, raw_json, news_json, now()),
+        )
+        conn.commit()
     finally:
         conn.close()
 

@@ -519,7 +519,7 @@ async function loadHoldings() {
             ${avatarHtml(h.company_symbol, h.company_name, "md", h.logo_url)}
             <div>
               <span class="symbol">${h.company_symbol}</span> — <span class="name">${h.company_name || ""}</span>
-              <div class="name">Qty ${h.quantity} @ ₹${fmt(h.buy_price)}${h.buy_date ? " on " + h.buy_date : ""}</div>
+              <div class="name">Qty ${h.quantity} @ ₹${fmt(h.buy_price)}${h.buy_date ? " on " + h.buy_date : ""}${h.is_stale ? ' · <span class="badge medium">stale data</span>' : ""}</div>
             </div>
           </div>
           <div class="holding-figures">
@@ -737,7 +737,10 @@ async function openCompany(symbol, name) {
     <div class="panel">
       <div class="row-with-avatar" style="margin-bottom:14px;">
         ${avatarHtml(s.symbol, s.name, "lg", s.logo_url)}
-        <h2 style="margin:0;font-size:16px;color:var(--text);text-transform:none;letter-spacing:0;">${s.name} (${s.symbol})</h2>
+        <div>
+          <h2 style="margin:0;font-size:16px;color:var(--text);text-transform:none;letter-spacing:0;">${s.name} (${s.symbol})</h2>
+          <div class="name" style="margin-top:2px;">${data.is_stale ? `<span class="badge medium" style="margin-right:6px;">stale</span>Showing the last data we could fetch (as of ${data.quote_date}) — today's refresh failed, likely a temporary Yahoo Finance rate limit.` : `Prices as of ${data.quote_date} — refreshed once a day, not live.`}</div>
+        </div>
       </div>
       ${data.summary ? `<p class="research-summary">${data.summary}</p>` : ""}
       <div class="kpi-grid">
