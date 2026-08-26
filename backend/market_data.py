@@ -468,9 +468,11 @@ def build_recommendation(snapshot: dict, concerns: list[dict]) -> dict:
         "upside_pct": upside_pct,
         "reasoning": reasoning,
         "disclaimer": (
-            "Rule-based research screen combining concern-flag severity and analyst-target "
-            "upside — not personalized investment advice. Verify against your own thesis and "
-            "primary filings before acting."
+            "Numbers only: this call comes purely from concern-flag severity and analyst-target "
+            "upside in Yahoo Finance's data — it does not know about recent news, management "
+            "commentary, regulatory developments, or anything qualitative. A personal, rule-based "
+            "view, not personalized investment advice. Check current news and primary filings, and "
+            "verify against your own thesis, before relying on it."
         ),
     }
 
@@ -533,9 +535,12 @@ def build_holistic_recommendation(financial_rec: dict, qualitative: dict | None)
         "cautions": cautions,
         "positives": positives,
         "disclaimer": (
-            "Combines the rule-based financial screen with your own qualitative inputs "
-            "(management, governance, regulatory risk, moat) — still not personalized "
-            "investment advice. This reflects your judgment calls, not an independent assessment."
+            "Combines the numbers-only financial screen with whatever qualitative inputs you've "
+            "entered (management, governance, regulatory risk, moat) — those are your own manual "
+            "judgment calls, not automatically updated, and neither this nor the financial screen "
+            "knows about recent news or events unless you've factored it into those inputs "
+            "yourself. Still a personal view, not independent research or investment advice — "
+            "check current news before relying on it."
         ),
     }
 
@@ -616,5 +621,11 @@ def build_summary(snapshot: dict, concerns: list[dict], recommendation: dict) ->
         sentences.append(
             f"{n} concern{'s' if n != 1 else ''} flagged, most notably ({top['severity']}): {top['message']}"
         )
+
+    sentences.append(
+        "This summary is generated purely from the numbers above — it does not reflect recent "
+        "news, management commentary, or other qualitative factors, and is a personal, rule-based "
+        "view rather than independent research."
+    )
 
     return " ".join(sentences)

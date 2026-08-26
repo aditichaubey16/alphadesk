@@ -9,11 +9,12 @@ user-filtered lookup. `events` gets its own `user_id` since a calendar entry
 can stand alone with no company attached."""
 from __future__ import annotations
 
+import os
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
-DB_PATH = Path(__file__).parent.parent / "alphadesk.sqlite3"
+DB_PATH = Path(os.environ.get("ALPHADESK_DB_PATH", str(Path(__file__).parent.parent / "alphadesk.sqlite3")))
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS users (

@@ -3,6 +3,7 @@ request past the auth routes requires a valid session cookie, and all data
 routes are scoped to the logged-in user."""
 from __future__ import annotations
 
+import os
 import re
 import time
 from pathlib import Path
@@ -47,12 +48,16 @@ def _public_user(user: dict) -> dict:
 
 
 def _set_session_cookie(response: Response, token: str) -> None:
+    # Render (and most PaaS hosts) set RENDER/PORT-style env vars in production;
+    # only mark the cookie Secure there so plain-http local dev keeps working.
+    is_deployed = bool(os.environ.get("RENDER") or os.environ.get("ALPHADESK_ENV") == "production")
     response.set_cookie(
         auth.SESSION_COOKIE_NAME,
         token,
         max_age=auth.SESSION_TTL_DAYS * 86400,
         httponly=True,
         samesite="lax",
+        secure=is_deployed,
     )
 
 

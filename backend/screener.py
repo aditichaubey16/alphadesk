@@ -126,14 +126,17 @@ def _compute_and_cache() -> dict:
         "top_sells": top_sells,
         "errors": errors,
         "caution": (
-            "Ranked within each stock's own rule-based Buy/Hold/Sell call (concern-flag severity "
-            "and analyst-target upside), not by raw upside alone — so a stock never appears under "
-            "Sells while still labeled Buy. Nifty 50 names rarely trigger an outright Sell under "
-            "this rule scan, so the Sells list may run short and lean on Hold-labeled names with "
-            "the weakest upside instead of true Sells; check each label before acting. Not "
-            "personalized investment advice, not a real-time feed, and not based on trading volume "
-            "or actual order flow. Refreshed once per day (or on manual refresh). Verify "
-            "independently before acting."
+            "Numbers only, across all 50 names: this scan is purely concern-flag severity and "
+            "analyst-target upside from Yahoo Finance's data — it has no idea about news, "
+            "management commentary, regulatory developments, or anything else qualitative for any "
+            "of these companies. Ranked within each stock's own rule-based Buy/Hold/Sell call, not "
+            "by raw upside alone — so a stock never appears under Sells while still labeled Buy. "
+            "Nifty 50 names rarely trigger an outright Sell under this rule scan, so the Sells list "
+            "may run short and lean on Hold-labeled names with the weakest upside instead of true "
+            "Sells; check each label before acting. A personal, rule-based view — not personalized "
+            "investment advice, not a real-time feed, and not based on trading volume or actual "
+            "order flow. Refreshed once per day (or on manual refresh). Check current news and "
+            "verify independently before relying on any of these calls."
         ),
     }
     _write_cache(result)

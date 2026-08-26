@@ -1,0 +1,27 @@
+# Render blueprint — https://render.com/docs/blueprint-spec
+#
+# Free tier: no persistent disk, so alphadesk.sqlite3 resets on redeploy/restart.
+# Fine for a demo link; NOT fine for a service people rely on day-to-day.
+#
+# To get real persistence later: upgrade this service to a paid instance type
+# (Starter or above), then add a `disks:` block here, e.g.:
+#
+#   disks:
+#     - name: alphadesk-data
+#       mountPath: /var/data
+#       sizeGB: 1
+#
+# ...and set ALPHADESK_DB_PATH below to /var/data/alphadesk.sqlite3.
+
+services:
+  - type: web
+    name: alphadesk
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: ALPHADESK_ENV
+        value: production
+      - key: PYTHON_VERSION
+        value: 3.12.0

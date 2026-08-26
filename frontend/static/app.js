@@ -591,8 +591,8 @@ function renderHoldingDetails(detailsEl, h) {
       </div>
       <label style="margin-top:10px;display:block;">Future Prospects</label>
       <textarea data-field="future_prospects" placeholder="Your outlook on where this business is headed...">${q.future_prospects || ""}</textarea>
-      <label style="margin-top:10px;display:block;">Other Notes</label>
-      <textarea data-field="notes" placeholder="Any other non-financial considerations...">${q.notes || ""}</textarea>
+      <label style="margin-top:10px;display:block;">Recent News, Events & Other Notes</label>
+      <textarea data-field="notes" placeholder="Any recent news, management changes, litigation, regulatory action, or other non-financial developments — the rule scan above has no idea about any of this unless you write it here.">${q.notes || ""}</textarea>
       <button class="qual-save-btn" style="margin-top:10px;">Save & Recompute Consensus</button>
       <span class="qual-saved-msg name" style="margin-left:10px;"></span>
 
@@ -745,7 +745,7 @@ async function openCompany(symbol, name) {
         <div class="kpi"><div${tipAttrs("Rev Growth %", "label")}>Rev Growth %</div><div class="value">${fmt(s.revenue_growth_pct)}</div></div>
         <div class="kpi range-chart"><div${tipAttrs("52W Range", "label")}>52W Range</div>${rangeChart}</div>
         <div class="kpi"><div${tipAttrs("Analyst Target", "label")}>Analyst Target</div><div class="value">₹${fmt(s.target_mean_price)}</div></div>
-        <div class="kpi"><div${tipAttrs("Consensus", "label")}>Consensus</div><div class="value">${s.analyst_recommendation || "—"}</div><div class="kpi-disclaimer">Street views shown for reference only — not our call. Do your own research.</div></div>
+        <div class="kpi"><div${tipAttrs("Consensus", "label")}>Consensus</div><div class="value">${s.analyst_recommendation || "—"}</div><div class="kpi-disclaimer">Street views shown for reference only — not our call, and not updated for recent news. Do your own research.</div></div>
         <div class="kpi"><div${tipAttrs("Next Earnings", "label")}>Next Earnings</div><div class="value">${s.next_earnings_date || "—"}</div></div>
       </div>
       ${fxNote}
