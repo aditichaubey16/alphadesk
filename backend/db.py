@@ -567,3 +567,62 @@ def export_all(user_id: int) -> dict:
         }
     finally:
         conn.close()
+
+
+# ---- full-database backup/restore (admin) ----
+#
+# Unlike export_all() above (one user's data), these two cover *every* user's
+# data — meant to bridge a full database wipe (e.g. a free-tier host that
+# resets its filesystem on redeploy): export everything before a deploy,
+# import everything after. `users` includes password_hash, so accounts come
+# back fully usable without anyone re-signing up. Explicit IDs are preserved
+# on import so every foreign key (company_id, user_id, ...) still resolves.
+
+_ADMIN_BACKUP_TABLES = [
+    "users", "companies", "notes", "thesis", "estimates",
+    "events", "holdings", "qualitative_factors",
+]
+
+
+def export_all_admin() -> dict:
+    conn = get_conn()
+    try:
+        dump = {"exported_at": now(), "version": 1}
+        for table in _ADMIN_BACKUP_TABLES:
+            dump[table] = [_row_to_dict(r) for r in conn.execute(f"SELECT * FROM {table}").fetchall()]
+        return dump
+    finally:
+        conn.close()
+
+
+def import_all_admin(data: dict) -> dict:
+    """Wipes every table this app owns and reloads it from `data`. Row order
+    matters: users before companies (companies.user_id references users),
+    companies before everything that hangs off company_id."""
+    conn = get_conn()
+    try:
+        conn.execute("PRAGMA foreign_keys = OFF")  # allow wiping/reloading out of strict dependency order within the transaction
+        counts = {}
+        conn.execute("DELETE FROM sessions")  # not part of the backup - old tokens shouldn't outlive a restore
+        # Delete in reverse dependency order so nothing violates a FK mid-wipe.
+        for table in reversed(_ADMIN_BACKUP_TABLES):
+            conn.execute(f"DELETE FROM {table}")
+        for table in _ADMIN_BACKUP_TABLES:
+            rows = data.get(table, [])
+            counts[table] = len(rows)
+            for row in rows:
+                cols = list(row.keys())
+                placeholders = ",".join("?" * len(cols))
+                col_list = ",".join(cols)
+                conn.execute(
+                    f"INSERT INTO {table} ({col_list}) VALUES ({placeholders})",
+                    [row[c] for c in cols],
+                )
+        conn.execute("PRAGMA foreign_keys = ON")
+        conn.commit()
+        return counts
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()

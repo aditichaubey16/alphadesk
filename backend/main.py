@@ -177,6 +177,46 @@ def admin_list_users(user: dict = Depends(get_current_user)):
     return {"total": len(users), "users": users}
 
 
+# ---- full-database backup/restore (bridges a free-tier redeploy wipe) ----
+#
+# Export requires being logged in as the owner (normal session auth) - by
+# the time you're exporting, the app is presumably up and you can log in.
+# Import instead requires a separate pre-shared key, because right after a
+# fresh redeploy the database is EMPTY - there's no owner account yet to log
+# in as. Set ALPHADESK_RESTORE_KEY in your host's environment variables to a
+# long random string before you rely on this.
+
+def _require_restore_key(request: Request) -> None:
+    expected = os.environ.get("ALPHADESK_RESTORE_KEY")
+    if not expected:
+        raise HTTPException(status_code=503, detail="ALPHADESK_RESTORE_KEY is not configured on this server")
+    provided = request.headers.get("x-restore-key")
+    if not provided or provided != expected:
+        raise HTTPException(status_code=401, detail="Missing or incorrect restore key")
+
+
+@app.get("/api/admin/export-all")
+def admin_export_all(user: dict = Depends(get_current_user)):
+    if user["email"].lower() != _OWNER_EMAIL:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    data = db.export_all_admin()
+    filename = f"alphadesk-full-backup-{db.now()[:10]}.json"
+    return JSONResponse(content=data, headers={"Content-Disposition": f'attachment; filename="{filename}"'})
+
+
+@app.post("/api/admin/import-all")
+async def admin_import_all(request: Request):
+    _require_restore_key(request)
+    try:
+        data = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Body must be valid JSON (the file exported by /api/admin/export-all)")
+    if "users" not in data:
+        raise HTTPException(status_code=400, detail="This doesn't look like a full-database backup file")
+    counts = db.import_all_admin(data)
+    return {"ok": True, "restored": counts}
+
+
 # ---- search ----
 
 @app.get("/api/search")

@@ -1236,9 +1236,49 @@ document.getElementById("event-add-btn").addEventListener("click", async () => {
 function showAuthForm(which) {
   document.getElementById("auth-login").classList.toggle("hidden", which !== "login");
   document.getElementById("auth-signup").classList.toggle("hidden", which !== "signup");
+  document.getElementById("auth-restore").classList.toggle("hidden", which !== "restore");
   document.getElementById("login-error").textContent = "";
   document.getElementById("signup-error").textContent = "";
 }
+
+document.getElementById("show-restore").addEventListener("click", (e) => {
+  e.preventDefault();
+  const restoreEl = document.getElementById("auth-restore");
+  const opening = restoreEl.classList.contains("hidden");
+  showAuthForm(opening ? "restore" : "login");
+});
+
+document.getElementById("restore-btn").addEventListener("click", async () => {
+  const key = document.getElementById("restore-key").value.trim();
+  const fileInput = document.getElementById("restore-file");
+  const errEl = document.getElementById("restore-error");
+  const okEl = document.getElementById("restore-success");
+  errEl.textContent = "";
+  okEl.textContent = "";
+  if (!key) {
+    errEl.textContent = "Enter the restore key.";
+    return;
+  }
+  if (!fileInput.files.length) {
+    errEl.textContent = "Choose a backup JSON file first.";
+    return;
+  }
+  try {
+    const text = await fileInput.files[0].text();
+    const res = await fetch("/api/admin/import-all", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Restore-Key": key },
+      body: text,
+    });
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.detail || `Request failed: ${res.status}`);
+    const counts = Object.entries(body.restored).map(([t, n]) => `${t}: ${n}`).join(", ");
+    okEl.textContent = `Restored — ${counts}. Log in normally now.`;
+    fileInput.value = "";
+  } catch (e) {
+    errEl.textContent = e.message;
+  }
+});
 
 document.getElementById("show-signup").addEventListener("click", (e) => {
   e.preventDefault();
