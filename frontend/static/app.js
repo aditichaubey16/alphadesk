@@ -643,8 +643,14 @@ async function loadWatchlist() {
         </div>
       </div>
     `);
-    row.querySelector(".open-btn").addEventListener("click", () => openCompany(c.symbol));
-    row.querySelector(".remove-btn").addEventListener("click", async () => {
+    row.style.cursor = "pointer";
+    row.addEventListener("click", () => openCompany(c.symbol));
+    row.querySelector(".open-btn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      openCompany(c.symbol);
+    });
+    row.querySelector(".remove-btn").addEventListener("click", async (e) => {
+      e.stopPropagation();
       await api(`/api/watchlist/${encodeURIComponent(c.symbol)}`, { method: "DELETE" });
       loadWatchlist();
     });
@@ -1186,6 +1192,8 @@ function buildSectorRow(c) {
   return row;
 }
 
+const SECTOR_COLORS = ["#5b7fff", "#2fbf74", "#eaad3f", "#ef5a63", "#a78bfa", "#22c1c9", "#f472b6", "#fb923c", "#84cc16", "#d4af6a"];
+
 async function loadSectors() {
   const metaEl = document.getElementById("sectors-meta");
   const contentEl = document.getElementById("sectors-content");
@@ -1195,20 +1203,27 @@ async function loadSectors() {
   const data = await api("/api/sectors");
   const sectorNames = Object.keys(data.sectors);
   const totalCompanies = sectorNames.reduce((sum, s) => sum + data.sectors[s].length, 0);
-  metaEl.textContent = `${totalCompanies} companies across ${sectorNames.length} sectors — data as of ${data.as_of || "unknown"}`;
+  metaEl.textContent = `${totalCompanies} companies across ${sectorNames.length} sectors — data as of ${data.as_of || "unknown"}. Click a sector to see its companies.`;
 
   contentEl.innerHTML = "";
-  sectorNames.forEach((sector) => {
+  sectorNames.forEach((sector, i) => {
     const companies = data.sectors[sector];
-    const panel = el(`
-      <div class="panel" style="margin-top:14px;">
-        <h2>${sector} <span class="name" style="font-weight:400;">(${companies.length})</span></h2>
-        <div class="sector-rows"></div>
+    const color = SECTOR_COLORS[i % SECTOR_COLORS.length];
+    const card = el(`
+      <div class="sector-card" style="--sector-color:${color};">
+        <div class="sector-header">
+          <h2>${sector} <span class="count">${companies.length}</span></h2>
+          <svg class="sector-chevron" viewBox="0 0 20 20" fill="none"><path d="m5.5 8 4.5 4.5L14.5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="sector-body"><div class="sector-rows"></div></div>
       </div>
     `);
-    const rowsBox = panel.querySelector(".sector-rows");
+    const rowsBox = card.querySelector(".sector-rows");
     companies.forEach((c) => rowsBox.appendChild(buildSectorRow(c)));
-    contentEl.appendChild(panel);
+    card.querySelector(".sector-header").addEventListener("click", () => {
+      card.classList.toggle("open");
+    });
+    contentEl.appendChild(card);
   });
 }
 
