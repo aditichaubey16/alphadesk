@@ -17,9 +17,11 @@ from pathlib import Path
 DB_PATH = Path(os.environ.get("ALPHADESK_DB_PATH", str(Path(__file__).parent.parent / "alphadesk.sqlite3")))
 
 SCHEMA = """
--- No password: entering a name + email either logs into that existing
--- account or creates it on the spot. Deliberately simple for a small,
--- low-stakes group of peers - not a real access boundary.
+-- No login screen: a session cookie (issued silently on first visit) is the
+-- only thing separating one visitor's watchlist/portfolio/notes from
+-- another's. `email` is a leftover unique key, populated with an internal
+-- placeholder for anonymous visitors - real only for the one admin account,
+-- which claims its identity via a hidden URL parameter, not a form.
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -175,8 +177,6 @@ def get_user_by_id(user_id: int) -> dict | None:
         conn.close()
 
 
-# ---- daily quotes (once-per-day snapshot cache, not per-request) ----
-
 def update_name(user_id: int, name: str) -> dict | None:
     conn = get_conn()
     try:
@@ -186,6 +186,25 @@ def update_name(user_id: int, name: str) -> dict | None:
         return _row_to_dict(row) if row else None
     finally:
         conn.close()
+
+
+def update_email(user_id: int, email: str) -> dict | None:
+    conn = get_conn()
+    try:
+        conn.execute("UPDATE users SET email = ? WHERE id = ?", (email.lower(), user_id))
+        conn.commit()
+        row = conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
+        return _row_to_dict(row) if row else None
+    finally:
+        conn.close()
+
+
+def create_anonymous_user(name: str, placeholder_email: str) -> dict:
+    """A silent, no-login account auto-provisioned on first visit — same
+    `users` row shape as before, just never seen or typed by anyone. The
+    placeholder email exists only to satisfy the UNIQUE NOT NULL column and
+    is never shown in the UI."""
+    return create_user(name, placeholder_email)
 
 
 # ---- sessions ----
@@ -598,14 +617,3 @@ def export_all(user_id: int) -> dict:
         }
     finally:
         conn.close()
-
-
-# ---- signups export (admin) ----
-#
-# With no password, there's nothing precious to bridge across a redeploy
-# wipe - anyone just re-enters their name + email and they're back in. So
-# this only exports who has signed up (name, email, joined date), not their
-# research data, which is expected to reset with the free-tier database.
-
-def export_users_admin() -> dict:
-    return {"exported_at": now(), "users": list_users()}

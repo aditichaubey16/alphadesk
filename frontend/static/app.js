@@ -269,9 +269,6 @@ async function api(path, options) {
     headers: { "Content-Type": "application/json" },
     ...options,
   });
-  if (res.status === 401 && path !== "/api/auth/me") {
-    document.body.classList.remove("authed");
-  }
   if (!res.ok) {
     const detail = await res.json().catch(() => ({}));
     throw new Error(detail.detail || `Request failed: ${res.status}`);
@@ -301,6 +298,14 @@ function el(html) {
   const t = document.createElement("template");
   t.innerHTML = html.trim();
   return t.content.firstChild;
+}
+
+function skeletonRows(n = 3) {
+  return Array.from({ length: n }, () => '<div class="skeleton-row"></div>').join("");
+}
+
+function skeletonBlock(height) {
+  return `<div class="skeleton-block" style="height:${height}px;"></div>`;
 }
 
 function showView(name) {
@@ -457,7 +462,7 @@ function selectOptionsHtml(field, current) {
 async function loadHoldings() {
   const box = document.getElementById("holdings-list");
   const summaryEl = document.getElementById("holdings-summary");
-  box.innerHTML = '<div class="empty">Loading…</div>';
+  box.innerHTML = skeletonRows(3);
   const holdings = await api("/api/holdings");
   if (!holdings.length) {
     summaryEl.textContent = "";
@@ -618,7 +623,7 @@ function renderHoldingDetails(detailsEl, h) {
 
 async function loadWatchlist() {
   const box = document.getElementById("watchlist-table");
-  box.innerHTML = '<div class="empty">Loading…</div>';
+  box.innerHTML = skeletonRows(3);
   const companies = await api("/api/watchlist");
   if (!companies.length) {
     box.innerHTML = '<div class="empty">No companies yet — search above to add one.</div>';
@@ -708,7 +713,7 @@ async function openCompany(symbol, name) {
   state.currentSymbol = symbol;
   showView("company");
   const content = document.getElementById("company-content");
-  content.innerHTML = '<div class="empty">Loading…</div>';
+  content.innerHTML = skeletonBlock(420);
 
   let data;
   try {
@@ -775,14 +780,14 @@ async function openCompany(symbol, name) {
         <button class="period-btn" data-period="1y">1Y</button>
         <button class="period-btn" data-period="2y">2Y</button>
       </div>
-      <div id="price-history-chart"><div class="empty">Loading…</div></div>
+      <div id="price-history-chart">${skeletonBlock(180)}</div>
     </div>
   `);
   content.appendChild(historyPanel);
   const chartBox = historyPanel.querySelector("#price-history-chart");
 
   async function loadHistory(period) {
-    chartBox.innerHTML = '<div class="empty">Loading…</div>';
+    chartBox.innerHTML = skeletonBlock(180);
     try {
       const points = await api(`/api/company/${encodeURIComponent(symbol)}/history?period=${period}`);
       renderLineChart(chartBox, points);
@@ -980,8 +985,8 @@ async function openCompany(symbol, name) {
       <h2>Estimates vs Actuals</h2>
       <div class="form-row">
         <input id="est-period" type="text" placeholder="Period (e.g. Q1 FY26)">
-        <input id="est-eps" type="number" step="any" placeholder="Est. EPS">
-        <input id="est-rev" type="number" step="any" placeholder="Est. Revenue">
+        <input id="est-eps" type="number" step="any" inputmode="decimal" placeholder="Est. EPS">
+        <input id="est-rev" type="number" step="any" inputmode="decimal" placeholder="Est. Revenue">
         <button id="est-add-btn">Add estimate</button>
       </div>
       <div id="est-table" style="margin-top:12px;"></div>
@@ -1003,10 +1008,10 @@ async function openCompany(symbol, name) {
         <tr>
           <td>${e.period_label}</td>
           <td>${fmt(e.est_eps)}</td>
-          <td><input type="number" step="any" class="actual-eps-input" data-id="${e.id}" value="${e.actual_eps ?? ""}" style="width:80px;"></td>
+          <td><input type="number" step="any" inputmode="decimal" class="actual-eps-input" data-id="${e.id}" value="${e.actual_eps ?? ""}" style="width:80px;"></td>
           <td>${epsVar}</td>
           <td>${fmt(e.est_revenue)}</td>
-          <td><input type="number" step="any" class="actual-rev-input" data-id="${e.id}" value="${e.actual_revenue ?? ""}" style="width:90px;"></td>
+          <td><input type="number" step="any" inputmode="decimal" class="actual-rev-input" data-id="${e.id}" value="${e.actual_revenue ?? ""}" style="width:90px;"></td>
           <td>${revVar}</td>
         </tr>
       `;
@@ -1109,7 +1114,7 @@ async function openCompany(symbol, name) {
 
 async function loadCalendar() {
   const box = document.getElementById("calendar-list");
-  box.innerHTML = '<div class="empty">Loading…</div>';
+  box.innerHTML = skeletonRows(3);
   const events = await api("/api/events");
   if (!events.length) {
     box.innerHTML = '<div class="empty">No events yet.</div>';
@@ -1198,7 +1203,7 @@ async function loadSectors() {
   const metaEl = document.getElementById("sectors-meta");
   const contentEl = document.getElementById("sectors-content");
   metaEl.textContent = "Loading…";
-  contentEl.innerHTML = "";
+  contentEl.innerHTML = skeletonRows(4);
 
   const data = await api("/api/sectors");
   const sectorNames = Object.keys(data.sectors);
@@ -1233,8 +1238,8 @@ async function loadDailyScreen() {
   const buysBox = document.getElementById("screen-buys");
   const sellsBox = document.getElementById("screen-sells");
   metaEl.textContent = "Loading…";
-  buysBox.innerHTML = "";
-  sellsBox.innerHTML = "";
+  buysBox.innerHTML = skeletonRows(4);
+  sellsBox.innerHTML = skeletonRows(4);
 
   const data = await api("/api/daily-screen");
 
@@ -1311,20 +1316,26 @@ document.getElementById("event-add-btn").addEventListener("click", async () => {
 });
 
 // ---- auth ----
-
-function showAuthForm() {
-  document.getElementById("enter-error").textContent = "";
-}
+//
+// No login screen — a session is minted silently on first request (see
+// backend/main.py's get_current_user). This just paints the topbar and
+// loads the initial view once that session's data is known.
 
 async function enterApp(user) {
   document.getElementById("user-name").textContent = user.name;
-  document.body.classList.add("authed");
   try {
     const check = await fetch("/api/admin/users");
     document.getElementById("admin-nav-btn").classList.toggle("hidden", check.status !== 200);
   } catch (e) {
     document.getElementById("admin-nav-btn").classList.add("hidden");
   }
+  api("/api/data-status")
+    .then((d) => {
+      document.getElementById("data-status-bar").textContent = d.as_of
+        ? `Data as of ${d.as_of} — ${d.tracked_count} companies tracked, refreshed manually by the admin`
+        : "";
+    })
+    .catch(() => {});
   await loadWatchlist();
 }
 
@@ -1376,7 +1387,7 @@ async function runCompare() {
     box.innerHTML = '<div class="empty">Add companies above to compare.</div>';
     return;
   }
-  box.innerHTML = '<div class="empty">Loading…</div>';
+  box.innerHTML = skeletonRows(2);
   let data;
   try {
     data = await api("/api/compare", { method: "POST", body: JSON.stringify({ symbols: _compareList.map((c) => c.symbol) }) });
@@ -1424,7 +1435,7 @@ async function loadAdmin() {
   const summaryEl = document.getElementById("admin-summary");
   const listEl = document.getElementById("admin-users-list");
   summaryEl.textContent = "Loading…";
-  listEl.innerHTML = "";
+  listEl.innerHTML = skeletonRows(3);
   let data;
   try {
     data = await api("/api/admin/users");
@@ -1432,20 +1443,22 @@ async function loadAdmin() {
     summaryEl.textContent = `Error: ${e.message}`;
     return;
   }
-  summaryEl.textContent = `${data.total} signup${data.total === 1 ? "" : "s"} so far.`;
+  // No login means no real names/emails to show - every session is
+  // anonymous ("Guest") except this one (the owner's). Just the count and
+  // visit timestamps are meaningful here.
+  summaryEl.innerHTML = `<span style="font-family:var(--font-mono);font-size:26px;font-weight:700;color:var(--text);">${data.total}</span> session${data.total === 1 ? "" : "s"} since the last redeploy.`;
+  listEl.innerHTML = "";
   if (!data.users.length) {
-    listEl.appendChild(el('<div class="empty">No one has signed up yet.</div>'));
+    listEl.appendChild(el('<div class="empty">No visits yet.</div>'));
     return;
   }
-  data.users.forEach((u) => {
+  data.users.forEach((u, i) => {
+    const isOwner = u.email === data.owner_email;
     listEl.appendChild(el(`
       <div class="watch-row">
         <div class="meta row-with-avatar">
-          ${avatarHtml(u.email, u.name, "md")}
-          <div>
-            <span class="symbol">${u.name}</span>
-            <div class="name">${u.email}</div>
-          </div>
+          ${avatarHtml(String(u.id), isOwner ? "Admin" : "Visitor", "md")}
+          <div><span class="symbol">${isOwner ? "You (admin)" : `Visitor #${data.total - i}`}</span></div>
         </div>
         <span class="badge">${new Date(u.created_at).toLocaleString()}</span>
       </div>
@@ -1453,31 +1466,10 @@ async function loadAdmin() {
   });
 }
 
-document.getElementById("enter-btn").addEventListener("click", async () => {
-  const name = document.getElementById("enter-name").value.trim();
-  const email = document.getElementById("enter-email").value.trim();
-  const errEl = document.getElementById("enter-error");
-  errEl.textContent = "";
-  if (!email) {
-    errEl.textContent = "Enter your email.";
-    return;
-  }
-  try {
-    const user = await api("/api/auth/enter", { method: "POST", body: JSON.stringify({ name, email }) });
-    await enterApp(user);
-  } catch (e) {
-    errEl.textContent = e.message;
-  }
-});
-
-[document.getElementById("enter-name"), document.getElementById("enter-email")].forEach((el) => {
-  el.addEventListener("keydown", (e) => { if (e.key === "Enter") document.getElementById("enter-btn").click(); });
-});
-
 document.getElementById("logout-btn").addEventListener("click", async () => {
+  if (!confirm("Reset this browser's watchlist, portfolio, and notes? This can't be undone.")) return;
   await api("/api/auth/logout", { method: "POST" });
-  document.body.classList.remove("authed");
-  showAuthForm();
+  location.reload();
 });
 
 // ---- account settings modal ----
@@ -1517,10 +1509,22 @@ document.getElementById("settings-name-save-btn").addEventListener("click", asyn
 });
 
 (async function bootstrap() {
-  try {
-    const user = await api("/api/auth/me");
-    await enterApp(user);
-  } catch (e) {
-    showAuthForm();
+  // A ?admin=<key> in the URL quietly upgrades this session to the owner
+  // account before anything else loads — no visible form, and the key is
+  // stripped from the address bar right after so it doesn't linger there.
+  const params = new URLSearchParams(location.search);
+  const adminKey = params.get("admin");
+  if (adminKey) {
+    try {
+      await api("/api/auth/claim-admin", { method: "POST", body: JSON.stringify({ key: adminKey }) });
+    } catch (e) {
+      // wrong or expired key — just proceed as a normal anonymous session
+    }
+    params.delete("admin");
+    const rest = params.toString();
+    history.replaceState(null, "", location.pathname + (rest ? `?${rest}` : ""));
   }
+
+  const user = await api("/api/auth/me");
+  await enterApp(user);
 })();

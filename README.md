@@ -16,19 +16,22 @@ multi-user accounts were added.
 
 ## Accounts
 
-No password. Enter a name and email — that either creates a new account or
-logs into the existing one for that email (case-insensitive), and updates the
-stored name if you typed a different one. Email is the account ID.
-Everything — watchlist, portfolio, notes, thesis, estimates, calendar — is
-private to the account that created it; the Daily Screen (Nifty 50 scan) is
-the one shared, non-personal view everyone sees the same data for.
+No login screen at all. The app opens straight to the Watchlist — a session
+cookie is minted silently on the first request, so each browser still gets
+its own private watchlist/portfolio/notes/thesis/estimates/calendar under
+the hood, it's just never surfaced as a sign-in step. The Daily Screen
+(Nifty 50 scan) and Sectors tab are the shared, non-personal views everyone
+sees the same data for.
 
-This is deliberately not a real access boundary: anyone who knows or guesses
-a person's email can open that account. Fine for a small, low-stakes group of
-peers, not for anything sensitive. The admin account is gated on a fixed
-owner ID (`ALPHADESK_OWNER_EMAIL` env var, default `adit.shiv@1805` — not a
-real email address, chosen specifically so it can't be guessed the way a
-public email could) rather than a real address, for the same reason.
+There's no accounts table anyone fills in and nothing to persist across a
+redeploy wipe by design — a fresh visit just gets a fresh anonymous session,
+same as before.
+
+The one owner/admin identity is claimed via a hidden URL parameter
+(`?admin=<key>`, matched against `ALPHADESK_OWNER_EMAIL`, default
+`adit.shiv@1805`) instead of a login form — visiting that URL once quietly
+upgrades the current session and strips the parameter from the address bar.
+No one else ever sees a way to attempt this.
 
 ## Run it
 
@@ -39,8 +42,8 @@ venv\Scripts\pip install -r requirements.txt
 venv\Scripts\python app.py
 ```
 
-Opens `http://127.0.0.1:8010` in your browser automatically — enter a name
-and email to get started, no password.
+Opens `http://127.0.0.1:8010` in your browser automatically, straight into
+the app — nothing to sign in with.
 
 ## What's here
 

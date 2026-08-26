@@ -25,30 +25,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/static/style.css">
+
+<link rel="manifest" href="/static/manifest.json">
+<meta name="theme-color" content="#5b7fff">
+<link rel="icon" href="/static/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AlphaDesk">
 </head>
 <body>
 
-<div id="auth-screen">
-  <div class="auth-card">
-    <div class="auth-brand">
-      <span class="brand-mark auth-brand-mark">α</span>
-      <span class="auth-brand-name">AlphaDesk</span>
-      <span class="auth-brand-tagline">Equity research, made rigorous</span>
-    </div>
-
-    <div id="auth-enter">
-      <h2 class="auth-title">Welcome</h2>
-      <p class="auth-subtitle">Enter your name and email to open your workspace — no password needed</p>
-      <label>Name</label>
-      <div class="auth-field"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="6.5" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 17c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><input id="enter-name" type="text" autocomplete="name" placeholder="Your name"></div>
-      <label style="margin-top:12px;display:block;">Email</label>
-      <div class="auth-field"><svg viewBox="0 0 20 20" fill="none"><path d="M3 5.5h14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4"/><path d="m3 6 7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><input id="enter-email" type="text" inputmode="email" autocomplete="email" placeholder="you@example.com"></div>
-      <div id="enter-error" class="auth-error"></div>
-      <button id="enter-btn" style="width:100%;margin-top:16px;">Continue</button>
-      <div class="auth-switch">First time here? Just enter your details — your account is created automatically.</div>
-    </div>
-  </div>
-</div>
 
 <header class="topbar">
   <div class="brand">
@@ -90,9 +78,10 @@
       <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M10 3v1.6M10 15.4V17M17 10h-1.6M4.6 10H3M15 5l-1.2 1.2M6.2 13.8 5 15M15 15l-1.2-1.2M6.2 6.2 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
     </button>
     <span id="user-name" class="user-name"></span>
-    <button id="logout-btn" class="secondary">Log Out</button>
+    <button id="logout-btn" class="secondary" title="Clear this browser's watchlist/portfolio/notes and start over">Reset</button>
   </div>
 </header>
+<div id="data-status-bar" class="data-status-bar"></div>
 
 <div id="settings-modal" class="modal-overlay hidden">
   <div class="modal-card">
@@ -126,7 +115,7 @@
           <div id="search-dropdown" class="ac-dropdown hidden"></div>
         </div>
       </div>
-      <div class="name" style="margin-top:6px;">Nifty 50 companies only — the ones with real tracked data.</div>
+      <div class="name" style="margin-top:6px;">Only companies with real tracked data show up here. <a href="mailto:aditichaubey1805@gmail.com?subject=AlphaDesk%3A%20add%20a%20company&body=Please%20add%20this%20company%20to%20AlphaDesk%27s%20tracked%20list%3A%20" class="request-link">Don't see one you want? Request it →</a></div>
     </div>
 
     <div class="panel">
@@ -149,12 +138,13 @@
           <input id="holding-search-input" type="text" autocomplete="off" placeholder="Search NSE company to add as a holding">
           <div id="holding-search-dropdown" class="ac-dropdown hidden"></div>
         </div>
-        <input id="holding-qty" type="number" step="any" placeholder="Quantity">
-        <input id="holding-price" type="number" step="any" placeholder="Buy price (₹)">
+        <input id="holding-qty" type="number" step="any" inputmode="decimal" placeholder="Quantity">
+        <input id="holding-price" type="number" step="any" inputmode="decimal" placeholder="Buy price (₹)">
         <input id="holding-date" type="date">
         <button id="holding-add-btn" disabled>Add Holding</button>
       </div>
       <div class="name" id="holding-selected" style="margin-top:6px;">No company selected yet — search above.</div>
+      <div class="name" style="margin-top:4px;">Only companies with real tracked data show up here. <a href="mailto:aditichaubey1805@gmail.com?subject=AlphaDesk%3A%20add%20a%20company&body=Please%20add%20this%20company%20to%20AlphaDesk%27s%20tracked%20list%3A%20" class="request-link">Don't see one you want? Request it →</a></div>
     </div>
 
     <div class="panel">
@@ -215,6 +205,7 @@
         <div id="compare-search-dropdown" class="ac-dropdown hidden"></div>
       </div>
       <div id="compare-chips" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;"></div>
+      <div class="name" style="margin-top:10px;">Only companies with real tracked data show up here. <a href="mailto:aditichaubey1805@gmail.com?subject=AlphaDesk%3A%20add%20a%20company&body=Please%20add%20this%20company%20to%20AlphaDesk%27s%20tracked%20list%3A%20" class="request-link">Don't see one you want? Request it →</a></div>
     </div>
 
     <div class="panel">
@@ -231,12 +222,11 @@
   </section>
 
   <section id="view-admin" class="view hidden">
-    <p class="view-intro"><strong>Admin</strong> — visible only to the owner account. See everyone who has signed up. There's no password to lose and no restore to manage — a redeploy wipes research data, but anyone gets back in by re-entering their name and email.</p>
+    <p class="view-intro"><strong>Admin</strong> — visible only to the owner account. There's no login, so this just shows how many anonymous sessions have visited since the last redeploy — no names, no emails, nothing personal to track.</p>
     <div class="panel">
-      <h2>Signups</h2>
+      <h2>Usage</h2>
       <div id="admin-summary" class="name" style="margin-bottom:12px;"></div>
       <div id="admin-users-list"></div>
-      <a href="/api/admin/export-all" class="footer-export" style="display:inline-block;margin-top:12px;">Export Signups (name + email)</a>
     </div>
   </section>
 

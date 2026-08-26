@@ -1,10 +1,11 @@
-"""AlphaDesk FastAPI app: JSON API + static frontend. Multi-user: every
-request past the auth routes requires a valid session cookie, and all data
-routes are scoped to the logged-in user."""
+"""AlphaDesk FastAPI app: JSON API + static frontend. No login screen — a
+session cookie is issued silently on a visitor's first request, so every
+data route is still scoped to a "user" under the hood, but nobody ever
+types a name or email to get one."""
 from __future__ import annotations
 
 import os
-import re
+import secrets
 import time
 from pathlib import Path
 
@@ -17,9 +18,9 @@ from . import auth, db, market_data, screener, universe
 
 FRONTEND_DIR = Path(__file__).parent.parent / "frontend" / "static"
 _ASSET_VERSION = str(int(time.time()))  # busts browser cache for static assets on each restart
-_EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 # Owner's account sees the admin/signups view; everyone else gets a 403.
-# Override via env var if you ever change the account you sign up with.
+# Claimed via a hidden URL parameter (?admin=<this value>), not a login
+# form — see /api/auth/claim-admin. Override via env var if needed.
 _OWNER_EMAIL = os.environ.get("ALPHADESK_OWNER_EMAIL", "adit.shiv@1805").lower()
 
 app = FastAPI(title="AlphaDesk")
@@ -32,17 +33,28 @@ def _startup():
 
 
 # ---- auth dependency ----
+#
+# No login screen — every request either carries a valid session cookie, or
+# doesn't, in which case one is silently minted right here: a brand-new
+# anonymous user + session, cookie set on the response, seeded with the
+# starter watchlist, and the request continues as if it always had one.
+# The first request of a new visit pays for this; every request after
+# reuses the same cookie like a normal session.
 
-def get_current_user(request: Request) -> dict:
+def get_current_user(request: Request, response: Response) -> dict:
     token = request.cookies.get(auth.SESSION_COOKIE_NAME)
-    if not token:
-        raise HTTPException(status_code=401, detail="Not signed in")
-    session = db.get_session(token)
-    if not session or auth.is_expired(session["expires_at"]):
-        raise HTTPException(status_code=401, detail="Session expired")
-    user = db.get_user_by_id(session["user_id"])
-    if not user:
-        raise HTTPException(status_code=401, detail="Not signed in")
+    session = db.get_session(token) if token else None
+    if session and not auth.is_expired(session["expires_at"]):
+        user = db.get_user_by_id(session["user_id"])
+        if user:
+            return user
+
+    placeholder_email = f"guest-{secrets.token_hex(10)}@local"
+    user = db.create_anonymous_user("Guest", placeholder_email)
+    _seed_default_watchlist(user["id"])
+    new_token = auth.new_session_token()
+    db.create_session(new_token, user["id"], auth.session_expiry())
+    _set_session_cookie(response, new_token)
     return user
 
 
@@ -88,38 +100,41 @@ def _get_or_create_company(symbol: str, name: str | None, user_id: int) -> dict:
     return db.add_company(user_id, symbol, resolved_name, sector)
 
 
-# ---- auth routes (no password — name + email either creates or enters an account) ----
+# ---- admin claim (hidden — no login form) ----
+#
+# Visiting the site with ?admin=<key> in the URL quietly upgrades the
+# current anonymous session to the owner account, keeping whatever
+# watchlist/portfolio it already had. No visible form anywhere; the key
+# only needs to be known to the one person who should have it.
 
-class EnterIn(BaseModel):
-    name: str
-    email: str
+class ClaimAdminIn(BaseModel):
+    key: str
 
 
-@app.post("/api/auth/enter")
-def enter(body: EnterIn, request: Request, response: Response):
+@app.post("/api/auth/claim-admin")
+def claim_admin(body: ClaimAdminIn, request: Request, response: Response, user: dict = Depends(get_current_user)):
     client_ip = request.client.host if request.client else "unknown"
-    if not auth.check_rate_limit(f"enter:{client_ip}", max_attempts=20, window_seconds=3600):
-        raise HTTPException(status_code=429, detail="Too many attempts from this network — try again in a while.")
+    if not auth.check_rate_limit(f"claim-admin:{client_ip}", max_attempts=10, window_seconds=3600):
+        raise HTTPException(status_code=429, detail="Too many attempts — try again later.")
 
-    name = body.name.strip()
-    email = body.email.strip().lower()
+    if body.key.strip().lower() != _OWNER_EMAIL:
+        raise HTTPException(status_code=403, detail="Not authorized")
 
-    if not _EMAIL_RE.match(email) and email != _OWNER_EMAIL:
-        raise HTTPException(status_code=400, detail="Enter a valid email address")
+    existing = db.get_user_by_email(_OWNER_EMAIL)
+    if existing and existing["id"] != user["id"]:
+        # owner identity already belongs to another session (e.g. claimed on a
+        # different device) — switch this session to point at that account
+        # rather than fail on the email's UNIQUE constraint
+        token = request.cookies.get(auth.SESSION_COOKIE_NAME)
+        if token:
+            db.delete_session(token)
+        new_token = auth.new_session_token()
+        db.create_session(new_token, existing["id"], auth.session_expiry())
+        _set_session_cookie(response, new_token)
+        return _public_user(existing)
 
-    user = db.get_user_by_email(email)
-    if not user:
-        if not name:
-            raise HTTPException(status_code=400, detail="Name is required for a new account")
-        user = db.create_user(name, email)
-        _seed_default_watchlist(user["id"])
-    elif name and name != user["name"]:
-        user = db.update_name(user["id"], name)
-
-    token = auth.new_session_token()
-    db.create_session(token, user["id"], auth.session_expiry())
-    _set_session_cookie(response, token)
-    return _public_user(user)
+    updated = db.update_email(user["id"], _OWNER_EMAIL)
+    return _public_user(updated)
 
 
 # A starter watchlist so new accounts don't land on an empty screen. Names/
@@ -172,22 +187,7 @@ def admin_list_users(user: dict = Depends(get_current_user)):
     if user["email"].lower() != _OWNER_EMAIL:
         raise HTTPException(status_code=403, detail="Not authorized")
     users = db.list_users()
-    return {"total": len(users), "users": users}
-
-
-# ---- signups export (admin) ----
-#
-# No password means there's nothing precious to bridge across a redeploy
-# wipe — anyone just re-enters their name + email and they're back in, so
-# there's no import/restore anymore. This just exports who has signed up.
-
-@app.get("/api/admin/export-all")
-def admin_export_all(user: dict = Depends(get_current_user)):
-    if user["email"].lower() != _OWNER_EMAIL:
-        raise HTTPException(status_code=403, detail="Not authorized")
-    data = db.export_users_admin()
-    filename = f"alphadesk-signups-{db.now()[:10]}.json"
-    return JSONResponse(content=data, headers={"Content-Disposition": f'attachment; filename="{filename}"'})
+    return {"total": len(users), "users": users, "owner_email": _OWNER_EMAIL}
 
 
 # ---- search ----
@@ -216,6 +216,13 @@ def get_daily_screen(refresh: bool = False, user: dict = Depends(get_current_use
 @app.get("/api/sectors")
 def get_sectors(user: dict = Depends(get_current_user)):
     return market_data.list_tracked_by_sector()
+
+
+# ---- data freshness (shown in the topbar so the manual-refresh date is always visible) ----
+
+@app.get("/api/data-status")
+def get_data_status(user: dict = Depends(get_current_user)):
+    return {"as_of": market_data._load_manual_quotes().get("as_of"), "tracked_count": len(market_data.get_tracked_symbols())}
 
 
 # ---- peer comparison (doesn't touch the watchlist - just looks symbols up) ----
