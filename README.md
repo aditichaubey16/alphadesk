@@ -1,14 +1,26 @@
 # AlphaDesk
 
-A personal equity research workspace for Indian (NSE) markets: watchlist,
+A multi-user equity research workspace for Indian (NSE) markets: watchlist,
 portfolio tracking with live P&L, a rule-based Buy/Hold/Sell screen, a daily
 Nifty 50 Top Buys/Sells scan, and a full per-company research page — backed by
-a real SQLite database, running entirely on your machine.
+a real SQLite database.
 
 Sibling to `../findash` (offline financial-statement analysis) and
 `../clientresearch` (single-ticker live report). AlphaDesk reuses
 `clientresearch`'s `yfinance`-based fetch/concern-flag logic
 (`backend/market_data.py`) and adds the workflow layer neither of those apps has.
+
+`../alphadesk-solo` is a preserved standalone snapshot of the original
+single-user version (own venv, own database), kept as a backup from before
+multi-user accounts were added.
+
+## Accounts
+
+Each person gets their own account — name, email, and a password they set at
+signup (no OTP or email verification). Email is the login ID. Everything —
+watchlist, portfolio, notes, thesis, estimates, calendar — is private to the
+account that created it; the Daily Screen (Nifty 50 scan) is the one shared,
+non-personal view everyone sees the same data for.
 
 ## Run it
 
@@ -19,7 +31,8 @@ venv\Scripts\pip install -r requirements.txt
 venv\Scripts\python app.py
 ```
 
-Opens `http://127.0.0.1:8010` in your browser automatically.
+Opens `http://127.0.0.1:8010` in your browser automatically — sign up with a
+name, email, and password to get started.
 
 ## What's here
 
@@ -68,9 +81,14 @@ except live `yfinance` lookups and the NSE/Nifty 50 list refresh.
 - Real company logos (via Yahoo's on-file website → Clearbit) depend on that
   external service being reachable and having a match — falls back to a
   generated initials badge automatically when it isn't.
-- Single user, runs locally. Schema is plain SQLite via stdlib `sqlite3`, no
-  ORM, so it's a straightforward port to Postgres + auth later if you want to
-  share this with a team.
+- Runs locally over plain HTTP — session cookies aren't marked `Secure`. Fine
+  on `localhost` or a trusted local network; if you ever expose this beyond
+  that (a tunnel, a real deployment), put HTTPS in front of it first.
+- No password reset flow yet — losing a password currently means a new
+  account. No account deletion/data-purge endpoint either.
+- Schema is plain SQLite via stdlib `sqlite3`, no ORM — a straightforward
+  port to Postgres later if this ever needs to scale past a small group on
+  one machine.
 
 ## Phase 2 ideas (not built yet)
 
