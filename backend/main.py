@@ -28,7 +28,6 @@ app = FastAPI(title="AlphaDesk")
 @app.on_event("startup")
 def _startup():
     db.init_db()
-    db.seed_fallback_quotes(market_data.SEED_QUOTES)
     universe.refresh_if_stale()
 
 
@@ -81,9 +80,9 @@ def _get_or_create_company(symbol: str, name: str | None, user_id: int) -> dict:
     sector = None
     if not resolved_name:
         try:
-            snap = market_data.fetch_snapshot(symbol)
-            resolved_name = snap.get("name") or symbol
-            sector = snap.get("sector")
+            snapshot = market_data.get_daily_quote(symbol)["snapshot"]
+            resolved_name = snapshot.get("name") or symbol
+            sector = snapshot.get("sector")
         except Exception:
             resolved_name = symbol
     return db.add_company(user_id, symbol, resolved_name, sector)
@@ -275,9 +274,9 @@ def add_to_watchlist(item: AddWatchlistItem, user: dict = Depends(get_current_us
     sector = item.sector
     if not name:
         try:
-            snap = market_data.fetch_snapshot(symbol)
-            name = snap.get("name") or symbol
-            sector = sector or snap.get("sector")
+            snapshot = market_data.get_daily_quote(symbol)["snapshot"]
+            name = snapshot.get("name") or symbol
+            sector = sector or snapshot.get("sector")
         except Exception:
             name = symbol
     return db.add_company(user["id"], symbol, name, sector)
@@ -309,8 +308,10 @@ def get_company_snapshot(symbol: str, user: dict = Depends(get_current_user)):
     company = _company_or_404(symbol, user["id"])
     try:
         quote = market_data.get_daily_quote(company["symbol"])
+    except market_data.QuoteNotAvailable as e:
+        raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=502, detail=f"Could not fetch live data: {e}")
+        raise HTTPException(status_code=502, detail=f"Could not load data: {e}")
 
     snapshot, raw, news = quote["snapshot"], quote["raw"], quote["news"]
     news_concerns = market_data.flag_news_concerns(news)
@@ -337,9 +338,11 @@ def get_company_snapshot(symbol: str, user: dict = Depends(get_current_user)):
 def get_company_history(symbol: str, period: str = "6mo", user: dict = Depends(get_current_user)):
     company = _company_or_404(symbol, user["id"])
     try:
-        return market_data.fetch_price_history(company["symbol"], period)
+        return market_data.get_price_history(company["symbol"], period)
+    except market_data.QuoteNotAvailable as e:
+        raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=502, detail=f"Could not fetch price history: {e}")
+        raise HTTPException(status_code=502, detail=f"Could not load price history: {e}")
 
 
 class NoteIn(BaseModel):
@@ -449,7 +452,7 @@ def _enrich_holding(h: dict) -> dict:
         concerns = market_data.flag_concerns(snapshot) + news_concerns
         financial_rec = market_data.build_recommendation(snapshot, concerns, news_positives)
     except Exception as e:
-        return {**h, "error": f"Could not fetch live data: {e}"}
+        return {**h, "error": str(e)}
 
     qualitative = db.get_qualitative(h["company_id"])
     holistic = market_data.build_holistic_recommendation(financial_rec, qualitative)

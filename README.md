@@ -1,9 +1,9 @@
 # AlphaDesk
 
 A multi-user equity research workspace for Indian (NSE) markets: watchlist,
-portfolio tracking with live P&L, a rule-based Buy/Hold/Sell screen, a daily
-Nifty 50 Top Buys/Sells scan, and a full per-company research page — backed by
-a real SQLite database.
+portfolio tracking with P&L, a rule-based Buy/Hold/Sell screen, a Nifty 50
+Top Buys/Sells scan, and a full per-company research page — backed by a real
+SQLite database.
 
 Sibling to `../findash` (offline financial-statement analysis) and
 `../clientresearch` (single-ticker live report). AlphaDesk reuses
@@ -45,47 +45,54 @@ and email to get started, no password.
 ## What's here
 
 - **Watchlist** — type-ahead search over the full local NSE company directory
-  (2,500+ names, no live lookup until you add one), each row showing live
-  price, concern-flag count, and the rule-based Buy/Hold/Sell call.
-- **Company research page** — live snapshot (price, valuation, profitability,
+  (2,500+ names, no live lookup until you add one), each row showing price,
+  concern-flag count, and the rule-based Buy/Hold/Sell call for tracked
+  companies.
+- **Company research page** — full snapshot (price, valuation, profitability,
   growth), a 52-week range chart, a margins bar chart, an ownership donut
   (insiders/institutions/public), the full raw-data table (60+ fields, every
   one with a hover tooltip explaining what it means), concern flags, a
   transparent recommendation banner, notes (append-only log), thesis/risks/
   catalysts, and an estimates-vs-actuals tracker.
-- **Portfolio** — log quantity and buy price per holding, see live P&L
-  (with a diverging bar chart) and portfolio allocation (bar + donut chart)
-  update automatically. Layer in your own qualitative judgment — management
+- **Portfolio** — log quantity and buy price per holding, see P&L (with a
+  diverging bar chart) and portfolio allocation (bar + donut chart) update
+  automatically. Layer in your own qualitative judgment — management
   quality, governance risk, regulatory risk, competitive moat — and the app
   combines that with the financial signal into a holistic Buy More / Hold /
   Trim / Exit consensus, complete with the reasoning behind it.
-- **Daily Screen** — Nifty 50 scanned once a day (cached, with a manual
-  Refresh Now), ranked into Top 10 Buys / Top 10 Sells *within* each stock's
-  own rule-based label (so a "Buy" never shows up under Sells), plus a
-  Buy/Hold/Sell distribution bar across the full 50-stock scan. Click any row
-  to jump straight into its research page.
+- **Daily Screen** — the full Nifty 50 ranked into Top 10 Buys / Top 10 Sells
+  *within* each stock's own rule-based label (so a "Buy" never shows up
+  under Sells), plus a Buy/Hold/Sell distribution bar across all 50. Click
+  any row to jump straight into its research page.
+- **Compare** — pick up to 4 NSE companies and see valuation, profitability,
+  and rule-based call side by side.
 - **Calendar** — cross-company event list (earnings, investor days, etc.),
   add manually.
 - All monetary figures convert to ₹ automatically for non-Indian listings,
-  using a live FX rate (shown on the company page when conversion applies).
+  using an FX rate captured at the same time as the rest of the data.
 
-Data lives in `alphadesk.sqlite3` in this folder — nothing leaves your machine
-except live `yfinance` lookups and the NSE/Nifty 50 list refresh.
+**Data model**: only the Nifty 50 is covered with real numbers (price,
+valuation, raw data, news, price history) — see "Data refresh" below for why
+and how that data gets updated. Adding a non-Nifty-50 company to your
+watchlist or portfolio still works for organizing/notes/thesis, but its
+price and snapshot fields show "not currently tracked" instead of numbers.
+
+Data lives in `alphadesk.sqlite3` in this folder — nothing leaves your
+machine except the NSE company-directory refresh (static list, not prices).
 
 ## Known limitations
 
-- Live data depends entirely on what Yahoo Finance returns for a given ticker;
-  some fields are `None` for certain exchanges (e.g. Indian NSE tickers often
-  lack `currentRatio`/`quickRatio`/`returnOnEquity` from this endpoint).
-- Calendar events must be added manually — `next_earnings_date` on the company
-  snapshot is best-effort from `yfinance`'s calendar data, not guaranteed.
+- Only the Nifty 50 has real data — anything else shows "not currently
+  tracked." Deliberate tradeoff, see "Data refresh" below.
+- Data quality depends on what Yahoo Finance returned at the time of the
+  last refresh; some fields are `None` for certain exchanges (e.g. Indian
+  NSE tickers often lack `currentRatio`/`quickRatio`/`returnOnEquity`).
+- Calendar events must be added manually — `next_earnings_date` on the
+  company snapshot is whatever `yfinance` returned at refresh time, not
+  guaranteed to still be accurate.
 - Notes are an append-only log rather than true diff-based version history —
   simplest way to preserve "what did I think and when" without building a full
   versioning system.
-- The Daily Screen scans all 50 Nifty stocks synchronously — the first
-  request of the day (or a manual refresh) blocks the server for a few
-  seconds. Fine for single-user local use; would need to move to a background
-  job if this were ever shared with concurrent users.
 - Real company logos (via Yahoo's on-file website → Clearbit) depend on that
   external service being reachable and having a match — falls back to a
   generated initials badge automatically when it isn't.
@@ -99,20 +106,34 @@ except live `yfinance` lookups and the NSE/Nifty 50 list refresh.
 
 ## Phase 2 ideas (not built yet)
 
-- Peer comparison / valuation screener across a sector
 - Task/pipeline board (models to update, notes due, calls to schedule)
 - Filings/news aggregator filtered to your coverage list
-- Multi-user accounts and sharing
-- In-app data export (JSON dump of watchlist/portfolio/notes) for backup
-  peace of mind beyond the OneDrive-synced `.sqlite3` file
+- Expanding tracked coverage beyond the Nifty 50
 
 ## Data refresh
 
-- The NSE company directory (`backend/data/nse_equity_list.csv`) and Nifty 50
-  list (`backend/data/nifty50_list.csv`) are static snapshots. The NSE list
-  auto-refreshes from NSE's archive on server startup if older than 7 days
-  (silently keeps the cached copy if NSE is unreachable). Re-download the
-  Nifty 50 list manually from NSE's index archive if constituents change.
+**Company data (prices, valuation, news, history) is never fetched live by
+the running app.** Render's shared IP gets rate-limited by Yahoo Finance too
+unreliably for live per-request fetches to be usable — so instead, every
+Nifty 50 company's full snapshot/raw-data/news/price-history lives in
+`backend/data/manual_quotes.json`, committed to the repo, and is only ever
+updated by running one script and redeploying:
+
+```bash
+venv\Scripts\python.exe -m backend.tools.refresh_manual_quotes
+```
+
+Run it from a machine Yahoo isn't currently rate-limiting (never from Render
+itself), then commit and push `backend/data/manual_quotes.json` to ship the
+refresh. The whole app — Watchlist, Company page, Portfolio, Daily Screen,
+Compare — reads from this one file; nothing about it happens automatically.
+
+Separately, the NSE company directory (`backend/data/nse_equity_list.csv`,
+used only for watchlist/portfolio search, not for pricing) auto-refreshes
+from NSE's archive on server startup if older than 7 days (silently keeps
+the cached copy if NSE is unreachable). The Nifty 50 constituent list
+(`backend/data/nifty50_list.csv`) is a static snapshot — re-download it
+manually from NSE's index archive if constituents change.
 
 ---
 

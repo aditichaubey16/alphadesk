@@ -9,7 +9,6 @@ user-filtered lookup. `events` gets its own `user_id` since a calendar entry
 can stand alone with no company attached."""
 from __future__ import annotations
 
-import json
 import os
 import sqlite3
 from datetime import datetime, timezone
@@ -102,20 +101,6 @@ CREATE TABLE IF NOT EXISTS qualitative_factors (
     notes TEXT,
     updated_at TEXT NOT NULL
 );
-
--- One row per (symbol, calendar date) — fetched at most once per day per
--- symbol, everyone reads from this instead of hitting Yahoo per page view.
--- Keeps a rolling history (not just "today") so a failed fetch can fall
--- back to the most recent successful one instead of erroring.
-CREATE TABLE IF NOT EXISTS daily_quotes (
-    symbol TEXT NOT NULL,
-    quote_date TEXT NOT NULL,
-    snapshot_json TEXT NOT NULL,
-    raw_json TEXT,
-    news_json TEXT,
-    fetched_at TEXT NOT NULL,
-    PRIMARY KEY (symbol, quote_date)
-);
 """
 
 
@@ -191,94 +176,6 @@ def get_user_by_id(user_id: int) -> dict | None:
 
 
 # ---- daily quotes (once-per-day snapshot cache, not per-request) ----
-
-def get_daily_quote(symbol: str, quote_date: str) -> dict | None:
-    conn = get_conn()
-    try:
-        row = conn.execute(
-            "SELECT * FROM daily_quotes WHERE symbol = ? AND quote_date = ?", (symbol, quote_date)
-        ).fetchone()
-        return _row_to_dict(row) if row else None
-    finally:
-        conn.close()
-
-
-def get_latest_daily_quote(symbol: str) -> dict | None:
-    """Most recent cached quote for this symbol regardless of date — the
-    fallback when today's live fetch fails."""
-    conn = get_conn()
-    try:
-        row = conn.execute(
-            "SELECT * FROM daily_quotes WHERE symbol = ? ORDER BY quote_date DESC LIMIT 1", (symbol,)
-        ).fetchone()
-        return _row_to_dict(row) if row else None
-    finally:
-        conn.close()
-
-
-def get_recent_daily_quotes(symbol: str, limit: int = 5) -> list[dict]:
-    """Newest-first cached rows for this symbol, most recent `limit`. Used to
-    skip past a poisoned (empty/null) cached row to the next usable one,
-    rather than trusting whatever happens to be newest."""
-    conn = get_conn()
-    try:
-        rows = conn.execute(
-            "SELECT * FROM daily_quotes WHERE symbol = ? ORDER BY quote_date DESC LIMIT ?", (symbol, limit)
-        ).fetchall()
-        return [_row_to_dict(r) for r in rows]
-    finally:
-        conn.close()
-
-
-def save_daily_quote(symbol: str, quote_date: str, snapshot_json: str, raw_json: str | None, news_json: str | None) -> None:
-    conn = get_conn()
-    try:
-        conn.execute(
-            """
-            INSERT INTO daily_quotes (symbol, quote_date, snapshot_json, raw_json, news_json, fetched_at)
-            VALUES (?, ?, ?, ?, ?, ?)
-            ON CONFLICT(symbol, quote_date) DO UPDATE SET
-                snapshot_json = excluded.snapshot_json,
-                raw_json = excluded.raw_json,
-                news_json = excluded.news_json,
-                fetched_at = excluded.fetched_at
-            """,
-            (symbol, quote_date, snapshot_json, raw_json, news_json, now()),
-        )
-        conn.commit()
-    finally:
-        conn.close()
-
-
-def seed_fallback_quotes(seeds: dict) -> None:
-    """Emergency last-resort rows for a handful of symbols, dated in the
-    past, so the very first page view after a fresh deploy wipe never
-    errors out before any real Yahoo fetch has succeeded — it shows old
-    numbers (clearly marked stale) instead of a blank error. `INSERT OR
-    IGNORE` keyed on (symbol, quote_date) makes this a no-op after the
-    first run, and the fixed past date means any genuine fetched data
-    (dated today) always outranks it in `get_latest_daily_quote`."""
-    conn = get_conn()
-    try:
-        for symbol, data in seeds.items():
-            conn.execute(
-                """
-                INSERT OR IGNORE INTO daily_quotes (symbol, quote_date, snapshot_json, raw_json, news_json, fetched_at)
-                VALUES (?, ?, ?, ?, ?, ?)
-                """,
-                (
-                    symbol,
-                    data["quote_date"],
-                    json.dumps(data["snapshot"]),
-                    json.dumps(data.get("raw", [])),
-                    json.dumps(data.get("news", [])),
-                    now(),
-                ),
-            )
-        conn.commit()
-    finally:
-        conn.close()
-
 
 def update_name(user_id: int, name: str) -> dict | None:
     conn = get_conn()

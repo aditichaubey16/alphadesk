@@ -7,7 +7,6 @@ __pycache__/
 
 # Local data — personal portfolio/watchlist/notes, not for version control
 alphadesk.sqlite3
-backend/data/daily_screen_cache.json
 
 # OS
 .DS_Store

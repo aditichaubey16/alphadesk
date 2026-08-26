@@ -1,24 +1,23 @@
-"""Daily Nifty 50 Buy/Sell screen. Scans a fixed, curated index (not the full
-NSE universe — 2,500+ live lookups isn't feasible to run synchronously) and
+"""Nifty 50 Buy/Sell screen. Scans the fixed, curated Nifty 50 index and
 ranks it by the same transparent rule-based `build_recommendation` used
 everywhere else in the app: concern-flag severity + analyst-target upside.
 
-Computed once per calendar day and cached to disk (`data/daily_screen_cache.json`)
-so opening the tab doesn't re-run ~50 live yfinance lookups every time — only
-the first request of the day (or an explicit refresh) pays that cost.
+Built from the manually-refreshed dataset (backend/data/manual_quotes.json,
+see tools/refresh_manual_quotes.py) — no live Yahoo calls happen here.
+Recomputing the rankings from that data is cheap (pure Python, no network),
+so this just runs fresh on every request rather than caching to disk; the
+"as of" date shown to users is the manual dataset's refresh date, not
+today, unless a refresh happened today.
 """
 from __future__ import annotations
 
 import csv
-import json
-import time
 from datetime import date, datetime, timezone
 from pathlib import Path
 
 from . import market_data
 
 _NIFTY50_CSV = Path(__file__).parent / "data" / "nifty50_list.csv"
-_CACHE_PATH = Path(__file__).parent / "data" / "daily_screen_cache.json"
 
 _SYMBOLS_CACHE: list[dict] | None = None
 
@@ -40,40 +39,21 @@ def _load_nifty50() -> list[dict]:
     return rows
 
 
-def _today() -> str:
-    return date.today().isoformat()
-
-
-def _read_cache() -> dict | None:
-    if not _CACHE_PATH.exists():
-        return None
-    try:
-        return json.loads(_CACHE_PATH.read_text(encoding="utf-8"))
-    except (json.JSONDecodeError, OSError):
-        return None
-
-
-def _write_cache(data: dict) -> None:
-    _CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    _CACHE_PATH.write_text(json.dumps(data, indent=2), encoding="utf-8")
-
-
 def get_daily_screen(force_refresh: bool = False) -> dict:
-    """Returns today's cached Top-10-Buys / Top-10-Sells screen, computing it
-    first if today's cache doesn't exist yet or `force_refresh` is set."""
-    cached = _read_cache()
-    if cached and cached.get("date") == _today() and not force_refresh:
-        return cached
-    return _compute_and_cache()
+    """`force_refresh` is accepted for API compatibility with the old
+    once-a-day-cache model but is now a no-op — every call already
+    recomputes fresh from the manually-refreshed dataset."""
+    return _compute()
 
 
-def _compute_and_cache() -> dict:
+def _compute() -> dict:
     candidates = []
     errors = []
     for entry in _load_nifty50():
         symbol = entry["symbol"]
         try:
-            snapshot = market_data.fetch_snapshot(symbol)
+            quote = market_data.get_daily_quote(symbol)
+            snapshot = quote["snapshot"]
             concerns = market_data.flag_concerns(snapshot)
             rec = market_data.build_recommendation(snapshot, concerns)
             candidates.append(
@@ -116,8 +96,10 @@ def _compute_and_cache() -> dict:
         if c["label"] in label_counts:
             label_counts[c["label"]] += 1
 
+    as_of = market_data._load_manual_quotes().get("as_of")
+
     result = {
-        "date": _today(),
+        "date": as_of,
         "computed_at": datetime.now(timezone.utc).isoformat(),
         "universe": "Nifty 50",
         "universe_size": len(_load_nifty50()),
@@ -135,9 +117,8 @@ def _compute_and_cache() -> dict:
             "may run short and lean on Hold-labeled names with the weakest upside instead of true "
             "Sells; check each label before acting. A personal, rule-based view — not personalized "
             "investment advice, not a real-time feed, and not based on trading volume or actual "
-            "order flow. Refreshed once per day (or on manual refresh). Check current news and "
-            "verify independently before relying on any of these calls."
+            f"order flow. Data as of {as_of or 'unknown'} — refreshed manually, not automatically. "
+            "Check current news and verify independently before relying on any of these calls."
         ),
     }
-    _write_cache(result)
     return result

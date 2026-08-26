@@ -519,7 +519,7 @@ async function loadHoldings() {
             ${avatarHtml(h.company_symbol, h.company_name, "md", h.logo_url)}
             <div>
               <span class="symbol">${h.company_symbol}</span> — <span class="name">${h.company_name || ""}</span>
-              <div class="name">Qty ${h.quantity} @ ₹${fmt(h.buy_price)}${h.buy_date ? " on " + h.buy_date : ""}${h.is_stale ? ' · <span class="badge medium">stale data</span>' : ""}</div>
+              <div class="name">Qty ${h.quantity} @ ₹${fmt(h.buy_price)}${h.buy_date ? " on " + h.buy_date : ""}</div>
             </div>
           </div>
           <div class="holding-figures">
@@ -675,7 +675,7 @@ async function loadWatchlist() {
       })
       .catch((e) => {
         const badge = row.querySelector(".badge");
-        badge.textContent = /rate limit/i.test(e.message) ? "Yahoo rate-limited — retry shortly" : "Could not load";
+        badge.textContent = /currently tracked/i.test(e.message) ? "Not tracked yet" : "Could not load";
         badge.classList.add("medium");
         badge.title = e.message;
         const recBadge = row.querySelector(".rec-pill");
@@ -708,10 +708,7 @@ async function openCompany(symbol, name) {
   try {
     data = await api(`/api/company/${encodeURIComponent(symbol)}`);
   } catch (e) {
-    const hint = /rate limit/i.test(e.message)
-      ? " Yahoo Finance is rate-limiting this server right now (happens on shared cloud IPs) — wait a minute and try again."
-      : "";
-    content.innerHTML = `<div class="empty">Error loading ${symbol}: ${e.message}${hint}</div>`;
+    content.innerHTML = `<div class="empty">${e.message}</div>`;
     return;
   }
   const s = data.snapshot;
@@ -739,7 +736,7 @@ async function openCompany(symbol, name) {
         ${avatarHtml(s.symbol, s.name, "lg", s.logo_url)}
         <div>
           <h2 style="margin:0;font-size:16px;color:var(--text);text-transform:none;letter-spacing:0;">${s.name} (${s.symbol})</h2>
-          <div class="name" style="margin-top:2px;">${data.is_stale ? `<span class="badge medium" style="margin-right:6px;">stale</span>Showing the last data we could fetch (as of ${data.quote_date}) — today's refresh failed, likely a temporary Yahoo Finance rate limit.` : `Prices as of ${data.quote_date} — refreshed once a day, not live.`}</div>
+          <div class="name" style="margin-top:2px;">Data as of ${data.quote_date || "unknown"} — refreshed manually by the admin, not live. Newer numbers may not be reflected yet.</div>
         </div>
       </div>
       ${data.summary ? `<p class="research-summary">${data.summary}</p>` : ""}
@@ -1164,20 +1161,18 @@ function buildScreenRow(r, rank, maxAbsUpside) {
   return row;
 }
 
-async function loadDailyScreen(forceRefresh = false) {
+async function loadDailyScreen() {
   const metaEl = document.getElementById("screen-meta");
   const cautionEl = document.getElementById("screen-caution");
   const buysBox = document.getElementById("screen-buys");
   const sellsBox = document.getElementById("screen-sells");
-  metaEl.textContent = forceRefresh
-    ? "Refreshing — scanning Nifty 50 live, this can take a little while…"
-    : "Loading…";
+  metaEl.textContent = "Loading…";
   buysBox.innerHTML = "";
   sellsBox.innerHTML = "";
 
-  const data = await api(`/api/daily-screen${forceRefresh ? "?refresh=1" : ""}`);
+  const data = await api("/api/daily-screen");
 
-  metaEl.textContent = `${data.universe} (${data.universe_size} stocks) — as of ${new Date(data.computed_at).toLocaleString()}${data.errors.length ? ` · ${data.errors.length} lookup error(s)` : ""}`;
+  metaEl.textContent = `${data.universe} (${data.universe_size} stocks) — data as of ${data.date || "unknown"}${data.errors.length ? ` · ${data.errors.length} lookup error(s)` : ""}`;
   cautionEl.textContent = data.caution;
 
   const distEl = document.getElementById("screen-distribution");
@@ -1193,15 +1188,13 @@ async function loadDailyScreen(forceRefresh = false) {
   const maxAbsUpside = Math.max(...allUpsides, 1);
 
   buysBox.innerHTML = "";
-  if (!data.top_buys.length) buysBox.appendChild(el('<div class="empty">No data yet — click Refresh Now.</div>'));
+  if (!data.top_buys.length) buysBox.appendChild(el('<div class="empty">No data available.</div>'));
   else data.top_buys.forEach((r, i) => buysBox.appendChild(buildScreenRow(r, i + 1, maxAbsUpside)));
 
   sellsBox.innerHTML = "";
-  if (!data.top_sells.length) sellsBox.appendChild(el('<div class="empty">No data yet — click Refresh Now.</div>'));
+  if (!data.top_sells.length) sellsBox.appendChild(el('<div class="empty">No data available.</div>'));
   else data.top_sells.forEach((r, i) => sellsBox.appendChild(buildScreenRow(r, i + 1, maxAbsUpside)));
 }
-
-document.getElementById("screen-refresh-btn").addEventListener("click", () => loadDailyScreen(true));
 
 // ---- wiring ----
 

@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import datetime as _dt
 import json
+import os
 import time
 
 import yfinance as yf
@@ -185,9 +186,9 @@ _VALID_HISTORY_PERIODS = {"1mo", "3mo", "6mo", "1y", "2y", "5y"}
 
 
 def fetch_price_history(symbol: str, period: str = "6mo") -> list[dict]:
-    """Daily close price series for the trailing `period`, converted to INR
-    like everything else in the app. Used for the price-trend line chart —
-    a separate live call from `fetch_snapshot` since most views never need it."""
+    """Live daily close price series for the trailing `period`, converted to
+    INR. Only ever called by tools/refresh_manual_quotes.py — the running
+    app never hits Yahoo live, see get_daily_quote below."""
     if period not in _VALID_HISTORY_PERIODS:
         period = "6mo"
     info, t = _get_info(symbol)
@@ -207,122 +208,76 @@ def fetch_price_history(symbol: str, period: str = "6mo") -> list[dict]:
     return points
 
 
-def _parse_quote_row(row: dict) -> dict:
-    return {
-        "snapshot": json.loads(row["snapshot_json"]),
-        "raw": json.loads(row["raw_json"]) if row.get("raw_json") else [],
-        "news": json.loads(row["news_json"]) if row.get("news_json") else [],
-        "quote_date": row["quote_date"],
-    }
+# ---- manually-refreshed data (no live Yahoo calls from the running app) ----
+#
+# Render's shared IP gets rate-limited by Yahoo too unreliably for live,
+# per-request fetches to be usable. Instead every tracked company's full
+# snapshot/raw-data/news/price-history lives in this committed JSON file,
+# regenerated only by running tools/refresh_manual_quotes.py by hand and
+# redeploying — never automatically, never from the server itself. See that
+# script's docstring for the refresh workflow.
+
+_MANUAL_QUOTES_PATH = os.path.join(os.path.dirname(__file__), "data", "manual_quotes.json")
+_manual_quotes_cache: dict | None = None
 
 
-def _has_usable_price(snapshot: dict) -> bool:
-    return snapshot.get("price") is not None
+class QuoteNotAvailable(Exception):
+    """Raised when a symbol isn't part of the currently tracked (Nifty 50)
+    set — distinct from a fetch failure so callers can show a clear "not
+    covered" message instead of an error."""
+
+
+def _load_manual_quotes() -> dict:
+    global _manual_quotes_cache
+    if _manual_quotes_cache is None:
+        try:
+            with open(_MANUAL_QUOTES_PATH, encoding="utf-8") as f:
+                _manual_quotes_cache = json.load(f)
+        except (OSError, json.JSONDecodeError):
+            _manual_quotes_cache = {"as_of": None, "quotes": {}}
+    return _manual_quotes_cache
 
 
 def get_daily_quote(symbol: str) -> dict:
-    """The one place that actually hits Yahoo for a symbol's snapshot/raw
-    data/news. Fetches live at most once per calendar day — every request
-    for that symbol that day (from any user) reads the same cached row
-    instead of triggering its own Yahoo call, which is what was tripping
-    rate limits on a shared cloud IP. If today's live fetch fails, falls
-    back to the most recent successfully cached quote (however old) and
-    marks the result `is_stale=True` instead of erroring — a rate-limited
-    server shows yesterday's numbers, not a blank page.
+    """Snapshot/raw/news for `symbol` from the manually-refreshed dataset.
+    Raises QuoteNotAvailable if `symbol` isn't in the currently tracked set.
 
-    Cached rows and fallback candidates are checked for a usable price
-    before being trusted — a row that was saved back when Yahoo returned a
-    "successful" but empty response (price: null) is treated the same as a
-    failed fetch, not returned as if it were good data.
-
-    Returns {snapshot, raw, news, quote_date, is_stale}.
+    Returns {snapshot, raw, news, quote_date, is_stale}. `is_stale` is True
+    whenever the data isn't from today (which, under this manual-refresh
+    model, is most of the time — the frontend already surfaces the as-of
+    date, so this isn't an error state, just an honest freshness signal).
     """
-    from . import db  # local import: db.py has no reverse dependency on this module
-
-    today = _dt.date.today().isoformat()
-
-    cached = db.get_daily_quote(symbol, today)
-    if cached:
-        result = _parse_quote_row(cached)
-        if _has_usable_price(result["snapshot"]):
-            result["is_stale"] = False
-            return result
-        # today's cached row is poisoned (empty response saved as if valid) —
-        # fall through and try a fresh live fetch instead of trusting it
-
-    try:
-        snapshot = fetch_snapshot(symbol)
-        raw = fetch_raw_parameters(symbol)
-        try:
-            news = fetch_recent_news(symbol)
-        except Exception:
-            news = []
-        db.save_daily_quote(symbol, today, json.dumps(snapshot), json.dumps(raw), json.dumps(news))
-        return {"snapshot": snapshot, "raw": raw, "news": news, "quote_date": today, "is_stale": False}
-    except Exception:
-        for row in db.get_recent_daily_quotes(symbol, limit=5):
-            result = _parse_quote_row(row)
-            if _has_usable_price(result["snapshot"]):
-                result["is_stale"] = True
-                return result
-        raise
+    data = _load_manual_quotes()
+    quote = data["quotes"].get(symbol)
+    if not quote:
+        raise QuoteNotAvailable(
+            f"{symbol} isn't part of the currently tracked set (Nifty 50). Ask the admin to add it in the next data refresh."
+        )
+    as_of = data.get("as_of")
+    return {
+        "snapshot": quote["snapshot"],
+        "raw": quote["raw"],
+        "news": quote["news"],
+        "quote_date": as_of,
+        "is_stale": as_of != _dt.date.today().isoformat(),
+    }
 
 
-# Emergency fallback for the default seeded watchlist (RELIANCE/TCS/INFY) —
-# real snapshots captured 2026-08-26, used only when a fresh deploy wipe
-# leaves the daily_quotes cache empty AND today's live fetch also fails, so
-# a new user's very first page view shows old-but-real numbers (marked
-# stale) instead of an error. See db.seed_fallback_quotes.
-SEED_QUOTES = {
-    "RELIANCE.NS": {
-        "quote_date": "2026-08-01",
-        "snapshot": {
-            "symbol": "RELIANCE.NS", "name": "Reliance Industries Limited",
-            "sector": "Energy", "industry": "Oil & Gas Refining & Marketing",
-            "currency": "INR", "price": 1298.0, "prev_close": 1317.0,
-            "market_cap": 17565149560832, "52w_high": 1611.8, "52w_low": 1249.8,
-            "pe_trailing": 23.353724, "pe_forward": 18.122704, "price_to_book": 1.9429829,
-            "debt_to_equity": 36.653, "current_ratio": None, "quick_ratio": None,
-            "profit_margin_pct": 6.61, "roe_pct": None, "revenue_growth_pct": 29.7,
-            "earnings_growth_pct": -22.4, "dividend_yield_pct": 0.46,
-            "target_mean_price": 1673.0, "analyst_recommendation": "strong_buy",
-            "next_earnings_date": "2026-10-16", "logo_url": "https://logo.clearbit.com/ril.com",
-            "orig_currency": "INR", "fx_rate": 1.0,
-        },
-    },
-    "TCS.NS": {
-        "quote_date": "2026-08-01",
-        "snapshot": {
-            "symbol": "TCS.NS", "name": "Tata Consultancy Services Limited",
-            "sector": "Technology", "industry": "Information Technology Services",
-            "currency": "INR", "price": 2270.0, "prev_close": 2296.2,
-            "market_cap": 8213058551808, "52w_high": 3350.0, "52w_low": 1976.8,
-            "pe_trailing": 16.394627, "pe_forward": 13.9692545, "price_to_book": 7.4914026,
-            "debt_to_equity": 10.211, "current_ratio": 2.276, "quick_ratio": 2.045,
-            "profit_margin_pct": 18.05, "roe_pct": 47.74, "revenue_growth_pct": 13.9,
-            "earnings_growth_pct": 4.6, "dividend_yield_pct": 2.85,
-            "target_mean_price": 2464.439, "analyst_recommendation": "buy",
-            "next_earnings_date": "2026-10-08", "logo_url": "https://logo.clearbit.com/tcs.com",
-            "orig_currency": "INR", "fx_rate": 1.0,
-        },
-    },
-    "INFY.NS": {
-        "quote_date": "2026-08-01",
-        "snapshot": {
-            "symbol": "INFY.NS", "name": "Infosys Limited",
-            "sector": "Technology", "industry": "Information Technology Services",
-            "currency": "INR", "price": 1120.0, "prev_close": 1144.0,
-            "market_cap": 4536335335424, "52w_high": 1728.0, "52w_low": 982.4,
-            "pe_trailing": 14.4404335, "pe_forward": 14.014725, "price_to_book": 4.946863,
-            "debt_to_equity": 9.541, "current_ratio": 1.862, "quick_ratio": 1.594,
-            "profit_margin_pct": 16.37, "roe_pct": 32.0, "revenue_growth_pct": 2.9,
-            "earnings_growth_pct": 5.3, "dividend_yield_pct": 4.37,
-            "target_mean_price": 1202.1904, "analyst_recommendation": "buy",
-            "next_earnings_date": "2026-10-23", "logo_url": "https://logo.clearbit.com/infosys.com",
-            "orig_currency": "INR", "fx_rate": 1.0,
-        },
-    },
-}
+def get_price_history(symbol: str, period: str = "6mo") -> list[dict]:
+    """Price history for `symbol` sliced from the manually-refreshed
+    dataset (stored at ~2y depth) instead of a live fetch."""
+    if period not in _VALID_HISTORY_PERIODS:
+        period = "6mo"
+    data = _load_manual_quotes()
+    quote = data["quotes"].get(symbol)
+    if not quote:
+        raise QuoteNotAvailable(
+            f"{symbol} isn't part of the currently tracked set (Nifty 50). Ask the admin to add it in the next data refresh."
+        )
+    history = quote.get("history") or []
+    days_by_period = {"1mo": 22, "3mo": 66, "6mo": 132, "1y": 264, "2y": 528, "5y": 528}
+    n = days_by_period.get(period, 132)
+    return history[-n:]
 
 
 def _next_earnings_date(t: "yf.Ticker") -> str | None:
