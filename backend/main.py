@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import os
 import re
-import secrets
 import time
 from pathlib import Path
 
@@ -21,7 +20,7 @@ _ASSET_VERSION = str(int(time.time()))  # busts browser cache for static assets 
 _EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 # Owner's account sees the admin/signups view; everyone else gets a 403.
 # Override via env var if you ever change the account you sign up with.
-_OWNER_EMAIL = os.environ.get("ALPHADESK_OWNER_EMAIL", "aditichaubey1805@gmail.com").lower()
+_OWNER_EMAIL = os.environ.get("ALPHADESK_OWNER_EMAIL", "adit.shiv.18.05").lower()
 
 app = FastAPI(title="AlphaDesk")
 
@@ -89,43 +88,42 @@ def _get_or_create_company(symbol: str, name: str | None, user_id: int) -> dict:
     return db.add_company(user_id, symbol, resolved_name, sector)
 
 
-# ---- auth routes ----
+# ---- auth routes (no password — name + email either creates or enters an account) ----
 
-class SignupIn(BaseModel):
+class EnterIn(BaseModel):
     name: str
     email: str
-    password: str
 
 
-@app.post("/api/auth/signup")
-def signup(body: SignupIn, request: Request, response: Response):
+@app.post("/api/auth/enter")
+def enter(body: EnterIn, request: Request, response: Response):
     client_ip = request.client.host if request.client else "unknown"
-    if not auth.check_rate_limit(f"signup:{client_ip}", max_attempts=8, window_seconds=3600):
-        raise HTTPException(status_code=429, detail="Too many signup attempts from this network — try again in a while.")
+    if not auth.check_rate_limit(f"enter:{client_ip}", max_attempts=20, window_seconds=3600):
+        raise HTTPException(status_code=429, detail="Too many attempts from this network — try again in a while.")
 
     name = body.name.strip()
     email = body.email.strip().lower()
-    password = body.password
 
-    if not name:
-        raise HTTPException(status_code=400, detail="Name is required")
-    if not _EMAIL_RE.match(email):
+    if not _EMAIL_RE.match(email) and email != _OWNER_EMAIL:
         raise HTTPException(status_code=400, detail="Enter a valid email address")
-    if len(password) < 6:
-        raise HTTPException(status_code=400, detail="Password must be at least 6 characters")
-    if db.get_user_by_email(email):
-        raise HTTPException(status_code=409, detail="An account with this email already exists — log in instead")
 
-    user = db.create_user(name, email, auth.hash_password(password))
-    _seed_default_watchlist(user["id"])
+    user = db.get_user_by_email(email)
+    if not user:
+        if not name:
+            raise HTTPException(status_code=400, detail="Name is required for a new account")
+        user = db.create_user(name, email)
+        _seed_default_watchlist(user["id"])
+    elif name and name != user["name"]:
+        user = db.update_name(user["id"], name)
+
     token = auth.new_session_token()
     db.create_session(token, user["id"], auth.session_expiry())
     _set_session_cookie(response, token)
     return _public_user(user)
 
 
-# A starter watchlist so new signups don't land on an empty screen. Names/
-# sectors are hardcoded rather than fetched live, so signup stays fast and
+# A starter watchlist so new accounts don't land on an empty screen. Names/
+# sectors are hardcoded rather than fetched live, so this stays fast and
 # doesn't depend on yfinance being reachable at that exact moment.
 _DEFAULT_WATCHLIST = [
     ("RELIANCE.NS", "Reliance Industries Limited", "Energy"),
@@ -139,31 +137,7 @@ def _seed_default_watchlist(user_id: int) -> None:
         try:
             db.add_company(user_id, symbol, name, sector)
         except Exception:
-            pass  # never let a seeding hiccup break signup
-
-
-class LoginIn(BaseModel):
-    email: str
-    password: str
-
-
-@app.post("/api/auth/login")
-def login(body: LoginIn, request: Request, response: Response):
-    client_ip = request.client.host if request.client else "unknown"
-    email = body.email.strip().lower()
-    # Rate-limit by IP+email together — slows brute-forcing one account
-    # without letting a shared office IP lock everyone else out.
-    if not auth.check_rate_limit(f"login:{client_ip}:{email}", max_attempts=10, window_seconds=900):
-        raise HTTPException(status_code=429, detail="Too many login attempts — wait a few minutes and try again.")
-
-    user = db.get_user_by_email(email)
-    if not user or not auth.verify_password(body.password, user["password_hash"]):
-        raise HTTPException(status_code=401, detail="Incorrect email or password")
-
-    token = auth.new_session_token()
-    db.create_session(token, user["id"], auth.session_expiry())
-    _set_session_cookie(response, token)
-    return _public_user(user)
+            pass  # never let a seeding hiccup break account creation
 
 
 @app.post("/api/auth/logout")
@@ -178,21 +152,6 @@ def logout(request: Request, response: Response):
 @app.get("/api/auth/me")
 def me(user: dict = Depends(get_current_user)):
     return _public_user(user)
-
-
-class ChangePasswordIn(BaseModel):
-    current_password: str
-    new_password: str
-
-
-@app.post("/api/auth/change-password")
-def change_password(body: ChangePasswordIn, user: dict = Depends(get_current_user)):
-    if not auth.verify_password(body.current_password, user["password_hash"]):
-        raise HTTPException(status_code=401, detail="Current password is incorrect")
-    if len(body.new_password) < 6:
-        raise HTTPException(status_code=400, detail="New password must be at least 6 characters")
-    db.update_password(user["id"], auth.hash_password(body.new_password))
-    return {"ok": True}
 
 
 class UpdateNameIn(BaseModel):
@@ -216,47 +175,19 @@ def admin_list_users(user: dict = Depends(get_current_user)):
     return {"total": len(users), "users": users}
 
 
-# ---- full-database backup/restore (bridges a free-tier redeploy wipe) ----
+# ---- signups export (admin) ----
 #
-# Export requires being logged in as the owner (normal session auth) - by
-# the time you're exporting, the app is presumably up and you can log in.
-# Import instead requires a separate pre-shared key, because right after a
-# fresh redeploy the database is EMPTY - there's no owner account yet to log
-# in as. Set ALPHADESK_RESTORE_KEY in your host's environment variables to a
-# long random string before you rely on this.
-
-def _require_restore_key(request: Request) -> None:
-    client_ip = request.client.host if request.client else "unknown"
-    if not auth.check_rate_limit(f"restore:{client_ip}", max_attempts=5, window_seconds=900):
-        raise HTTPException(status_code=429, detail="Too many restore attempts — wait a while and try again.")
-    expected = os.environ.get("ALPHADESK_RESTORE_KEY")
-    if not expected:
-        raise HTTPException(status_code=503, detail="ALPHADESK_RESTORE_KEY is not configured on this server")
-    provided = request.headers.get("x-restore-key")
-    if not provided or not secrets.compare_digest(provided, expected):
-        raise HTTPException(status_code=401, detail="Missing or incorrect restore key")
-
+# No password means there's nothing precious to bridge across a redeploy
+# wipe — anyone just re-enters their name + email and they're back in, so
+# there's no import/restore anymore. This just exports who has signed up.
 
 @app.get("/api/admin/export-all")
 def admin_export_all(user: dict = Depends(get_current_user)):
     if user["email"].lower() != _OWNER_EMAIL:
         raise HTTPException(status_code=403, detail="Not authorized")
-    data = db.export_all_admin()
-    filename = f"alphadesk-full-backup-{db.now()[:10]}.json"
+    data = db.export_users_admin()
+    filename = f"alphadesk-signups-{db.now()[:10]}.json"
     return JSONResponse(content=data, headers={"Content-Disposition": f'attachment; filename="{filename}"'})
-
-
-@app.post("/api/admin/import-all")
-async def admin_import_all(request: Request):
-    _require_restore_key(request)
-    try:
-        data = await request.json()
-    except Exception:
-        raise HTTPException(status_code=400, detail="Body must be valid JSON (the file exported by /api/admin/export-all)")
-    if "users" not in data:
-        raise HTTPException(status_code=400, detail="This doesn't look like a full-database backup file")
-    counts = db.import_all_admin(data)
-    return {"ok": True, "restored": counts}
 
 
 # ---- search ----
@@ -278,6 +209,40 @@ def get_universe(q: str = "", limit: int = 60, user: dict = Depends(get_current_
 @app.get("/api/daily-screen")
 def get_daily_screen(refresh: bool = False, user: dict = Depends(get_current_user)):
     return screener.get_daily_screen(force_refresh=refresh)
+
+
+# ---- peer comparison (doesn't touch the watchlist - just looks symbols up) ----
+
+class CompareIn(BaseModel):
+    symbols: list[str]
+
+
+@app.post("/api/compare")
+def compare_companies(body: CompareIn, user: dict = Depends(get_current_user)):
+    results = []
+    for raw_symbol in body.symbols[:4]:
+        symbol = raw_symbol.strip().upper()
+        if not symbol:
+            continue
+        try:
+            quote = market_data.get_daily_quote(symbol)
+            snapshot = quote["snapshot"]
+            concerns = market_data.flag_concerns(snapshot) + market_data.flag_news_concerns(quote["news"])
+            news_positives = market_data.flag_news_positives(quote["news"])
+            recommendation = market_data.build_recommendation(snapshot, concerns, news_positives)
+            results.append(
+                {
+                    "symbol": symbol,
+                    "snapshot": snapshot,
+                    "concerns": concerns,
+                    "recommendation": recommendation,
+                    "quote_date": quote["quote_date"],
+                    "is_stale": quote["is_stale"],
+                }
+            )
+        except Exception as e:
+            results.append({"symbol": symbol, "error": str(e)})
+    return {"companies": results}
 
 
 # ---- data export (backup) ----
@@ -390,6 +355,12 @@ def get_notes(symbol: str, user: dict = Depends(get_current_user)):
 def post_note(symbol: str, note: NoteIn, user: dict = Depends(get_current_user)):
     company = _company_or_404(symbol, user["id"])
     return db.add_note(company["id"], note.body)
+
+
+@app.delete("/api/notes/{note_id}")
+def delete_note(note_id: int, user: dict = Depends(get_current_user)):
+    db.delete_note(note_id, user["id"])
+    return {"ok": True}
 
 
 class ThesisIn(BaseModel):

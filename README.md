@@ -16,11 +16,19 @@ multi-user accounts were added.
 
 ## Accounts
 
-Each person gets their own account — name, email, and a password they set at
-signup (no OTP or email verification). Email is the login ID. Everything —
-watchlist, portfolio, notes, thesis, estimates, calendar — is private to the
-account that created it; the Daily Screen (Nifty 50 scan) is the one shared,
-non-personal view everyone sees the same data for.
+No password. Enter a name and email — that either creates a new account or
+logs into the existing one for that email (case-insensitive), and updates the
+stored name if you typed a different one. Email is the account ID.
+Everything — watchlist, portfolio, notes, thesis, estimates, calendar — is
+private to the account that created it; the Daily Screen (Nifty 50 scan) is
+the one shared, non-personal view everyone sees the same data for.
+
+This is deliberately not a real access boundary: anyone who knows or guesses
+a person's email can open that account. Fine for a small, low-stakes group of
+peers, not for anything sensitive. The admin account is gated on a fixed
+owner ID (`ALPHADESK_OWNER_EMAIL` env var, default `adit.shiv.18.05` — not a
+real email address, chosen specifically so it can't be guessed the way a
+public email could) rather than a real address, for the same reason.
 
 ## Run it
 
@@ -31,8 +39,8 @@ venv\Scripts\pip install -r requirements.txt
 venv\Scripts\python app.py
 ```
 
-Opens `http://127.0.0.1:8010` in your browser automatically — sign up with a
-name, email, and password to get started.
+Opens `http://127.0.0.1:8010` in your browser automatically — enter a name
+and email to get started, no password.
 
 ## What's here
 
@@ -84,8 +92,7 @@ except live `yfinance` lookups and the NSE/Nifty 50 list refresh.
 - Runs locally over plain HTTP — session cookies aren't marked `Secure`. Fine
   on `localhost` or a trusted local network; if you ever expose this beyond
   that (a tunnel, a real deployment), put HTTPS in front of it first.
-- No password reset flow yet — losing a password currently means a new
-  account. No account deletion/data-purge endpoint either.
+- No account deletion/data-purge endpoint yet.
 - Schema is plain SQLite via stdlib `sqlite3`, no ORM — a straightforward
   port to Postgres later if this ever needs to scale past a small group on
   one machine.

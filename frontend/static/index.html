@@ -36,43 +36,16 @@
       <span class="auth-brand-tagline">Equity research, made rigorous</span>
     </div>
 
-    <div id="auth-login">
-      <h2 class="auth-title">Welcome back</h2>
-      <p class="auth-subtitle">Log in to your research workspace</p>
-      <label>Email</label>
-      <div class="auth-field"><svg viewBox="0 0 20 20" fill="none"><path d="M3 5.5h14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4"/><path d="m3 6 7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><input id="login-email" type="email" autocomplete="username" placeholder="you@example.com"></div>
-      <label style="margin-top:12px;display:block;">Password</label>
-      <div class="auth-field"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="8" rx="1.6" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9" stroke="currentColor" stroke-width="1.4"/></svg><input id="login-password" type="password" autocomplete="current-password" placeholder="Your password"></div>
-      <div id="login-error" class="auth-error"></div>
-      <button id="login-btn" style="width:100%;margin-top:16px;">Log In</button>
-      <div class="auth-switch">New here? <a href="#" id="show-signup">Create an account</a></div>
-    </div>
-
-    <div id="auth-signup" class="hidden">
-      <h2 class="auth-title">Create your account</h2>
-      <p class="auth-subtitle">Just a name, email, and password — no verification steps</p>
+    <div id="auth-enter">
+      <h2 class="auth-title">Welcome</h2>
+      <p class="auth-subtitle">Enter your name and email to open your workspace — no password needed</p>
       <label>Name</label>
-      <div class="auth-field"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="6.5" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 17c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><input id="signup-name" type="text" autocomplete="name" placeholder="Your name"></div>
+      <div class="auth-field"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="6.5" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 17c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><input id="enter-name" type="text" autocomplete="name" placeholder="Your name"></div>
       <label style="margin-top:12px;display:block;">Email</label>
-      <div class="auth-field"><svg viewBox="0 0 20 20" fill="none"><path d="M3 5.5h14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4"/><path d="m3 6 7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><input id="signup-email" type="email" autocomplete="username" placeholder="you@example.com"></div>
-      <label style="margin-top:12px;display:block;">Password</label>
-      <div class="auth-field"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="8" rx="1.6" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9" stroke="currentColor" stroke-width="1.4"/></svg><input id="signup-password" type="password" autocomplete="new-password" placeholder="At least 6 characters"></div>
-      <div id="signup-error" class="auth-error"></div>
-      <button id="signup-btn" style="width:100%;margin-top:16px;">Create Account</button>
-      <div class="auth-switch">Already have an account? <a href="#" id="show-login">Log in</a></div>
-    </div>
-
-    <div class="auth-switch" style="margin-top:6px;"><a href="#" id="show-restore">Restore from backup</a></div>
-
-    <div id="auth-restore" class="hidden" style="margin-top:16px;">
-      <label>Restore key</label>
-      <div class="auth-field"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="8" rx="1.6" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9" stroke="currentColor" stroke-width="1.4"/></svg><input id="restore-key" type="password" placeholder="ALPHADESK_RESTORE_KEY"></div>
-      <label style="margin-top:12px;display:block;">Backup file</label>
-      <input id="restore-file" type="file" accept="application/json" style="padding:8px;">
-      <div id="restore-error" class="auth-error"></div>
-      <div id="restore-success" class="auth-error" style="color:var(--green);"></div>
-      <button id="restore-btn" style="width:100%;margin-top:14px;">Restore Database</button>
-      <div class="auth-switch">This overwrites every user's data with the file's contents. Only use this right after a fresh redeploy.</div>
+      <div class="auth-field"><svg viewBox="0 0 20 20" fill="none"><path d="M3 5.5h14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4"/><path d="m3 6 7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><input id="enter-email" type="email" autocomplete="email" placeholder="you@example.com"></div>
+      <div id="enter-error" class="auth-error"></div>
+      <button id="enter-btn" style="width:100%;margin-top:16px;">Continue</button>
+      <div class="auth-switch">First time here? Just enter your details — your account is created automatically.</div>
     </div>
   </div>
 </div>
@@ -98,6 +71,10 @@
     <button class="nav-btn" data-view="calendar">
       <svg viewBox="0 0 20 20" fill="none"><rect x="3.5" y="4.5" width="13" height="12" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 8h13M7 3v3M13 3v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       <span>Calendar</span>
+    </button>
+    <button class="nav-btn" data-view="compare">
+      <svg viewBox="0 0 20 20" fill="none"><path d="M6 3v14M14 3v14M3 8h6M11 8h6M3 12h6M11 12h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span>Compare</span>
     </button>
     <button class="nav-btn hidden" data-view="admin" id="admin-nav-btn">
       <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="6.5" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 17c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -129,16 +106,6 @@
         <button id="settings-name-save-btn" class="secondary">Save</button>
       </div>
       <div id="settings-name-msg" class="auth-error"></div>
-    </div>
-
-    <div class="panel">
-      <h2>Change Password</h2>
-      <label>Current password</label>
-      <input id="settings-current-password" type="password" style="width:100%;margin-bottom:10px;">
-      <label>New password</label>
-      <input id="settings-new-password" type="password" style="width:100%;" placeholder="At least 6 characters">
-      <div id="settings-password-msg" class="auth-error"></div>
-      <button id="settings-password-save-btn" style="margin-top:12px;">Update Password</button>
     </div>
   </div>
 </div>
@@ -236,17 +203,30 @@
     </div>
   </section>
 
-  <section id="view-admin" class="view hidden">
-    <p class="view-intro"><strong>Admin</strong> — visible only to the owner account. See everyone who has signed up, and back up or restore the entire app's data (every user, not just yours).</p>
+  <section id="view-compare" class="view hidden">
+    <p class="view-intro"><strong>Compare</strong> — pick up to 4 NSE companies to see their valuation, profitability, and rule-based call side by side. Doesn't touch your watchlist; this is a scratch comparison, not saved anywhere.</p>
     <div class="panel">
-      <h2>Full Database Backup</h2>
-      <p class="name" style="margin-bottom:12px;">Before redeploying (a free-tier host wipes the database on redeploy), export everything here. After the redeploy, use "Restore from Backup" on the login screen with the file you download.</p>
-      <a href="/api/admin/export-all" class="footer-export" style="display:inline-block;">Export Full Backup (all users)</a>
+      <h2>Add companies to compare</h2>
+      <div class="ac-wrap">
+        <input id="compare-search-input" type="text" autocomplete="off" placeholder="Search NSE company to add (up to 4)">
+        <div id="compare-search-dropdown" class="ac-dropdown hidden"></div>
+      </div>
+      <div id="compare-chips" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;"></div>
     </div>
+
+    <div class="panel">
+      <h2>Side by Side</h2>
+      <div id="compare-table"></div>
+    </div>
+  </section>
+
+  <section id="view-admin" class="view hidden">
+    <p class="view-intro"><strong>Admin</strong> — visible only to the owner account. See everyone who has signed up. There's no password to lose and no restore to manage — a redeploy wipes research data, but anyone gets back in by re-entering their name and email.</p>
     <div class="panel">
       <h2>Signups</h2>
       <div id="admin-summary" class="name" style="margin-bottom:12px;"></div>
       <div id="admin-users-list"></div>
+      <a href="/api/admin/export-all" class="footer-export" style="display:inline-block;margin-top:12px;">Export Signups (name + email)</a>
     </div>
   </section>
 
@@ -264,7 +244,7 @@
 
     <div class="footer-col">
       <h3>About</h3>
-      <p>Built by a Chartered Accountant with 5+ years of experience across Forex Trading, Accounting, Finance, Equity Research, and Automation — this app reflects that background, built to make personal research workflows faster and more transparent.</p>
+      <p>Built by a Chartered Accountant with 5+ years across Forex Trading, Accounting, Finance, Equity Research, and Automation. Coverage spans Nifty 50 large-caps with a focus on IT and BFSI, backed by hands-on work building DCF/valuation models, EPS and revenue estimate-vs-actual trackers, and forex/treasury automation. AlphaDesk is that background turned into a tool — the same estimates-tracking and rule-based screening discipline used at work, now running as a personal research workflow.</p>
     </div>
 
     <div class="footer-col">

@@ -1071,12 +1071,20 @@ async function openCompany(symbol, name) {
     }
     box.innerHTML = "";
     notes.forEach((n) => {
-      box.appendChild(el(`
+      const item = el(`
         <div class="note-item">
-          <div class="note-time">${new Date(n.created_at).toLocaleString()}</div>
+          <div class="note-time" style="display:flex;justify-content:space-between;align-items:center;">
+            <span>${new Date(n.created_at).toLocaleString()}</span>
+            <button class="danger note-delete-btn" style="padding:3px 9px;font-size:11px;">Delete</button>
+          </div>
           <div>${n.body.replace(/</g, "&lt;")}</div>
         </div>
-      `));
+      `);
+      item.querySelector(".note-delete-btn").addEventListener("click", async () => {
+        await api(`/api/notes/${n.id}`, { method: "DELETE" });
+        renderNotes();
+      });
+      box.appendChild(item);
     });
   }
   await renderNotes();
@@ -1206,6 +1214,7 @@ document.querySelectorAll(".nav-btn").forEach((btn) => {
     if (view === "screen") loadDailyScreen();
     if (view === "portfolio") loadHoldings();
     if (view === "admin") loadAdmin();
+    if (view === "compare") runCompare();
   });
 });
 
@@ -1242,61 +1251,9 @@ document.getElementById("event-add-btn").addEventListener("click", async () => {
 
 // ---- auth ----
 
-function showAuthForm(which) {
-  document.getElementById("auth-login").classList.toggle("hidden", which !== "login");
-  document.getElementById("auth-signup").classList.toggle("hidden", which !== "signup");
-  document.getElementById("auth-restore").classList.toggle("hidden", which !== "restore");
-  document.getElementById("login-error").textContent = "";
-  document.getElementById("signup-error").textContent = "";
+function showAuthForm() {
+  document.getElementById("enter-error").textContent = "";
 }
-
-document.getElementById("show-restore").addEventListener("click", (e) => {
-  e.preventDefault();
-  const restoreEl = document.getElementById("auth-restore");
-  const opening = restoreEl.classList.contains("hidden");
-  showAuthForm(opening ? "restore" : "login");
-});
-
-document.getElementById("restore-btn").addEventListener("click", async () => {
-  const key = document.getElementById("restore-key").value.trim();
-  const fileInput = document.getElementById("restore-file");
-  const errEl = document.getElementById("restore-error");
-  const okEl = document.getElementById("restore-success");
-  errEl.textContent = "";
-  okEl.textContent = "";
-  if (!key) {
-    errEl.textContent = "Enter the restore key.";
-    return;
-  }
-  if (!fileInput.files.length) {
-    errEl.textContent = "Choose a backup JSON file first.";
-    return;
-  }
-  try {
-    const text = await fileInput.files[0].text();
-    const res = await fetch("/api/admin/import-all", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-Restore-Key": key },
-      body: text,
-    });
-    const body = await res.json();
-    if (!res.ok) throw new Error(body.detail || `Request failed: ${res.status}`);
-    const counts = Object.entries(body.restored).map(([t, n]) => `${t}: ${n}`).join(", ");
-    okEl.textContent = `Restored — ${counts}. Log in normally now.`;
-    fileInput.value = "";
-  } catch (e) {
-    errEl.textContent = e.message;
-  }
-});
-
-document.getElementById("show-signup").addEventListener("click", (e) => {
-  e.preventDefault();
-  showAuthForm("signup");
-});
-document.getElementById("show-login").addEventListener("click", (e) => {
-  e.preventDefault();
-  showAuthForm("login");
-});
 
 async function enterApp(user) {
   document.getElementById("user-name").textContent = user.name;
@@ -1308,6 +1265,98 @@ async function enterApp(user) {
     document.getElementById("admin-nav-btn").classList.add("hidden");
   }
   await loadWatchlist();
+}
+
+// ---- compare view ----
+
+let _compareList = [];
+
+setupAutocomplete(
+  document.getElementById("compare-search-input"),
+  document.getElementById("compare-search-dropdown"),
+  (r) => {
+    document.getElementById("compare-search-input").value = "";
+    if (_compareList.length >= 4) return;
+    if (_compareList.some((c) => c.symbol === r.symbol)) return;
+    _compareList.push({ symbol: r.symbol, name: r.name });
+    renderCompareChips();
+    runCompare();
+  }
+);
+
+function renderCompareChips() {
+  const box = document.getElementById("compare-chips");
+  box.innerHTML = "";
+  _compareList.forEach((c) => {
+    const chip = el(`<span class="compare-chip">${c.symbol.replace(/\.NS$/, "")}<button title="Remove">✕</button></span>`);
+    chip.querySelector("button").addEventListener("click", () => {
+      _compareList = _compareList.filter((x) => x.symbol !== c.symbol);
+      renderCompareChips();
+      runCompare();
+    });
+    box.appendChild(chip);
+  });
+}
+
+const COMPARE_METRICS = [
+  ["price", "Price (₹)", (v) => (v != null ? "₹" + fmt(v) : "—")],
+  ["market_cap", "Market Cap", (v) => (v != null ? "₹" + fmt(v) : "—")],
+  ["pe_trailing", "P/E (TTM)", (v) => fmt(v)],
+  ["pe_forward", "P/E (Fwd)", (v) => fmt(v)],
+  ["price_to_book", "P/B", (v) => fmt(v)],
+  ["roe_pct", "ROE %", (v) => fmt(v)],
+  ["debt_to_equity", "D/E", (v) => fmt(v)],
+  ["revenue_growth_pct", "Rev Growth %", (v) => fmt(v)],
+];
+
+async function runCompare() {
+  const box = document.getElementById("compare-table");
+  if (!_compareList.length) {
+    box.innerHTML = '<div class="empty">Add companies above to compare.</div>';
+    return;
+  }
+  box.innerHTML = '<div class="empty">Loading…</div>';
+  let data;
+  try {
+    data = await api("/api/compare", { method: "POST", body: JSON.stringify({ symbols: _compareList.map((c) => c.symbol) }) });
+  } catch (e) {
+    box.innerHTML = `<div class="empty">Error: ${e.message}</div>`;
+    return;
+  }
+
+  const companies = data.companies;
+  let headerCells = companies
+    .map((c) => {
+      const label = c.error ? c.symbol : c.snapshot.name || c.symbol;
+      return `<th>${avatarHtml(c.symbol, label, "sm")}<div style="margin-top:6px;">${c.symbol.replace(/\.NS$/, "")}</div></th>`;
+    })
+    .join("");
+
+  let rows = COMPARE_METRICS.map(([key, label, fmtFn]) => {
+    const cells = companies
+      .map((c) => (c.error ? '<td class="empty">—</td>' : `<td>${fmtFn(c.snapshot[key])}</td>`))
+      .join("");
+    return `<tr><td${tipAttrs(label, "")}>${label}</td>${cells}</tr>`;
+  }).join("");
+
+  const recRow = `<tr><td>Call</td>${companies
+    .map((c) => (c.error ? '<td class="empty">—</td>' : `<td><span class="rec-badge rec-pill rec-${c.recommendation.label.toLowerCase()}">${c.recommendation.label}</span></td>`))
+    .join("")}</tr>`;
+
+  const errorNotes = companies
+    .filter((c) => c.error)
+    .map((c) => `<div class="empty">${c.symbol}: ${c.error}</div>`)
+    .join("");
+
+  box.innerHTML = `
+    <div class="compare-table-wrap">
+      <table>
+        <thead><tr><th></th>${headerCells}</tr></thead>
+        <tbody>${rows}${recRow}</tbody>
+      </table>
+    </div>
+    ${errorNotes}
+  `;
 }
 
 async function loadAdmin() {
@@ -1343,64 +1392,38 @@ async function loadAdmin() {
   });
 }
 
-document.getElementById("login-btn").addEventListener("click", async () => {
-  const email = document.getElementById("login-email").value.trim();
-  const password = document.getElementById("login-password").value;
-  const errEl = document.getElementById("login-error");
+document.getElementById("enter-btn").addEventListener("click", async () => {
+  const name = document.getElementById("enter-name").value.trim();
+  const email = document.getElementById("enter-email").value.trim();
+  const errEl = document.getElementById("enter-error");
   errEl.textContent = "";
-  if (!email || !password) {
-    errEl.textContent = "Enter your email and password.";
+  if (!email) {
+    errEl.textContent = "Enter your email.";
     return;
   }
   try {
-    const user = await api("/api/auth/login", { method: "POST", body: JSON.stringify({ email, password }) });
-    document.getElementById("login-password").value = "";
+    const user = await api("/api/auth/enter", { method: "POST", body: JSON.stringify({ name, email }) });
     await enterApp(user);
   } catch (e) {
     errEl.textContent = e.message;
   }
 });
 
-document.getElementById("signup-btn").addEventListener("click", async () => {
-  const name = document.getElementById("signup-name").value.trim();
-  const email = document.getElementById("signup-email").value.trim();
-  const password = document.getElementById("signup-password").value;
-  const errEl = document.getElementById("signup-error");
-  errEl.textContent = "";
-  if (!name || !email || !password) {
-    errEl.textContent = "Fill in your name, email, and a password.";
-    return;
-  }
-  try {
-    const user = await api("/api/auth/signup", { method: "POST", body: JSON.stringify({ name, email, password }) });
-    document.getElementById("signup-password").value = "";
-    await enterApp(user);
-  } catch (e) {
-    errEl.textContent = e.message;
-  }
-});
-
-[document.getElementById("login-password"), document.getElementById("login-email")].forEach((el) => {
-  el.addEventListener("keydown", (e) => { if (e.key === "Enter") document.getElementById("login-btn").click(); });
-});
-[document.getElementById("signup-password"), document.getElementById("signup-email"), document.getElementById("signup-name")].forEach((el) => {
-  el.addEventListener("keydown", (e) => { if (e.key === "Enter") document.getElementById("signup-btn").click(); });
+[document.getElementById("enter-name"), document.getElementById("enter-email")].forEach((el) => {
+  el.addEventListener("keydown", (e) => { if (e.key === "Enter") document.getElementById("enter-btn").click(); });
 });
 
 document.getElementById("logout-btn").addEventListener("click", async () => {
   await api("/api/auth/logout", { method: "POST" });
   document.body.classList.remove("authed");
-  showAuthForm("login");
+  showAuthForm();
 });
 
 // ---- account settings modal ----
 
 function openSettingsModal() {
   document.getElementById("settings-name").value = document.getElementById("user-name").textContent;
-  document.getElementById("settings-current-password").value = "";
-  document.getElementById("settings-new-password").value = "";
   document.getElementById("settings-name-msg").textContent = "";
-  document.getElementById("settings-password-msg").textContent = "";
   document.getElementById("settings-modal").classList.remove("hidden");
 }
 function closeSettingsModal() {
@@ -1432,32 +1455,11 @@ document.getElementById("settings-name-save-btn").addEventListener("click", asyn
   }
 });
 
-document.getElementById("settings-password-save-btn").addEventListener("click", async () => {
-  const msgEl = document.getElementById("settings-password-msg");
-  const current = document.getElementById("settings-current-password").value;
-  const next = document.getElementById("settings-new-password").value;
-  msgEl.style.color = "var(--red)";
-  msgEl.textContent = "";
-  if (!current || !next) {
-    msgEl.textContent = "Fill in both fields.";
-    return;
-  }
-  try {
-    await api("/api/auth/change-password", { method: "POST", body: JSON.stringify({ current_password: current, new_password: next }) });
-    document.getElementById("settings-current-password").value = "";
-    document.getElementById("settings-new-password").value = "";
-    msgEl.style.color = "var(--green)";
-    msgEl.textContent = "Password updated.";
-  } catch (e) {
-    msgEl.textContent = e.message;
-  }
-});
-
 (async function bootstrap() {
   try {
     const user = await api("/api/auth/me");
     await enterApp(user);
   } catch (e) {
-    showAuthForm("login");
+    showAuthForm();
   }
 })();

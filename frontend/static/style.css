@@ -464,6 +464,41 @@ tr:hover td { background: var(--panel-2); }
 .donut-legend-item .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
 .donut-legend-val { font-family: var(--font-mono); font-weight: 600; color: var(--text); margin-left: auto; padding-left: 10px; }
 
+.compare-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 8px 6px 12px;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+.compare-chip button {
+  background: var(--panel-3);
+  color: var(--text-faint);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  padding: 0;
+  font-size: 12px;
+  line-height: 1;
+  box-shadow: none;
+}
+.compare-chip button:hover { color: var(--red); background: var(--red-soft); box-shadow: none; }
+
+.compare-table-wrap { overflow-x: auto; }
+.compare-table-wrap table { min-width: 100%; }
+.compare-table-wrap th:first-child, .compare-table-wrap td:first-child {
+  color: var(--text-faint);
+  font-family: var(--font-ui);
+  font-variant-numeric: normal;
+  white-space: nowrap;
+}
+.compare-table-wrap td { font-variant-numeric: tabular-nums; }
+
 .stackbar { display: flex; height: 22px; border-radius: 6px; overflow: hidden; background: var(--panel-3); }
 .stackbar-seg { height: 100%; }
 .stackbar-legend { display: flex; gap: 18px; margin-top: 10px; flex-wrap: wrap; }

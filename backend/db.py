@@ -17,11 +17,13 @@ from pathlib import Path
 DB_PATH = Path(os.environ.get("ALPHADESK_DB_PATH", str(Path(__file__).parent.parent / "alphadesk.sqlite3")))
 
 SCHEMA = """
+-- No password: entering a name + email either logs into that existing
+-- account or creates it on the spot. Deliberately simple for a small,
+-- low-stakes group of peers - not a real access boundary.
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
-    password_hash TEXT NOT NULL,
     created_at TEXT NOT NULL
 );
 
@@ -142,12 +144,12 @@ def _row_to_dict(row: sqlite3.Row) -> dict:
 
 # ---- users ----
 
-def create_user(name: str, email: str, password_hash: str) -> dict:
+def create_user(name: str, email: str) -> dict:
     conn = get_conn()
     try:
         cur = conn.execute(
-            "INSERT INTO users (name, email, password_hash, created_at) VALUES (?, ?, ?, ?)",
-            (name, email.lower(), password_hash, now()),
+            "INSERT INTO users (name, email, created_at) VALUES (?, ?, ?)",
+            (name, email.lower(), now()),
         )
         conn.commit()
         row = conn.execute("SELECT * FROM users WHERE id = ?", (cur.lastrowid,)).fetchone()
@@ -228,15 +230,6 @@ def save_daily_quote(symbol: str, quote_date: str, snapshot_json: str, raw_json:
             """,
             (symbol, quote_date, snapshot_json, raw_json, news_json, now()),
         )
-        conn.commit()
-    finally:
-        conn.close()
-
-
-def update_password(user_id: int, new_password_hash: str) -> None:
-    conn = get_conn()
-    try:
-        conn.execute("UPDATE users SET password_hash = ? WHERE id = ?", (new_password_hash, user_id))
         conn.commit()
     finally:
         conn.close()
@@ -357,6 +350,22 @@ def add_note(company_id: int, body: str) -> dict:
         conn.commit()
         row = conn.execute("SELECT * FROM notes WHERE id = ?", (cur.lastrowid,)).fetchone()
         return _row_to_dict(row)
+    finally:
+        conn.close()
+
+
+def delete_note(note_id: int, user_id: int) -> None:
+    conn = get_conn()
+    try:
+        conn.execute(
+            """
+            DELETE FROM notes WHERE id = ? AND company_id IN (
+                SELECT id FROM companies WHERE user_id = ?
+            )
+            """,
+            (note_id, user_id),
+        )
+        conn.commit()
     finally:
         conn.close()
 
@@ -649,60 +658,12 @@ def export_all(user_id: int) -> dict:
         conn.close()
 
 
-# ---- full-database backup/restore (admin) ----
+# ---- signups export (admin) ----
 #
-# Unlike export_all() above (one user's data), these two cover *every* user's
-# data — meant to bridge a full database wipe (e.g. a free-tier host that
-# resets its filesystem on redeploy): export everything before a deploy,
-# import everything after. `users` includes password_hash, so accounts come
-# back fully usable without anyone re-signing up. Explicit IDs are preserved
-# on import so every foreign key (company_id, user_id, ...) still resolves.
+# With no password, there's nothing precious to bridge across a redeploy
+# wipe - anyone just re-enters their name + email and they're back in. So
+# this only exports who has signed up (name, email, joined date), not their
+# research data, which is expected to reset with the free-tier database.
 
-_ADMIN_BACKUP_TABLES = [
-    "users", "companies", "notes", "thesis", "estimates",
-    "events", "holdings", "qualitative_factors",
-]
-
-
-def export_all_admin() -> dict:
-    conn = get_conn()
-    try:
-        dump = {"exported_at": now(), "version": 1}
-        for table in _ADMIN_BACKUP_TABLES:
-            dump[table] = [_row_to_dict(r) for r in conn.execute(f"SELECT * FROM {table}").fetchall()]
-        return dump
-    finally:
-        conn.close()
-
-
-def import_all_admin(data: dict) -> dict:
-    """Wipes every table this app owns and reloads it from `data`. Row order
-    matters: users before companies (companies.user_id references users),
-    companies before everything that hangs off company_id."""
-    conn = get_conn()
-    try:
-        conn.execute("PRAGMA foreign_keys = OFF")  # allow wiping/reloading out of strict dependency order within the transaction
-        counts = {}
-        conn.execute("DELETE FROM sessions")  # not part of the backup - old tokens shouldn't outlive a restore
-        # Delete in reverse dependency order so nothing violates a FK mid-wipe.
-        for table in reversed(_ADMIN_BACKUP_TABLES):
-            conn.execute(f"DELETE FROM {table}")
-        for table in _ADMIN_BACKUP_TABLES:
-            rows = data.get(table, [])
-            counts[table] = len(rows)
-            for row in rows:
-                cols = list(row.keys())
-                placeholders = ",".join("?" * len(cols))
-                col_list = ",".join(cols)
-                conn.execute(
-                    f"INSERT INTO {table} ({col_list}) VALUES ({placeholders})",
-                    [row[c] for c in cols],
-                )
-        conn.execute("PRAGMA foreign_keys = ON")
-        conn.commit()
-        return counts
-    except Exception:
-        conn.rollback()
-        raise
-    finally:
-        conn.close()
+def export_users_admin() -> dict:
+    return {"exported_at": now(), "users": list_users()}
