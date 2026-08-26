@@ -173,6 +173,26 @@ def get_user_by_id(user_id: int) -> dict | None:
         conn.close()
 
 
+def update_password(user_id: int, new_password_hash: str) -> None:
+    conn = get_conn()
+    try:
+        conn.execute("UPDATE users SET password_hash = ? WHERE id = ?", (new_password_hash, user_id))
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def update_name(user_id: int, name: str) -> dict | None:
+    conn = get_conn()
+    try:
+        conn.execute("UPDATE users SET name = ? WHERE id = ?", (name, user_id))
+        conn.commit()
+        row = conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
+        return _row_to_dict(row) if row else None
+    finally:
+        conn.close()
+
+
 # ---- sessions ----
 
 def create_session(token: str, user_id: int, expires_at: str) -> None:

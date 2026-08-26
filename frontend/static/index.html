@@ -105,14 +105,48 @@
     </button>
   </nav>
   <div class="user-menu">
+    <button id="settings-btn" class="icon-btn" title="Account settings">
+      <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M10 3v1.6M10 15.4V17M17 10h-1.6M4.6 10H3M15 5l-1.2 1.2M6.2 13.8 5 15M15 15l-1.2-1.2M6.2 6.2 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
     <span id="user-name" class="user-name"></span>
     <button id="logout-btn" class="secondary">Log Out</button>
   </div>
 </header>
 
+<div id="settings-modal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2>Account Settings</h2>
+      <button id="settings-close-btn" class="icon-btn" title="Close">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <div class="panel" style="margin-bottom:14px;">
+      <h2>Name</h2>
+      <div class="form-row">
+        <input id="settings-name" type="text" placeholder="Your name">
+        <button id="settings-name-save-btn" class="secondary">Save</button>
+      </div>
+      <div id="settings-name-msg" class="auth-error"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Change Password</h2>
+      <label>Current password</label>
+      <input id="settings-current-password" type="password" style="width:100%;margin-bottom:10px;">
+      <label>New password</label>
+      <input id="settings-new-password" type="password" style="width:100%;" placeholder="At least 6 characters">
+      <div id="settings-password-msg" class="auth-error"></div>
+      <button id="settings-password-save-btn" style="margin-top:12px;">Update Password</button>
+    </div>
+  </div>
+</div>
+
 <main id="app">
 
   <section id="view-watchlist" class="view">
+    <p class="view-intro"><strong>Watchlist</strong> — companies you're tracking. Search and add any NSE-listed stock; each row shows live price, a rule-based concern-flag count, and a Buy/Hold/Sell call. Click a row's "Open" for the full research page.</p>
     <div class="panel">
       <h2>Add a company</h2>
       <div class="search-row">
@@ -136,6 +170,7 @@
   </section>
 
   <section id="view-portfolio" class="view hidden">
+    <p class="view-intro"><strong>Portfolio</strong> — shares you actually hold. Log quantity and buy price to track live P&amp;L and allocation. Add your own take on management quality, governance, and regulatory risk for each holding, and it blends with the financial signal into one consensus.</p>
     <div class="panel">
       <h2>Add a holding</h2>
       <div class="form-row">
@@ -159,6 +194,7 @@
   </section>
 
   <section id="view-screen" class="view hidden">
+    <p class="view-intro"><strong>Daily Screen</strong> — a once-a-day rule-based scan of all 50 Nifty stocks, ranked into Top Buys and Sells within each stock's own Buy/Hold/Sell call. Shared across everyone (not personal data) and cached daily; click "Refresh Now" to re-scan on demand.</p>
     <div class="panel">
       <h2>Nifty 50 Daily Screen</h2>
       <div id="screen-meta" class="name"></div>
@@ -183,6 +219,7 @@
   </section>
 
   <section id="view-calendar" class="view hidden">
+    <p class="view-intro"><strong>Calendar</strong> — earnings dates, investor days, and other events across your coverage. Added manually; everything here is private to your account.</p>
     <div class="panel">
       <h2>Add event</h2>
       <div class="form-row">
@@ -200,6 +237,7 @@
   </section>
 
   <section id="view-admin" class="view hidden">
+    <p class="view-intro"><strong>Admin</strong> — visible only to the owner account. See everyone who has signed up, and back up or restore the entire app's data (every user, not just yours).</p>
     <div class="panel">
       <h2>Full Database Backup</h2>
       <p class="name" style="margin-bottom:12px;">Before redeploying (a free-tier host wipes the database on redeploy), export everything here. After the redeploy, use "Restore from Backup" on the login screen with the file you download.</p>

@@ -673,8 +673,11 @@ async function loadWatchlist() {
           recBadge.remove();
         }
       })
-      .catch(() => {
-        row.querySelector(".badge").textContent = "no data";
+      .catch((e) => {
+        const badge = row.querySelector(".badge");
+        badge.textContent = /rate limit/i.test(e.message) ? "Yahoo rate-limited — retry shortly" : "Could not load";
+        badge.classList.add("medium");
+        badge.title = e.message;
         const recBadge = row.querySelector(".rec-pill");
         if (recBadge) recBadge.remove();
       });
@@ -705,7 +708,10 @@ async function openCompany(symbol, name) {
   try {
     data = await api(`/api/company/${encodeURIComponent(symbol)}`);
   } catch (e) {
-    content.innerHTML = `<div class="empty">Error loading ${symbol}: ${e.message}</div>`;
+    const hint = /rate limit/i.test(e.message)
+      ? " Yahoo Finance is rate-limiting this server right now (happens on shared cloud IPs) — wait a minute and try again."
+      : "";
+    content.innerHTML = `<div class="empty">Error loading ${symbol}: ${e.message}${hint}</div>`;
     return;
   }
   const s = data.snapshot;
@@ -1382,6 +1388,66 @@ document.getElementById("logout-btn").addEventListener("click", async () => {
   await api("/api/auth/logout", { method: "POST" });
   document.body.classList.remove("authed");
   showAuthForm("login");
+});
+
+// ---- account settings modal ----
+
+function openSettingsModal() {
+  document.getElementById("settings-name").value = document.getElementById("user-name").textContent;
+  document.getElementById("settings-current-password").value = "";
+  document.getElementById("settings-new-password").value = "";
+  document.getElementById("settings-name-msg").textContent = "";
+  document.getElementById("settings-password-msg").textContent = "";
+  document.getElementById("settings-modal").classList.remove("hidden");
+}
+function closeSettingsModal() {
+  document.getElementById("settings-modal").classList.add("hidden");
+}
+
+document.getElementById("settings-btn").addEventListener("click", openSettingsModal);
+document.getElementById("settings-close-btn").addEventListener("click", closeSettingsModal);
+document.getElementById("settings-modal").addEventListener("click", (e) => {
+  if (e.target.id === "settings-modal") closeSettingsModal();
+});
+
+document.getElementById("settings-name-save-btn").addEventListener("click", async () => {
+  const msgEl = document.getElementById("settings-name-msg");
+  const name = document.getElementById("settings-name").value.trim();
+  msgEl.style.color = "var(--red)";
+  msgEl.textContent = "";
+  if (!name) {
+    msgEl.textContent = "Name can't be empty.";
+    return;
+  }
+  try {
+    const updated = await api("/api/auth/update-name", { method: "POST", body: JSON.stringify({ name }) });
+    document.getElementById("user-name").textContent = updated.name;
+    msgEl.style.color = "var(--green)";
+    msgEl.textContent = "Saved.";
+  } catch (e) {
+    msgEl.textContent = e.message;
+  }
+});
+
+document.getElementById("settings-password-save-btn").addEventListener("click", async () => {
+  const msgEl = document.getElementById("settings-password-msg");
+  const current = document.getElementById("settings-current-password").value;
+  const next = document.getElementById("settings-new-password").value;
+  msgEl.style.color = "var(--red)";
+  msgEl.textContent = "";
+  if (!current || !next) {
+    msgEl.textContent = "Fill in both fields.";
+    return;
+  }
+  try {
+    await api("/api/auth/change-password", { method: "POST", body: JSON.stringify({ current_password: current, new_password: next }) });
+    document.getElementById("settings-current-password").value = "";
+    document.getElementById("settings-new-password").value = "";
+    msgEl.style.color = "var(--green)";
+    msgEl.textContent = "Password updated.";
+  } catch (e) {
+    msgEl.textContent = e.message;
+  }
 });
 
 (async function bootstrap() {

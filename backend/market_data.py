@@ -12,6 +12,46 @@ import yfinance as yf
 _FX_CACHE: dict[str, tuple[float, float]] = {}  # currency -> (rate_to_inr, fetched_at)
 _FX_TTL_SECONDS = 900
 
+# Shared, short-TTL cache for yfinance's `.info` dict, keyed by symbol.
+# fetch_snapshot / fetch_raw_parameters / fetch_price_history each used to
+# call `yf.Ticker(symbol).info` independently — 2-3 redundant Yahoo requests
+# per single page view. On a shared cloud IP (Render, etc.) that adds up fast
+# and is exactly what trips Yahoo's rate limiting, so everything routes
+# through this cache instead. A short TTL keeps prices reasonably live while
+# cutting request volume drastically, especially for popular symbols multiple
+# users are looking at.
+_INFO_CACHE: dict[str, tuple[dict, float]] = {}
+_INFO_TTL_SECONDS = 90
+
+
+def _fetch_info_with_retry(t: "yf.Ticker", attempts: int = 2, delay_seconds: float = 2.5) -> dict:
+    """Yahoo's rate-limit errors are often transient (a burst, not a hard
+    ban) — one short retry recovers a meaningful fraction of them."""
+    last_err = None
+    for attempt in range(attempts):
+        try:
+            info = t.info
+            if info:
+                return info
+        except Exception as e:
+            last_err = e
+        if attempt < attempts - 1:
+            time.sleep(delay_seconds)
+    if last_err:
+        raise last_err
+    return {}
+
+
+def _get_info(symbol: str) -> tuple[dict, "yf.Ticker"]:
+    now = time.time()
+    cached = _INFO_CACHE.get(symbol)
+    if cached and now - cached[1] < _INFO_TTL_SECONDS:
+        return cached[0], yf.Ticker(symbol)
+    t = yf.Ticker(symbol)
+    info = _fetch_info_with_retry(t)
+    _INFO_CACHE[symbol] = (info, now)
+    return info, t
+
 
 def get_fx_to_inr(currency: str | None) -> float | None:
     """1 unit of `currency` in INR, via yfinance's `{CCY}INR=X` pair. Cached
@@ -87,8 +127,7 @@ _SNAPSHOT_MONETARY_FIELDS = {"price", "prev_close", "market_cap", "52w_high", "5
 
 
 def fetch_snapshot(symbol: str) -> dict:
-    t = yf.Ticker(symbol)
-    info = t.info or {}
+    info, t = _get_info(symbol)
     orig_currency = info.get("currency")
     snapshot = {
         "symbol": symbol,
@@ -142,11 +181,10 @@ def fetch_price_history(symbol: str, period: str = "6mo") -> list[dict]:
     a separate live call from `fetch_snapshot` since most views never need it."""
     if period not in _VALID_HISTORY_PERIODS:
         period = "6mo"
-    t = yf.Ticker(symbol)
+    info, t = _get_info(symbol)
     hist = t.history(period=period)
     if hist.empty:
         return []
-    info = t.info or {}
     currency = info.get("currency")
     fx_rate = get_fx_to_inr(currency)
     convert = bool(currency and currency.upper() != "INR" and fx_rate)
@@ -335,8 +373,7 @@ def fetch_raw_parameters(symbol: str) -> list[dict]:
     currency; ratios/percentages/counts are left as reported."""
     import datetime as _dt
 
-    t = yf.Ticker(symbol)
-    info = t.info or {}
+    info, t = _get_info(symbol)
     orig_currency = info.get("currency")
     fx_rate = get_fx_to_inr(orig_currency)
     convert = bool(orig_currency and orig_currency.upper() != "INR" and fx_rate)

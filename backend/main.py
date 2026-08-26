@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import os
 import re
+import secrets
 import time
 from pathlib import Path
 
@@ -97,7 +98,11 @@ class SignupIn(BaseModel):
 
 
 @app.post("/api/auth/signup")
-def signup(body: SignupIn, response: Response):
+def signup(body: SignupIn, request: Request, response: Response):
+    client_ip = request.client.host if request.client else "unknown"
+    if not auth.check_rate_limit(f"signup:{client_ip}", max_attempts=8, window_seconds=3600):
+        raise HTTPException(status_code=429, detail="Too many signup attempts from this network — try again in a while.")
+
     name = body.name.strip()
     email = body.email.strip().lower()
     password = body.password
@@ -143,8 +148,14 @@ class LoginIn(BaseModel):
 
 
 @app.post("/api/auth/login")
-def login(body: LoginIn, response: Response):
+def login(body: LoginIn, request: Request, response: Response):
+    client_ip = request.client.host if request.client else "unknown"
     email = body.email.strip().lower()
+    # Rate-limit by IP+email together — slows brute-forcing one account
+    # without letting a shared office IP lock everyone else out.
+    if not auth.check_rate_limit(f"login:{client_ip}:{email}", max_attempts=10, window_seconds=900):
+        raise HTTPException(status_code=429, detail="Too many login attempts — wait a few minutes and try again.")
+
     user = db.get_user_by_email(email)
     if not user or not auth.verify_password(body.password, user["password_hash"]):
         raise HTTPException(status_code=401, detail="Incorrect email or password")
@@ -169,6 +180,34 @@ def me(user: dict = Depends(get_current_user)):
     return _public_user(user)
 
 
+class ChangePasswordIn(BaseModel):
+    current_password: str
+    new_password: str
+
+
+@app.post("/api/auth/change-password")
+def change_password(body: ChangePasswordIn, user: dict = Depends(get_current_user)):
+    if not auth.verify_password(body.current_password, user["password_hash"]):
+        raise HTTPException(status_code=401, detail="Current password is incorrect")
+    if len(body.new_password) < 6:
+        raise HTTPException(status_code=400, detail="New password must be at least 6 characters")
+    db.update_password(user["id"], auth.hash_password(body.new_password))
+    return {"ok": True}
+
+
+class UpdateNameIn(BaseModel):
+    name: str
+
+
+@app.post("/api/auth/update-name")
+def update_name(body: UpdateNameIn, user: dict = Depends(get_current_user)):
+    name = body.name.strip()
+    if not name:
+        raise HTTPException(status_code=400, detail="Name is required")
+    updated = db.update_name(user["id"], name)
+    return _public_user(updated)
+
+
 @app.get("/api/admin/users")
 def admin_list_users(user: dict = Depends(get_current_user)):
     if user["email"].lower() != _OWNER_EMAIL:
@@ -187,11 +226,14 @@ def admin_list_users(user: dict = Depends(get_current_user)):
 # long random string before you rely on this.
 
 def _require_restore_key(request: Request) -> None:
+    client_ip = request.client.host if request.client else "unknown"
+    if not auth.check_rate_limit(f"restore:{client_ip}", max_attempts=5, window_seconds=900):
+        raise HTTPException(status_code=429, detail="Too many restore attempts — wait a while and try again.")
     expected = os.environ.get("ALPHADESK_RESTORE_KEY")
     if not expected:
         raise HTTPException(status_code=503, detail="ALPHADESK_RESTORE_KEY is not configured on this server")
     provided = request.headers.get("x-restore-key")
-    if not provided or provided != expected:
+    if not provided or not secrets.compare_digest(provided, expected):
         raise HTTPException(status_code=401, detail="Missing or incorrect restore key")
 
 
