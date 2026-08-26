@@ -5,7 +5,7 @@ import time
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -49,6 +49,15 @@ def get_universe(q: str = "", limit: int = 60):
 @app.get("/api/daily-screen")
 def get_daily_screen(refresh: bool = False):
     return screener.get_daily_screen(force_refresh=refresh)
+
+
+# ---- data export (backup) ----
+
+@app.get("/api/export")
+def export_data():
+    data = db.export_all()
+    filename = f"alphadesk-backup-{db.now()[:10]}.json"
+    return JSONResponse(content=data, headers={"Content-Disposition": f'attachment; filename="{filename}"'})
 
 
 # ---- watchlist ----

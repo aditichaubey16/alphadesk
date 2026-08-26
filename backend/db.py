@@ -384,3 +384,21 @@ def upsert_qualitative(
         return _row_to_dict(row)
     finally:
         conn.close()
+
+
+# ---- full export (backup) ----
+
+_EXPORT_TABLES = ["companies", "notes", "thesis", "estimates", "events", "holdings", "qualitative_factors"]
+
+
+def export_all() -> dict:
+    """Dumps every table as-is for backup/export — a plain JSON snapshot of
+    everything in the database, keyed by table name."""
+    conn = get_conn()
+    try:
+        return {
+            "exported_at": now(),
+            **{table: [_row_to_dict(r) for r in conn.execute(f"SELECT * FROM {table}").fetchall()] for table in _EXPORT_TABLES},
+        }
+    finally:
+        conn.close()
