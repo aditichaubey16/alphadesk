@@ -268,6 +268,9 @@ async function api(path, options) {
     headers: { "Content-Type": "application/json" },
     ...options,
   });
+  if (res.status === 401 && path !== "/api/auth/me") {
+    document.body.classList.remove("authed");
+  }
   if (!res.ok) {
     const detail = await res.json().catch(() => ({}));
     throw new Error(detail.detail || `Request failed: ${res.status}`);
@@ -1191,4 +1194,85 @@ document.getElementById("event-add-btn").addEventListener("click", async () => {
   loadCalendar();
 });
 
-loadWatchlist();
+// ---- auth ----
+
+function showAuthForm(which) {
+  document.getElementById("auth-login").classList.toggle("hidden", which !== "login");
+  document.getElementById("auth-signup").classList.toggle("hidden", which !== "signup");
+  document.getElementById("login-error").textContent = "";
+  document.getElementById("signup-error").textContent = "";
+}
+
+document.getElementById("show-signup").addEventListener("click", (e) => {
+  e.preventDefault();
+  showAuthForm("signup");
+});
+document.getElementById("show-login").addEventListener("click", (e) => {
+  e.preventDefault();
+  showAuthForm("login");
+});
+
+async function enterApp(user) {
+  document.getElementById("user-name").textContent = user.name;
+  document.body.classList.add("authed");
+  await loadWatchlist();
+}
+
+document.getElementById("login-btn").addEventListener("click", async () => {
+  const email = document.getElementById("login-email").value.trim();
+  const password = document.getElementById("login-password").value;
+  const errEl = document.getElementById("login-error");
+  errEl.textContent = "";
+  if (!email || !password) {
+    errEl.textContent = "Enter your email and password.";
+    return;
+  }
+  try {
+    const user = await api("/api/auth/login", { method: "POST", body: JSON.stringify({ email, password }) });
+    document.getElementById("login-password").value = "";
+    await enterApp(user);
+  } catch (e) {
+    errEl.textContent = e.message;
+  }
+});
+
+document.getElementById("signup-btn").addEventListener("click", async () => {
+  const name = document.getElementById("signup-name").value.trim();
+  const email = document.getElementById("signup-email").value.trim();
+  const password = document.getElementById("signup-password").value;
+  const errEl = document.getElementById("signup-error");
+  errEl.textContent = "";
+  if (!name || !email || !password) {
+    errEl.textContent = "Fill in your name, email, and a password.";
+    return;
+  }
+  try {
+    const user = await api("/api/auth/signup", { method: "POST", body: JSON.stringify({ name, email, password }) });
+    document.getElementById("signup-password").value = "";
+    await enterApp(user);
+  } catch (e) {
+    errEl.textContent = e.message;
+  }
+});
+
+[document.getElementById("login-password"), document.getElementById("login-email")].forEach((el) => {
+  el.addEventListener("keydown", (e) => { if (e.key === "Enter") document.getElementById("login-btn").click(); });
+});
+[document.getElementById("signup-password"), document.getElementById("signup-email"), document.getElementById("signup-name")].forEach((el) => {
+  el.addEventListener("keydown", (e) => { if (e.key === "Enter") document.getElementById("signup-btn").click(); });
+});
+
+document.getElementById("logout-btn").addEventListener("click", async () => {
+  await api("/api/auth/logout", { method: "POST" });
+  document.body.classList.remove("authed");
+  showAuthForm("login");
+});
+
+(async function bootstrap() {
+  try {
+    const user = await api("/api/auth/me");
+    await enterApp(user);
+  } catch (e) {
+    showAuthForm("login");
+  }
+})();

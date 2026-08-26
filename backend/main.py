@@ -1,18 +1,22 @@
-"""AlphaDesk FastAPI app: JSON API + static frontend."""
+"""AlphaDesk FastAPI app: JSON API + static frontend. Multi-user: every
+request past the auth routes requires a valid session cookie, and all data
+routes are scoped to the logged-in user."""
 from __future__ import annotations
 
+import re
 import time
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from . import db, market_data, screener, universe
+from . import auth, db, market_data, screener, universe
 
 FRONTEND_DIR = Path(__file__).parent.parent / "frontend" / "static"
 _ASSET_VERSION = str(int(time.time()))  # busts browser cache for static assets on each restart
+_EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
 app = FastAPI(title="AlphaDesk")
 
@@ -23,208 +27,45 @@ def _startup():
     universe.refresh_if_stale()
 
 
-def _company_or_404(symbol: str) -> dict:
-    company = db.get_company(symbol.upper())
+# ---- auth dependency ----
+
+def get_current_user(request: Request) -> dict:
+    token = request.cookies.get(auth.SESSION_COOKIE_NAME)
+    if not token:
+        raise HTTPException(status_code=401, detail="Not signed in")
+    session = db.get_session(token)
+    if not session or auth.is_expired(session["expires_at"]):
+        raise HTTPException(status_code=401, detail="Session expired")
+    user = db.get_user_by_id(session["user_id"])
+    if not user:
+        raise HTTPException(status_code=401, detail="Not signed in")
+    return user
+
+
+def _public_user(user: dict) -> dict:
+    return {"id": user["id"], "name": user["name"], "email": user["email"]}
+
+
+def _set_session_cookie(response: Response, token: str) -> None:
+    response.set_cookie(
+        auth.SESSION_COOKIE_NAME,
+        token,
+        max_age=auth.SESSION_TTL_DAYS * 86400,
+        httponly=True,
+        samesite="lax",
+    )
+
+
+def _company_or_404(symbol: str, user_id: int) -> dict:
+    company = db.get_company(symbol.upper(), user_id)
     if not company:
-        raise HTTPException(status_code=404, detail=f"{symbol} is not on the watchlist")
+        raise HTTPException(status_code=404, detail=f"{symbol} is not on your watchlist")
     return company
 
 
-# ---- search ----
-
-@app.get("/api/search")
-def search(q: str):
-    return market_data.search_companies(q)
-
-
-# ---- NSE universe (local directory, no live data) ----
-
-@app.get("/api/universe")
-def get_universe(q: str = "", limit: int = 60):
-    return {"total": universe.universe_count(), "results": universe.search_universe(q, limit)}
-
-
-# ---- daily screen (Nifty 50 Top Buys / Top Sells) ----
-
-@app.get("/api/daily-screen")
-def get_daily_screen(refresh: bool = False):
-    return screener.get_daily_screen(force_refresh=refresh)
-
-
-# ---- data export (backup) ----
-
-@app.get("/api/export")
-def export_data():
-    data = db.export_all()
-    filename = f"alphadesk-backup-{db.now()[:10]}.json"
-    return JSONResponse(content=data, headers={"Content-Disposition": f'attachment; filename="{filename}"'})
-
-
-# ---- watchlist ----
-
-@app.get("/api/watchlist")
-def get_watchlist():
-    return db.list_companies()
-
-
-class AddWatchlistItem(BaseModel):
-    symbol: str
-    name: str | None = None
-    sector: str | None = None
-
-
-@app.post("/api/watchlist")
-def add_to_watchlist(item: AddWatchlistItem):
-    symbol = item.symbol.upper()
-    name = item.name
-    sector = item.sector
-    if not name:
-        try:
-            snap = market_data.fetch_snapshot(symbol)
-            name = snap.get("name") or symbol
-            sector = sector or snap.get("sector")
-        except Exception:
-            name = symbol
-    return db.add_company(symbol, name, sector)
-
-
-@app.delete("/api/watchlist/{symbol}")
-def delete_from_watchlist(symbol: str):
-    db.remove_company(symbol.upper())
-    return {"ok": True}
-
-
-# ---- company workspace ----
-
-class EnsureCompanyIn(BaseModel):
-    name: str | None = None
-
-
-@app.post("/api/company/{symbol}/ensure")
-def ensure_company(symbol: str, body: EnsureCompanyIn):
-    """Makes sure `symbol` has a row in the companies table (without adding it
-    to the watchlist) so its research view can be opened — used when jumping
-    into a company from somewhere that isn't the watchlist, e.g. the Daily
-    Screen or NSE Universe search."""
-    return _get_or_create_company(symbol, body.name)
-
-
-@app.get("/api/company/{symbol}")
-def get_company_snapshot(symbol: str):
-    company = _company_or_404(symbol)
-    try:
-        snapshot = market_data.fetch_snapshot(company["symbol"])
-    except Exception as e:
-        raise HTTPException(status_code=502, detail=f"Could not fetch live data: {e}")
-    concerns = market_data.flag_concerns(snapshot)
-    raw = market_data.fetch_raw_parameters(company["symbol"])
-    recommendation = market_data.build_recommendation(snapshot, concerns)
-    return {"company": company, "snapshot": snapshot, "concerns": concerns, "raw": raw, "recommendation": recommendation}
-
-
-@app.get("/api/company/{symbol}/history")
-def get_company_history(symbol: str, period: str = "6mo"):
-    company = _company_or_404(symbol)
-    try:
-        return market_data.fetch_price_history(company["symbol"], period)
-    except Exception as e:
-        raise HTTPException(status_code=502, detail=f"Could not fetch price history: {e}")
-
-
-class NoteIn(BaseModel):
-    body: str
-
-
-@app.get("/api/company/{symbol}/notes")
-def get_notes(symbol: str):
-    company = _company_or_404(symbol)
-    return db.list_notes(company["id"])
-
-
-@app.post("/api/company/{symbol}/notes")
-def post_note(symbol: str, note: NoteIn):
-    company = _company_or_404(symbol)
-    return db.add_note(company["id"], note.body)
-
-
-class ThesisIn(BaseModel):
-    thesis_text: str = ""
-    risks: str = ""
-    catalysts: str = ""
-
-
-@app.get("/api/company/{symbol}/thesis")
-def get_thesis(symbol: str):
-    company = _company_or_404(symbol)
-    thesis = db.get_thesis(company["id"])
-    return thesis or {"thesis_text": "", "risks": "", "catalysts": ""}
-
-
-@app.put("/api/company/{symbol}/thesis")
-def put_thesis(symbol: str, thesis: ThesisIn):
-    company = _company_or_404(symbol)
-    return db.upsert_thesis(company["id"], thesis.thesis_text, thesis.risks, thesis.catalysts)
-
-
-class EstimateIn(BaseModel):
-    period_label: str
-    est_eps: float | None = None
-    est_revenue: float | None = None
-
-
-@app.get("/api/company/{symbol}/estimates")
-def get_estimates(symbol: str):
-    company = _company_or_404(symbol)
-    return db.list_estimates(company["id"])
-
-
-@app.post("/api/company/{symbol}/estimates")
-def post_estimate(symbol: str, estimate: EstimateIn):
-    company = _company_or_404(symbol)
-    return db.add_estimate(company["id"], estimate.period_label, estimate.est_eps, estimate.est_revenue)
-
-
-class ActualsIn(BaseModel):
-    actual_eps: float | None = None
-    actual_revenue: float | None = None
-
-
-@app.put("/api/estimates/{estimate_id}/actuals")
-def put_actuals(estimate_id: int, actuals: ActualsIn):
-    result = db.update_estimate_actuals(estimate_id, actuals.actual_eps, actuals.actual_revenue)
-    if not result:
-        raise HTTPException(status_code=404, detail="Estimate not found")
-    return result
-
-
-# ---- calendar / events ----
-
-@app.get("/api/events")
-def get_events():
-    return db.list_events()
-
-
-class EventIn(BaseModel):
-    company_symbol: str | None = None
-    event_type: str
-    event_date: str
-    description: str | None = None
-
-
-@app.post("/api/events")
-def post_event(event: EventIn):
-    company_id = None
-    if event.company_symbol:
-        company = _company_or_404(event.company_symbol)
-        company_id = company["id"]
-    return db.add_event(company_id, event.event_type, event.event_date, event.description)
-
-
-# ---- portfolio holdings ----
-
-def _get_or_create_company(symbol: str, name: str | None) -> dict:
+def _get_or_create_company(symbol: str, name: str | None, user_id: int) -> dict:
     symbol = symbol.upper()
-    existing = db.get_company(symbol)
+    existing = db.get_company(symbol, user_id)
     if existing:
         return existing
     resolved_name = name
@@ -236,8 +77,262 @@ def _get_or_create_company(symbol: str, name: str | None) -> dict:
             sector = snap.get("sector")
         except Exception:
             resolved_name = symbol
-    return db.add_company(symbol, resolved_name, sector)
+    return db.add_company(user_id, symbol, resolved_name, sector)
 
+
+# ---- auth routes ----
+
+class SignupIn(BaseModel):
+    name: str
+    email: str
+    password: str
+
+
+@app.post("/api/auth/signup")
+def signup(body: SignupIn, response: Response):
+    name = body.name.strip()
+    email = body.email.strip().lower()
+    password = body.password
+
+    if not name:
+        raise HTTPException(status_code=400, detail="Name is required")
+    if not _EMAIL_RE.match(email):
+        raise HTTPException(status_code=400, detail="Enter a valid email address")
+    if len(password) < 6:
+        raise HTTPException(status_code=400, detail="Password must be at least 6 characters")
+    if db.get_user_by_email(email):
+        raise HTTPException(status_code=409, detail="An account with this email already exists — log in instead")
+
+    user = db.create_user(name, email, auth.hash_password(password))
+    token = auth.new_session_token()
+    db.create_session(token, user["id"], auth.session_expiry())
+    _set_session_cookie(response, token)
+    return _public_user(user)
+
+
+class LoginIn(BaseModel):
+    email: str
+    password: str
+
+
+@app.post("/api/auth/login")
+def login(body: LoginIn, response: Response):
+    email = body.email.strip().lower()
+    user = db.get_user_by_email(email)
+    if not user or not auth.verify_password(body.password, user["password_hash"]):
+        raise HTTPException(status_code=401, detail="Incorrect email or password")
+
+    token = auth.new_session_token()
+    db.create_session(token, user["id"], auth.session_expiry())
+    _set_session_cookie(response, token)
+    return _public_user(user)
+
+
+@app.post("/api/auth/logout")
+def logout(request: Request, response: Response):
+    token = request.cookies.get(auth.SESSION_COOKIE_NAME)
+    if token:
+        db.delete_session(token)
+    response.delete_cookie(auth.SESSION_COOKIE_NAME)
+    return {"ok": True}
+
+
+@app.get("/api/auth/me")
+def me(user: dict = Depends(get_current_user)):
+    return _public_user(user)
+
+
+# ---- search ----
+
+@app.get("/api/search")
+def search(q: str, user: dict = Depends(get_current_user)):
+    return market_data.search_companies(q)
+
+
+# ---- NSE universe (local directory, no live data) ----
+
+@app.get("/api/universe")
+def get_universe(q: str = "", limit: int = 60, user: dict = Depends(get_current_user)):
+    return {"total": universe.universe_count(), "results": universe.search_universe(q, limit)}
+
+
+# ---- daily screen (Nifty 50 Top Buys / Top Sells — shared market data, not per-user) ----
+
+@app.get("/api/daily-screen")
+def get_daily_screen(refresh: bool = False, user: dict = Depends(get_current_user)):
+    return screener.get_daily_screen(force_refresh=refresh)
+
+
+# ---- data export (backup) ----
+
+@app.get("/api/export")
+def export_data(user: dict = Depends(get_current_user)):
+    data = db.export_all(user["id"])
+    filename = f"alphadesk-backup-{db.now()[:10]}.json"
+    return JSONResponse(content=data, headers={"Content-Disposition": f'attachment; filename="{filename}"'})
+
+
+# ---- watchlist ----
+
+@app.get("/api/watchlist")
+def get_watchlist(user: dict = Depends(get_current_user)):
+    return db.list_companies(user["id"])
+
+
+class AddWatchlistItem(BaseModel):
+    symbol: str
+    name: str | None = None
+    sector: str | None = None
+
+
+@app.post("/api/watchlist")
+def add_to_watchlist(item: AddWatchlistItem, user: dict = Depends(get_current_user)):
+    symbol = item.symbol.upper()
+    name = item.name
+    sector = item.sector
+    if not name:
+        try:
+            snap = market_data.fetch_snapshot(symbol)
+            name = snap.get("name") or symbol
+            sector = sector or snap.get("sector")
+        except Exception:
+            name = symbol
+    return db.add_company(user["id"], symbol, name, sector)
+
+
+@app.delete("/api/watchlist/{symbol}")
+def delete_from_watchlist(symbol: str, user: dict = Depends(get_current_user)):
+    db.remove_company(symbol.upper(), user["id"])
+    return {"ok": True}
+
+
+# ---- company workspace ----
+
+class EnsureCompanyIn(BaseModel):
+    name: str | None = None
+
+
+@app.post("/api/company/{symbol}/ensure")
+def ensure_company(symbol: str, body: EnsureCompanyIn, user: dict = Depends(get_current_user)):
+    """Makes sure `symbol` has a row in the companies table (without adding it
+    to the watchlist) so its research view can be opened — used when jumping
+    into a company from somewhere that isn't the watchlist, e.g. the Daily
+    Screen or NSE Universe search."""
+    return _get_or_create_company(symbol, body.name, user["id"])
+
+
+@app.get("/api/company/{symbol}")
+def get_company_snapshot(symbol: str, user: dict = Depends(get_current_user)):
+    company = _company_or_404(symbol, user["id"])
+    try:
+        snapshot = market_data.fetch_snapshot(company["symbol"])
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Could not fetch live data: {e}")
+    concerns = market_data.flag_concerns(snapshot)
+    raw = market_data.fetch_raw_parameters(company["symbol"])
+    recommendation = market_data.build_recommendation(snapshot, concerns)
+    return {"company": company, "snapshot": snapshot, "concerns": concerns, "raw": raw, "recommendation": recommendation}
+
+
+@app.get("/api/company/{symbol}/history")
+def get_company_history(symbol: str, period: str = "6mo", user: dict = Depends(get_current_user)):
+    company = _company_or_404(symbol, user["id"])
+    try:
+        return market_data.fetch_price_history(company["symbol"], period)
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Could not fetch price history: {e}")
+
+
+class NoteIn(BaseModel):
+    body: str
+
+
+@app.get("/api/company/{symbol}/notes")
+def get_notes(symbol: str, user: dict = Depends(get_current_user)):
+    company = _company_or_404(symbol, user["id"])
+    return db.list_notes(company["id"])
+
+
+@app.post("/api/company/{symbol}/notes")
+def post_note(symbol: str, note: NoteIn, user: dict = Depends(get_current_user)):
+    company = _company_or_404(symbol, user["id"])
+    return db.add_note(company["id"], note.body)
+
+
+class ThesisIn(BaseModel):
+    thesis_text: str = ""
+    risks: str = ""
+    catalysts: str = ""
+
+
+@app.get("/api/company/{symbol}/thesis")
+def get_thesis(symbol: str, user: dict = Depends(get_current_user)):
+    company = _company_or_404(symbol, user["id"])
+    thesis = db.get_thesis(company["id"])
+    return thesis or {"thesis_text": "", "risks": "", "catalysts": ""}
+
+
+@app.put("/api/company/{symbol}/thesis")
+def put_thesis(symbol: str, thesis: ThesisIn, user: dict = Depends(get_current_user)):
+    company = _company_or_404(symbol, user["id"])
+    return db.upsert_thesis(company["id"], thesis.thesis_text, thesis.risks, thesis.catalysts)
+
+
+class EstimateIn(BaseModel):
+    period_label: str
+    est_eps: float | None = None
+    est_revenue: float | None = None
+
+
+@app.get("/api/company/{symbol}/estimates")
+def get_estimates(symbol: str, user: dict = Depends(get_current_user)):
+    company = _company_or_404(symbol, user["id"])
+    return db.list_estimates(company["id"])
+
+
+@app.post("/api/company/{symbol}/estimates")
+def post_estimate(symbol: str, estimate: EstimateIn, user: dict = Depends(get_current_user)):
+    company = _company_or_404(symbol, user["id"])
+    return db.add_estimate(company["id"], estimate.period_label, estimate.est_eps, estimate.est_revenue)
+
+
+class ActualsIn(BaseModel):
+    actual_eps: float | None = None
+    actual_revenue: float | None = None
+
+
+@app.put("/api/estimates/{estimate_id}/actuals")
+def put_actuals(estimate_id: int, actuals: ActualsIn, user: dict = Depends(get_current_user)):
+    result = db.update_estimate_actuals(estimate_id, user["id"], actuals.actual_eps, actuals.actual_revenue)
+    if not result:
+        raise HTTPException(status_code=404, detail="Estimate not found")
+    return result
+
+
+# ---- calendar / events ----
+
+@app.get("/api/events")
+def get_events(user: dict = Depends(get_current_user)):
+    return db.list_events(user["id"])
+
+
+class EventIn(BaseModel):
+    company_symbol: str | None = None
+    event_type: str
+    event_date: str
+    description: str | None = None
+
+
+@app.post("/api/events")
+def post_event(event: EventIn, user: dict = Depends(get_current_user)):
+    company_id = None
+    if event.company_symbol:
+        company = _company_or_404(event.company_symbol, user["id"])
+        company_id = company["id"]
+    return db.add_event(user["id"], company_id, event.event_type, event.event_date, event.description)
+
+
+# ---- portfolio holdings ----
 
 def _enrich_holding(h: dict) -> dict:
     symbol = h["company_symbol"]
@@ -273,8 +368,8 @@ def _enrich_holding(h: dict) -> dict:
 
 
 @app.get("/api/holdings")
-def get_holdings():
-    return [_enrich_holding(h) for h in db.list_holdings()]
+def get_holdings(user: dict = Depends(get_current_user)):
+    return [_enrich_holding(h) for h in db.list_holdings(user["id"])]
 
 
 class HoldingIn(BaseModel):
@@ -286,8 +381,8 @@ class HoldingIn(BaseModel):
 
 
 @app.post("/api/holdings")
-def post_holding(holding: HoldingIn):
-    company = _get_or_create_company(holding.symbol, holding.name)
+def post_holding(holding: HoldingIn, user: dict = Depends(get_current_user)):
+    company = _get_or_create_company(holding.symbol, holding.name, user["id"])
     h = db.add_holding(company["id"], holding.quantity, holding.buy_price, holding.buy_date)
     return _enrich_holding({**h, "company_symbol": company["symbol"], "company_name": company["name"], "company_sector": company["sector"]})
 
@@ -299,17 +394,17 @@ class HoldingUpdateIn(BaseModel):
 
 
 @app.put("/api/holdings/{holding_id}")
-def put_holding(holding_id: int, holding: HoldingUpdateIn):
-    updated = db.update_holding(holding_id, holding.quantity, holding.buy_price, holding.buy_date)
+def put_holding(holding_id: int, holding: HoldingUpdateIn, user: dict = Depends(get_current_user)):
+    updated = db.update_holding(holding_id, user["id"], holding.quantity, holding.buy_price, holding.buy_date)
     if not updated:
         raise HTTPException(status_code=404, detail="Holding not found")
-    matching = next((h for h in db.list_holdings() if h["id"] == holding_id), None)
+    matching = next((h for h in db.list_holdings(user["id"]) if h["id"] == holding_id), None)
     return _enrich_holding(matching) if matching else updated
 
 
 @app.delete("/api/holdings/{holding_id}")
-def delete_holding(holding_id: int):
-    db.delete_holding(holding_id)
+def delete_holding(holding_id: int, user: dict = Depends(get_current_user)):
+    db.delete_holding(holding_id, user["id"])
     return {"ok": True}
 
 
@@ -323,8 +418,8 @@ class QualitativeIn(BaseModel):
 
 
 @app.put("/api/company/{symbol}/qualitative")
-def put_qualitative(symbol: str, q: QualitativeIn):
-    company = _company_or_404(symbol)
+def put_qualitative(symbol: str, q: QualitativeIn, user: dict = Depends(get_current_user)):
+    company = _company_or_404(symbol, user["id"])
     return db.upsert_qualitative(
         company["id"], q.management_quality, q.governance_risk,
         q.regulatory_risk, q.competitive_moat, q.future_prospects, q.notes,

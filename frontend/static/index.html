@@ -10,6 +10,43 @@
 <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <span class="brand-mark auth-brand-mark">α</span>
+      <span class="auth-brand-name">AlphaDesk</span>
+      <span class="auth-brand-tagline">Equity research, made rigorous</span>
+    </div>
+
+    <div id="auth-login">
+      <h2 class="auth-title">Welcome back</h2>
+      <p class="auth-subtitle">Log in to your research workspace</p>
+      <label>Email</label>
+      <div class="auth-field"><svg viewBox="0 0 20 20" fill="none"><path d="M3 5.5h14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4"/><path d="m3 6 7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><input id="login-email" type="email" autocomplete="username" placeholder="you@example.com"></div>
+      <label style="margin-top:12px;display:block;">Password</label>
+      <div class="auth-field"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="8" rx="1.6" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9" stroke="currentColor" stroke-width="1.4"/></svg><input id="login-password" type="password" autocomplete="current-password" placeholder="Your password"></div>
+      <div id="login-error" class="auth-error"></div>
+      <button id="login-btn" style="width:100%;margin-top:16px;">Log In</button>
+      <div class="auth-switch">New here? <a href="#" id="show-signup">Create an account</a></div>
+    </div>
+
+    <div id="auth-signup" class="hidden">
+      <h2 class="auth-title">Create your account</h2>
+      <p class="auth-subtitle">Just a name, email, and password — no verification steps</p>
+      <label>Name</label>
+      <div class="auth-field"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="6.5" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 17c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><input id="signup-name" type="text" autocomplete="name" placeholder="Your name"></div>
+      <label style="margin-top:12px;display:block;">Email</label>
+      <div class="auth-field"><svg viewBox="0 0 20 20" fill="none"><path d="M3 5.5h14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4"/><path d="m3 6 7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><input id="signup-email" type="email" autocomplete="username" placeholder="you@example.com"></div>
+      <label style="margin-top:12px;display:block;">Password</label>
+      <div class="auth-field"><svg viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="8" rx="1.6" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9" stroke="currentColor" stroke-width="1.4"/></svg><input id="signup-password" type="password" autocomplete="new-password" placeholder="At least 6 characters"></div>
+      <div id="signup-error" class="auth-error"></div>
+      <button id="signup-btn" style="width:100%;margin-top:16px;">Create Account</button>
+      <div class="auth-switch">Already have an account? <a href="#" id="show-login">Log in</a></div>
+    </div>
+  </div>
+</div>
+
 <header class="topbar">
   <div class="brand">
     <span class="brand-mark">α</span>
@@ -33,6 +70,10 @@
       <span>Calendar</span>
     </button>
   </nav>
+  <div class="user-menu">
+    <span id="user-name" class="user-name"></span>
+    <button id="logout-btn" class="secondary">Log Out</button>
+  </div>
 </header>
 
 <main id="app">

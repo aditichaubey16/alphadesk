@@ -1,5 +1,12 @@
 """SQLite persistence for AlphaDesk. Plain stdlib sqlite3, no ORM — schema is
-portable to Postgres later if this ever becomes multi-user."""
+portable to Postgres later if this ever needs to scale beyond a small group.
+
+Multi-user model: every `companies` row belongs to exactly one user
+(`user_id`), and everything else (notes, thesis, estimates, holdings,
+qualitative_factors) hangs off `company_id` — so it's automatically
+user-scoped for free as long as callers always resolve companies through a
+user-filtered lookup. `events` gets its own `user_id` since a calendar entry
+can stand alone with no company attached."""
 from __future__ import annotations
 
 import sqlite3
@@ -9,12 +16,29 @@ from pathlib import Path
 DB_PATH = Path(__file__).parent.parent / "alphadesk.sqlite3"
 
 SCHEMA = """
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS sessions (
+    token TEXT PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    created_at TEXT NOT NULL,
+    expires_at TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS companies (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    symbol TEXT UNIQUE NOT NULL,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    symbol TEXT NOT NULL,
     name TEXT,
     sector TEXT,
-    added_at TEXT NOT NULL
+    added_at TEXT NOT NULL,
+    UNIQUE(user_id, symbol)
 );
 
 CREATE TABLE IF NOT EXISTS notes (
@@ -46,6 +70,7 @@ CREATE TABLE IF NOT EXISTS estimates (
 
 CREATE TABLE IF NOT EXISTS events (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     company_id INTEGER REFERENCES companies(id) ON DELETE CASCADE,
     event_type TEXT NOT NULL,
     event_date TEXT NOT NULL,
@@ -100,44 +125,116 @@ def _row_to_dict(row: sqlite3.Row) -> dict:
     return dict(row)
 
 
-# ---- companies / watchlist ----
+# ---- users ----
 
-def list_companies() -> list[dict]:
+def create_user(name: str, email: str, password_hash: str) -> dict:
     conn = get_conn()
     try:
-        rows = conn.execute("SELECT * FROM companies ORDER BY symbol").fetchall()
-        return [_row_to_dict(r) for r in rows]
-    finally:
-        conn.close()
-
-
-def get_company(symbol: str) -> dict | None:
-    conn = get_conn()
-    try:
-        row = conn.execute("SELECT * FROM companies WHERE symbol = ?", (symbol,)).fetchone()
-        return _row_to_dict(row) if row else None
-    finally:
-        conn.close()
-
-
-def add_company(symbol: str, name: str, sector: str | None) -> dict:
-    conn = get_conn()
-    try:
-        conn.execute(
-            "INSERT OR IGNORE INTO companies (symbol, name, sector, added_at) VALUES (?, ?, ?, ?)",
-            (symbol, name, sector, now()),
+        cur = conn.execute(
+            "INSERT INTO users (name, email, password_hash, created_at) VALUES (?, ?, ?, ?)",
+            (name, email.lower(), password_hash, now()),
         )
         conn.commit()
-        row = conn.execute("SELECT * FROM companies WHERE symbol = ?", (symbol,)).fetchone()
+        row = conn.execute("SELECT * FROM users WHERE id = ?", (cur.lastrowid,)).fetchone()
         return _row_to_dict(row)
     finally:
         conn.close()
 
 
-def remove_company(symbol: str) -> None:
+def get_user_by_email(email: str) -> dict | None:
     conn = get_conn()
     try:
-        conn.execute("DELETE FROM companies WHERE symbol = ?", (symbol,))
+        row = conn.execute("SELECT * FROM users WHERE email = ?", (email.lower(),)).fetchone()
+        return _row_to_dict(row) if row else None
+    finally:
+        conn.close()
+
+
+def get_user_by_id(user_id: int) -> dict | None:
+    conn = get_conn()
+    try:
+        row = conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
+        return _row_to_dict(row) if row else None
+    finally:
+        conn.close()
+
+
+# ---- sessions ----
+
+def create_session(token: str, user_id: int, expires_at: str) -> None:
+    conn = get_conn()
+    try:
+        conn.execute(
+            "INSERT INTO sessions (token, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)",
+            (token, user_id, now(), expires_at),
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def get_session(token: str) -> dict | None:
+    conn = get_conn()
+    try:
+        row = conn.execute("SELECT * FROM sessions WHERE token = ?", (token,)).fetchone()
+        return _row_to_dict(row) if row else None
+    finally:
+        conn.close()
+
+
+def delete_session(token: str) -> None:
+    conn = get_conn()
+    try:
+        conn.execute("DELETE FROM sessions WHERE token = ?", (token,))
+        conn.commit()
+    finally:
+        conn.close()
+
+
+# ---- companies / watchlist (user-scoped) ----
+
+def list_companies(user_id: int) -> list[dict]:
+    conn = get_conn()
+    try:
+        rows = conn.execute(
+            "SELECT * FROM companies WHERE user_id = ? ORDER BY symbol", (user_id,)
+        ).fetchall()
+        return [_row_to_dict(r) for r in rows]
+    finally:
+        conn.close()
+
+
+def get_company(symbol: str, user_id: int) -> dict | None:
+    conn = get_conn()
+    try:
+        row = conn.execute(
+            "SELECT * FROM companies WHERE symbol = ? AND user_id = ?", (symbol, user_id)
+        ).fetchone()
+        return _row_to_dict(row) if row else None
+    finally:
+        conn.close()
+
+
+def add_company(user_id: int, symbol: str, name: str, sector: str | None) -> dict:
+    conn = get_conn()
+    try:
+        conn.execute(
+            "INSERT OR IGNORE INTO companies (user_id, symbol, name, sector, added_at) VALUES (?, ?, ?, ?, ?)",
+            (user_id, symbol, name, sector, now()),
+        )
+        conn.commit()
+        row = conn.execute(
+            "SELECT * FROM companies WHERE symbol = ? AND user_id = ?", (symbol, user_id)
+        ).fetchone()
+        return _row_to_dict(row)
+    finally:
+        conn.close()
+
+
+def remove_company(symbol: str, user_id: int) -> None:
+    conn = get_conn()
+    try:
+        conn.execute("DELETE FROM companies WHERE symbol = ? AND user_id = ?", (symbol, user_id))
         conn.commit()
     finally:
         conn.close()
@@ -231,12 +328,15 @@ def add_estimate(company_id: int, period_label: str, est_eps, est_revenue) -> di
         conn.close()
 
 
-def update_estimate_actuals(estimate_id: int, actual_eps, actual_revenue) -> dict | None:
+def update_estimate_actuals(estimate_id: int, user_id: int, actual_eps, actual_revenue) -> dict | None:
     conn = get_conn()
     try:
         conn.execute(
-            "UPDATE estimates SET actual_eps = ?, actual_revenue = ?, updated_at = ? WHERE id = ?",
-            (actual_eps, actual_revenue, now(), estimate_id),
+            """
+            UPDATE estimates SET actual_eps = ?, actual_revenue = ?, updated_at = ?
+            WHERE id = ? AND company_id IN (SELECT id FROM companies WHERE user_id = ?)
+            """,
+            (actual_eps, actual_revenue, now(), estimate_id, user_id),
         )
         conn.commit()
         row = conn.execute("SELECT * FROM estimates WHERE id = ?", (estimate_id,)).fetchone()
@@ -245,29 +345,31 @@ def update_estimate_actuals(estimate_id: int, actual_eps, actual_revenue) -> dic
         conn.close()
 
 
-# ---- events ----
+# ---- events (user-scoped) ----
 
-def list_events() -> list[dict]:
+def list_events(user_id: int) -> list[dict]:
     conn = get_conn()
     try:
         rows = conn.execute(
             """
             SELECT events.*, companies.symbol AS company_symbol
             FROM events LEFT JOIN companies ON companies.id = events.company_id
+            WHERE events.user_id = ?
             ORDER BY event_date
-            """
+            """,
+            (user_id,),
         ).fetchall()
         return [_row_to_dict(r) for r in rows]
     finally:
         conn.close()
 
 
-def add_event(company_id: int | None, event_type: str, event_date: str, description: str | None) -> dict:
+def add_event(user_id: int, company_id: int | None, event_type: str, event_date: str, description: str | None) -> dict:
     conn = get_conn()
     try:
         cur = conn.execute(
-            "INSERT INTO events (company_id, event_type, event_date, description) VALUES (?, ?, ?, ?)",
-            (company_id, event_type, event_date, description),
+            "INSERT INTO events (user_id, company_id, event_type, event_date, description) VALUES (?, ?, ?, ?, ?)",
+            (user_id, company_id, event_type, event_date, description),
         )
         conn.commit()
         row = conn.execute("SELECT * FROM events WHERE id = ?", (cur.lastrowid,)).fetchone()
@@ -276,9 +378,9 @@ def add_event(company_id: int | None, event_type: str, event_date: str, descript
         conn.close()
 
 
-# ---- holdings ----
+# ---- holdings (user-scoped via companies.user_id) ----
 
-def list_holdings() -> list[dict]:
+def list_holdings(user_id: int) -> list[dict]:
     conn = get_conn()
     try:
         rows = conn.execute(
@@ -286,10 +388,29 @@ def list_holdings() -> list[dict]:
             SELECT holdings.*, companies.symbol AS company_symbol, companies.name AS company_name,
                    companies.sector AS company_sector
             FROM holdings JOIN companies ON companies.id = holdings.company_id
+            WHERE companies.user_id = ?
             ORDER BY companies.symbol
-            """
+            """,
+            (user_id,),
         ).fetchall()
         return [_row_to_dict(r) for r in rows]
+    finally:
+        conn.close()
+
+
+def get_holding(holding_id: int, user_id: int) -> dict | None:
+    conn = get_conn()
+    try:
+        row = conn.execute(
+            """
+            SELECT holdings.*, companies.symbol AS company_symbol, companies.name AS company_name,
+                   companies.sector AS company_sector
+            FROM holdings JOIN companies ON companies.id = holdings.company_id
+            WHERE holdings.id = ? AND companies.user_id = ?
+            """,
+            (holding_id, user_id),
+        ).fetchone()
+        return _row_to_dict(row) if row else None
     finally:
         conn.close()
 
@@ -310,12 +431,15 @@ def add_holding(company_id: int, quantity: float, buy_price: float, buy_date: st
         conn.close()
 
 
-def update_holding(holding_id: int, quantity: float, buy_price: float, buy_date: str | None) -> dict | None:
+def update_holding(holding_id: int, user_id: int, quantity: float, buy_price: float, buy_date: str | None) -> dict | None:
     conn = get_conn()
     try:
         conn.execute(
-            "UPDATE holdings SET quantity = ?, buy_price = ?, buy_date = ?, updated_at = ? WHERE id = ?",
-            (quantity, buy_price, buy_date, now(), holding_id),
+            """
+            UPDATE holdings SET quantity = ?, buy_price = ?, buy_date = ?, updated_at = ?
+            WHERE id = ? AND company_id IN (SELECT id FROM companies WHERE user_id = ?)
+            """,
+            (quantity, buy_price, buy_date, now(), holding_id, user_id),
         )
         conn.commit()
         row = conn.execute("SELECT * FROM holdings WHERE id = ?", (holding_id,)).fetchone()
@@ -324,10 +448,17 @@ def update_holding(holding_id: int, quantity: float, buy_price: float, buy_date:
         conn.close()
 
 
-def delete_holding(holding_id: int) -> None:
+def delete_holding(holding_id: int, user_id: int) -> None:
     conn = get_conn()
     try:
-        conn.execute("DELETE FROM holdings WHERE id = ?", (holding_id,))
+        conn.execute(
+            """
+            DELETE FROM holdings WHERE id = ? AND company_id IN (
+                SELECT id FROM companies WHERE user_id = ?
+            )
+            """,
+            (holding_id, user_id),
+        )
         conn.commit()
     finally:
         conn.close()
@@ -386,19 +517,39 @@ def upsert_qualitative(
         conn.close()
 
 
-# ---- full export (backup) ----
+# ---- full export (backup, user-scoped) ----
 
-_EXPORT_TABLES = ["companies", "notes", "thesis", "estimates", "events", "holdings", "qualitative_factors"]
-
-
-def export_all() -> dict:
-    """Dumps every table as-is for backup/export — a plain JSON snapshot of
-    everything in the database, keyed by table name."""
+def export_all(user_id: int) -> dict:
+    """Dumps everything belonging to this user — a plain JSON snapshot for
+    backup/export, keyed by table name."""
     conn = get_conn()
     try:
+        companies = [_row_to_dict(r) for r in conn.execute(
+            "SELECT * FROM companies WHERE user_id = ?", (user_id,)
+        ).fetchall()]
+        company_ids = [c["id"] for c in companies]
+        placeholders = ",".join("?" * len(company_ids)) if company_ids else "NULL"
+
+        def _scoped(table: str) -> list[dict]:
+            if not company_ids:
+                return []
+            return [_row_to_dict(r) for r in conn.execute(
+                f"SELECT * FROM {table} WHERE company_id IN ({placeholders})", company_ids
+            ).fetchall()]
+
+        events = [_row_to_dict(r) for r in conn.execute(
+            "SELECT * FROM events WHERE user_id = ?", (user_id,)
+        ).fetchall()]
+
         return {
             "exported_at": now(),
-            **{table: [_row_to_dict(r) for r in conn.execute(f"SELECT * FROM {table}").fetchall()] for table in _EXPORT_TABLES},
+            "companies": companies,
+            "notes": _scoped("notes"),
+            "thesis": _scoped("thesis"),
+            "estimates": _scoped("estimates"),
+            "events": events,
+            "holdings": _scoped("holdings"),
+            "qualitative_factors": _scoped("qualitative_factors"),
         }
     finally:
         conn.close()
