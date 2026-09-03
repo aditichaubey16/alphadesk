@@ -20,8 +20,12 @@ FRONTEND_DIR = Path(__file__).parent.parent / "frontend" / "static"
 _ASSET_VERSION = str(int(time.time()))  # busts browser cache for static assets on each restart
 # Owner's account sees the admin/signups view; everyone else gets a 403.
 # Claimed via a hidden URL parameter (?admin=<this value>), not a login
-# form — see /api/auth/claim-admin. Override via env var if needed.
-_OWNER_EMAIL = os.environ.get("ALPHADESK_OWNER_EMAIL", "adit.shiv@1805").lower()
+# form — see /api/auth/claim-admin. Must be set via the ALPHADESK_OWNER_EMAIL
+# env var (Render dashboard -> this service -> Environment) — deliberately
+# NOT hardcoded here, since this file is public. The placeholder below never
+# matches anything real, so admin claiming just fails closed if the env var
+# isn't set, rather than falling back to a value anyone can read in the repo.
+_OWNER_EMAIL = os.environ.get("ALPHADESK_OWNER_EMAIL", "unset-owner-email-placeholder").lower()
 
 app = FastAPI(title="AlphaDesk")
 
